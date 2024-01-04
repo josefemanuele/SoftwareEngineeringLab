@@ -2,33 +2,81 @@
 \usepackage{graphicx} % Required for inserting images
 
 \title{Prenotalo: project high-level specification.}
-\author{Cecchetto A., D'Antonio S., Perella C., Roccia E., Zerpa Ruiz J. E.}
+\author{Cecchetto A., d'Antonio S., Perrella C., Roccia E., Zerpa Ruiz J. E.}
 \date{January 2024}
 
 \begin{document}
 
 \maketitle
 
-\section{Introduction}
-Prenotalo is a simple but comprehensive booking system. The idea at its core is to have an accessible system to manage bookings and related operations.
+% Required contents:
+% 1. Objectives of the project
+% 2. What the system should do
+% 3. What are the potential users
+% 4. Most important use cases
 
-\section{Objectives}
-The aim of this project is to create a distributed system, made up of different micro-services, able to provide booking management and integration with other enriching services. The objectives of this project can be broken down into the following bullet points.
+% This document is so short that probably doesn't need an introduction
+\section{Introduction}
+Prenotalo is a simple but comprehensive booking system. The idea at its core is
+to have an accessible system to manage bookings and related operations.
+
+\section{Objectives and functionalities}
+The aim of this project is to create a distributed system, made up of different
+micro-services, that primarily provides booking management functionalities
+and also integrating additional services and utilities. 
+
+% I personally didn't like the list, it wasn't looking "professional" to me.
+% I rephrased the content of the list in this section
+
+The main functionalities of the system are the following: 
 \begin{itemize}
-\item a booking system
-\item a user's registry
-\item a payment integration
-\item a notification integration
-\item a survey collector
-\item an analytics engine
-\item a web interface
-\item a mobile interface
+	\item Offer a unified system for managing bookings and payments,
+		both for those that offer some kind of service in a time-slotted
+		manner and those who request them.
+	\item Enables the service providers to get feedback directly from their
+		clients (surveys) or from system statistics such as: most requested ser...
+	\item Be able to connect more immediatly the service providers with their
+		clients through a notification system
+	% I think I'm missing something here so feel free to add	
 \end{itemize}
+The system is made easy to use thanks to GUIs both for desktop and mobile
+devices.
 
 \section{Potential users}
-Such a system could potentially be used by any small business, merchant or self-employed practitioner. A booking system is useful any time there is a service offered in slots of time. Hence, some actual potential users might be lawyers, driving schools, teachers, etc, offering a service, and its clients using the system to reserve time slots of that service.
+% Good. Satisfies 3
+Such a system could potentially be used by any small business, merchant or
+self-employed practitioner. This booking system aims to be general enough to be
+useful any time there is a service offered in slots of time. Hence, some 
+examples of potential users might be lawyers, driving schools, teachers, etc,
+offering a service, and its clients using the system to reserve time slots of
+that service.
 
 \section{Sample use cases}
-To have in mind some actual use cases, you might think of lawyer offering hers/his services by appointment, providing a web interface to hers/his clients, in order to perform bookings, as well as a mobile application to manage reservations. Moreover, you can think of a driving school offering such service to book driving lessons, let the clients pay through the system, or sign their presence to the teaching classes, etc. Finally, any self-employed practitioner could use the system to manage hers/his time slots, see analytics about its most requested service, time frame, automatically collect surveys, and communicate with hers/his clients through the notification integration.
+% I would rewrite this section, it should be way more descriptive IMO.
+% It should include someone that books something, someone that offers a
+% service, and so on... Check what i have written after the original text
+
+To have in mind some actual use cases, you might think of lawyer offering
+hers/his services by appointment, providing a web interface to hers/his
+clients, in order to perform bookings, as well as a mobile application to
+manage reservations. Moreover, you can think of a driving school offering such
+service to book driving lessons, let the clients pay through the system, or
+sign their presence to the teaching classes, etc. Finally, any self-employed
+practitioner could use the system to manage hers/his time slots, see analytics
+about its most requested service, time frame, automatically collect surveys,
+and communicate with hers/his clients through the notification integration.
+
+% I would prefer to see something more like this
+For example, imagine a doctor that can visit it's patients only during odd
+days. Then he would register himself on the platform and insert his time 
+availabilities in the system, eventually adding the cost of a visit and it's
+duration.
+
+Then their patients can search the doctor on the platform and choose a time
+slot for a visit, eventually paying the amount for the visit.
+
+% We shoud add a scenario for each core functionality:
+% * When the notification system is used?
+% * When the analytics are used? And so on
 
 \end{document}
