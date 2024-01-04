@@ -1,5 +1,13 @@
 \documentclass{article}
 \usepackage{graphicx} % Required for inserting images
+\usepackage{geometry} % Required for setting margins
+
+\geometry{
+	a4paper,
+	total={170mm,242mm},
+	left=20mm,right=20mm,
+	top=20mm,bottom=25mm
+}
 
 \title{Prenotalo: project high-level specification.}
 \author{Cecchetto A., d'Antonio S., Perrella C., Roccia E., Zerpa Ruiz J. E.}
@@ -20,11 +28,22 @@
 Prenotalo is a simple but comprehensive booking system. The idea at its core is
 to have an accessible system to manage bookings and related operations.
 
-\section{Objectives and functionalities}
+\section{Objectives}
 The aim of this project is to create a distributed system, made up of different
 micro-services, that primarily provides booking management functionalities
-and also integrating additional services and utilities. 
+and also integrating additional services and utilities. The objectives of this project can be broken down into the following bullet points.
+\begin{itemize}
+\item a booking system
+\item a user's registry
+\item a payment integration
+\item a notification integration
+\item a survey collector
+\item an analytics engine
+\item a web interface
+\item a mobile interface
+\end{itemize}
 
+\section{What the system should do}
 % I personally didn't like the list, it wasn't looking "professional" to me.
 % I rephrased the content of the list in this section
 
@@ -34,27 +53,25 @@ The main functionalities of the system are the following:
 		both for those that offer some kind of service in a time-slotted
 		manner and those who request them.
 	\item Enables the service providers to get feedback directly from their
-		clients (surveys) or from system statistics such as: most requested ser...
+		clients (surveys) or from system statistics such as: most requested service, \ldots
 	\item Be able to connect more immediatly the service providers with their
 		clients through a notification system
 	% I think I'm missing something here so feel free to add	
 \end{itemize}
-The system is made easy to use thanks to GUIs both for desktop and mobile
-devices.
+Clients can use the system to search for available appointments or reservations at a specific time and date. Once they find an available slot, clients can book it by providing their contact information and any other necessary details. Clients can cancel or reschedule their appointments or reservations before they occur. Clients can view their past and upcoming bookings, and they can also manage their booking preferences. Clients can receive reminders about their upcoming appointments or reservations. In addition to these features, clients can pay for their appointments or reservations directly through the system. The system is made easy to use thanks to GUIs both for desktop and mobile devices.
 
 \section{Potential users}
 % Good. Satisfies 3
 Such a system could potentially be used by any small business, merchant or
 self-employed practitioner. This booking system aims to be general enough to be
 useful any time there is a service offered in slots of time. Hence, some 
-examples of potential users might be lawyers, driving schools, teachers, etc,
-offering a service, and its clients using the system to reserve time slots of
+examples of potential users might be lawyers, doctors, barbers, driving schools, teachers, etc, offering a service, and its clients using the system to reserve time slots of
 that service.
 
 \section{Sample use cases}
 % I would rewrite this section, it should be way more descriptive IMO.
 % It should include someone that books something, someone that offers a
-% service, and so on... Check what i have written after the original text
+% service, and so on... Check what I have written after the original text
 
 To have in mind some actual use cases, you might think of lawyer offering
 hers/his services by appointment, providing a web interface to hers/his
@@ -70,13 +87,16 @@ and communicate with hers/his clients through the notification integration.
 For example, imagine a doctor that can visit it's patients only during odd
 days. Then he would register himself on the platform and insert his time 
 availabilities in the system, eventually adding the cost of a visit and it's
-duration.
+duration. Then their patients can search the doctor on the platform and find a time
+slot for a visit, book it and pay the amount for the visit. Then, the patient can receive reminders about their upcoming appointments.
 
-Then their patients can search the doctor on the platform and choose a time
-slot for a visit, eventually paying the amount for the visit.
+Another example is the case of a barber. A barber can have different barbershops. Barbers can offer different services, for example hair cut, beard cut, etc. A Client needs to pick the barbershop, the service. Then, he finds a time slot for the service, book it. Then, he can receive the reminder of the appointment.
+
 
 % We shoud add a scenario for each core functionality:
 % * When the notification system is used?
 % * When the analytics are used? And so on
+
+
 
 \end{document}
