@@ -16,19 +16,11 @@
 \begin{document}
 
 \maketitle
-% Required contents:
-% 1. Objectives of the project
-% 2. What the system should do
-% 3. What are the potential users
-% 4. Most important use cases
 
-\section{Introduction}
-% Temporary introduction, needs more work.
-In this document, we provide the initial idea and high-level specification of the project describing what are its objectives, what the system should do, what are the potential users and the more important use cases. The project deals with the development of a distributed system, made up of different micro-services, to manage bookings and related operations. Prenotalo is at its core a simple but comprehensive booking system.
 \begin{table}[!h]
 \centering
 \begin{tabular}{l l}
-\multicolumn{2}{l}{\textbf{Project Glossary}} \\
+\multicolumn{2}{l}{\textbf{Glossary}} \\
 \hline
 \textbf{Term} & \textbf{Definition} \\
 \hline
@@ -38,20 +30,35 @@ Producer & Someone that provides services to Consumers \\
 \hline
 User & Platform user, so both Consumer and Producer \\
 \hline
+Event & A defined time-slot in which a Producer concretely provides a service
+	to one or multiple Consumers\\
+\hline
+Service & A service that can be offered by a Provider to a Consumer in a
+	time-slotted manner\\ \hline
 \end{tabular}
 
 \end{table}
 
-% Maybe extend additional services and utilities.
+% Required contents:
+% 1. Objectives of the project
+% 2. What the system should do
+% 3. What are the potential users
+% 4. Most important use cases
+
+\section{Introduction}
+% Temporary introduction, needs more work.
+In this document, we provide the initial idea and high-level specification of
+the project describing what are its objectives, what are its core
+functionalities, what are the potential users and the most important use cases.
+
 The aim of this project is to create a distributed system, made up of different
-micro-services, that primarily provides booking management functionalities
-and also integrating additional services and utilities.
+micro-services. 
 
 \section{Objectives}
 % Maybe extend this section.
 With objectives of the project we mean what the system aims to facilitate or
-solve. The system, Prenotalo, provides booking management functionalities also
-integrating additional services and utilities, like notification and analytics.
+solve. The system "Prenotalo" provides booking management functionalities,
+integrating also additional services and utilities like notification and analytics.
 
 It facilitates interaction between consumers and producers. It aims to provide
 a simple and straightforward way for consumers to find, book, and manage their
@@ -59,20 +66,22 @@ appointments or reservations. It helps producers manage their resources
 effectively.
 
 \section{Functionalities}
+
+For clarity sake we define as \emp{producer} an user that provides some
+kind of services that can be offered in a time-slotted manner. Instead the
+\emph{consumer} is the one that requests or uses these services.
+
 For functionalities, we mean what the application should do in order to satisfy
-concretely the objectives. The main functionalities of the system will be:
+concretely the objectives. The functionalities of the system will be:
 \begin{itemize}
     \item Provide a way to register user data.
-    % Does it work like a concert (so there is an event and you buy a ticker
-    % for the event) or like a doctor office (so there is the doctor
-    % and you request an appointment). An event is like a service (time
-    % slots, hair cut,...)
+    \item Provide a way for a producer to declare offered services
     \item Provide a way for a producer to create new events.
+    \item Provide a way for a producer to cancel events.
     \item Provide a way for a consumer to look for available events.
     \item Provide a way for a consumer to book an event.
     \item Provide a way for a consumer to look for booked events.
     \item Provide a way for a consumer to cancel a booking.
-    \item Provide a way for a producer to cancel events.
     \item Provide a way for a consumer to pay for an attended event.
     \item Send consumers notifications about booked events, e.g. reminders.
     \item Provide a way for a producer to create notifications about an event,
@@ -83,42 +92,81 @@ concretely the objectives. The main functionalities of the system will be:
     \item Provide a mobile application interface to use the system.
 \end{itemize}
 
+Follows a more detailed and lenghty description of the core functionalities
+of the system:
+
+Producers can declare and show to consumers what services they offer and
+optionally their price.
+Example: consider as a producer a dance school. They can offer as services
+individual hip-hop classes and salsa classes, both for a duration of one hour.
+
+A consumer can ask to book a service offered by a producer, resulting in the
+creation of an event.
+Example: let's consider a consumer for the dance school afromentioned. He wants
+to book an individual salsa class for the afternoon. He selects the salsa class
+and then chooses from the time availabilities. In this way he sends a request
+to the producer to create a dedicated event for him.
+
+A producer can create "public" events, to which any consumer can partecipate.
+Example: the dance school offers a group course of hip-hop every saturday
+afternoon to 18:00 to 20:00. The dance school can create a public event for this
+group classes. Consumers can see these public events and send a request to
+partecipate.
+
+Events can be cancelled by producers. Consumers can also cancel their booking
+to events. The cancellation of an event triggers a notification that is sent
+to the other party.
+Producers can also send notifications to consumers that partecipate to an event.
+Example: a producer can send a notification to all those that partecipate
+to a public event, the same happens for events that are created after a consumer
+request.
+
 \section{Potential users}
-% Good. Satisfies 3
-Such a system could potentially be used by any small business, merchant or
-self-employed practitioner. This booking system aims to be general enough to be
+This booking system aims to be general enough to be
 useful any time there is a service offered in slots of time. Hence, some
-examples of potential users might be lawyers, doctors, hair salons, schools
-like driving schools, dancing schools, etc. On the other hand, clients of such
-businesses might use the system to book the offered services.
+examples of potential users might be lawyers, doctors, any self-employed
+practitioner or small buisnesses like hair salons, schools like driving
+schools, dancing schools, etc. Naturally, also clients of such businesses are
+potential users of the system since it would be used to book the services
+offered by them.
 
 \section{Main use cases}
 
+We decided to not follow strictly the UML structure of the use cases both for ours
+easiness and of the reader. However it is included something that resembles the
+main flow of them.
+
 The most relevant use cases of the system are the following:
 
-% What is an event? what is a service?
+% Sorry J. i know that we discussed that the system is not marketplace-like but
+% i still don't understand it. So these use cases unfortunately resembles that
+% kind of behaviour.
 \begin{itemize}
-	% Should we also include that a producer publishes services?
+	\item \textbf{A producer defines its offered services}: a producer can
+		declare to customers what set of services they offer. When creating
+		a new service the producer must define its name and a duration in
+		hours. Optionally the price for that service can be declared.
 	\item \textbf{A producer creates an event}: a producer defines a name
-		for the event, specifying its duration and a start time. Then
-		the event is published and so is viewable by consumers.
+		for the event, specifying its duration and a start time. 
+		Optionally it can be declared a partecipation cost. Then the
+		event is published and so is viewable by consumers.
 	\item \textbf{A consumer requests an event}: a consumer finds the
 		appropriate provider that offers the needed services. Then
 		the consumer selects the service from the list of offered services,
 		of the relative producer. Then selects a time slot and sends a 
-		request for an event to the producer. Consequently, the
-		producer can either accept or discard the request recieved.
-	% How a consumer can find events created by a producer?
+		request for an event to the producer. The producer is then notified
+		and can consequently accept or discard the request.
 	\item \textbf{A consumer books an event}: a consumer searchs for a producer,
 		cheking if there are events to which he can partecipate.
-		The consumer then can sent a booking request for the event of interest.
-		The producer the recieves a request of partecipation that can either be
-		accepted or discarded.
-	\item \textbf{A consumer pays for a booked event}: a consumer checks for its
-		booked events. Selects an event that supports payment trough the system.
-		The payment sequence is then managed by an external service that then
-		notifies wheter the payment was succesful or not.
+		The consumer then selects the event of interest and sends a
+		booking request. The producer then recieves a request of
+		partecipation that can either be accepted or discarded.
+	\item \textbf{A consumer pays for a booked event}: a consumer checks for events
+		that he has booked. Selects an event that supports payment
+		trough the system. The payment sequence is then managed by an
+		external service that then notifies wheter the payment was
+		succesful or not.
+	% Maybe we shoud add an use case for sending notifications
 \end{itemize}
-
 
 \end{document}
