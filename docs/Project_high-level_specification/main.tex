@@ -26,34 +26,53 @@
 
 % Temporary introduction, needs more work.
 In this document, we provide the initial idea and high-level specification of the project describing what are its objectives, what the system should do, what are the potential users and the more important use cases. The project deals with the development of a distributed system, made up of different micro-services, to manage bookings and related operations. Prenotalo is at its core a simple but comprehensive booking system.
+\begin{table}[!h]
+\centering
+\begin{tabular}{l l}
+\multicolumn{2}{l}{\textbf{Project Glossary}} \\
+\hline
+\textbf{Term} & \textbf{Definition} \\
+\hline
+Consumer & Someone that requests or books a service offered by a Producer \\
+\hline
+Producer & Someone that provides services to Consumers \\
+\hline
+User & Platform user, so both Consumer and Producer \\
+\hline
+\end{tabular}
+
+\end{table}
 
 % Maybe extend additional services and utilities.
+\begin{comment}
 The aim of this project is to create a distributed system, made up of different
 micro-services, that primarily provides booking management functionalities
-and also integrating additional services and utilities, like notification and analytics.
+and also integrating additional services and utilities.
+\end{comment}
 
 \section{Objectives}
 % Maybe extend this section.
-With objectives of the project we mean what the system aims to facilitate or solve. The system, Prenotalo, provides booking management functionalities also integrating additional services and utilities.
+With objectives of the project we mean what the system aims to facilitate or solve. The system, Prenotalo, provides booking management functionalities also integrating additional services and utilities, like notification and analytics.
 
-It facilitates interaction between clients and service providers. It aims to provide a simple and straightforward way for clients to find, book, and manage their appointments or reservations. It helps service providers manage their resources effectively.
+It facilitates interaction between consumers and producers. It aims to provide a simple and straightforward way for consumers to find, book, and manage their appointments or reservations. It helps producers manage their resources effectively.
 
 \section{Functionalities}
-For functionalities, we mean what the application should do in order to satisfy concretely the objectives. For the sake of clarity, we define as client the person that makes reservations or books a service. With the term user we mean platform user, so it refers both to clients and service providers. The main functionalities of the system will be:
+For functionalities, we mean what the application should do in order to satisfy concretely the objectives. The main functionalities of the system will be:
 \begin{itemize}
     \item Provide a way to register user data.
     % Does it work like a concert (so there is an event and you buy a ticker for the event) or like a doctor office (so there is the doctor and you request an appointment).
-    \item Provide a way for a service provider to create new events.
-    \item Provide a way for a client to look for available events.
-    \item Provide a way for a client to book an event.
-    \item Provide a way for a client to look for booked events.
-    \item Provide a way for a client to cancel a booking.
-    \item Provide a way for a service provider to cancel events.
-    \item Provide a way for a client to pay for an attended event.
-    \item Send clients notifications about booked events, e.g. reminders.
-    \item Provide a way for a service provider to create notifications about an event, e.g. broadcast messages.
+    % An event is like a service (time slots, hair cut,...)
+    \item Provide a way for a producer to create new events.
+    \item Provide a way for a consumer to look for available events.
+    \item Provide a way for a consumer to book an event.
+    \item Provide a way for a consumer to look for booked events.
+    \item Provide a way for a consumer to cancel a booking.
+    \item Provide a way for a producer to cancel events.
+    \item Provide a way for a consumer to pay for an attended event.
+    \item Send consumers notifications about booked events, e.g. reminders.
+    \item Provide a way for a producer to create notifications about an event, e.g. broadcast messages.
     \item Collect surveys about completed events.
-    \item Provide data analytics obtained by the system to service providers.
+    \item Provide data analytics obtained by the system to producer.
     \item Provide a web application interface to use the system.
     \item Provide a mobile application interface to use the system.
 \end{itemize}
@@ -79,82 +98,214 @@ practitioner could use the system to manage hers/his time slots, see analytics
 about its most requested service, time frame, automatically collect surveys,
 and communicate with hers/his clients through the notification integration.
 
-This section needs to be revised with use cases like in UML. An example of a use case is the following:
+Sample use cases of the system are the following:
 \begin{table}[h!]
 	\centering
-	\begin{tabular}{|p{12,5cm}|}
+	\begin{tabular}{|p{10cm}|}
 		\hline
-		\multicolumn{1}{|c|}{\textbf{CASO D'USO: EmissioneBiglietto}}\\
+		\multicolumn{1}{|c|}{\textbf{USE CASE: RequestEvent}}\\
 		\hline
 		ID: 1\\
 		\hline
-		Breve descrizione:\\il Sistema emette un biglietto
-valido per una specifica corsa in un determinato
-giorno, previo controllo della disponibilità
-del posto.\\
+		Brief description:\\a Consumer creates an event to put in the system.\\
 		\hline
-		Attori primari: Impiegato\\
+		Primary actors: Consumer \\
 		\hline
-		Attori secondari: None\\
+		Secondary actors: Producer \\
 		\hline
-		Precondizioni:\\l'Impiegato deve essere
-autenticato dal sistema.\\
+		Preconditions:\\User needs to be registered. User needs to be authenticated.\\
 		\hline
-		Sequenza degli eventi:
+		Main flow:
 		\vspace{-0.5\baselineskip}
 		\begin{itemize}[leftmargin=1.2em]
-			\item[1.] L'impiegato avvia il caso d'uso 
-EmissioneBiglietto.
+			\item[1.] Consumer selects “Request an event”.
 			\vspace{-0.5\baselineskip}
-			\item[2.] L'impiegato seleziona la corsa e il giorno.
+			\item[2.] Consumer finds the person that offers the event/service.
 			\vspace{-0.5\baselineskip}
-			\item[3.] Il Sistema mostra le corse.
+			\item[3.] Consumer selects the type of service.
 			\vspace{-0.5\baselineskip}
-			\item[4.] L'impiegato sceglie il tipo di biglietto da emettere.
+			\item[4.] Consumer selects a time slot.
 			\vspace{-0.5\baselineskip}
-			\item[] punto di estensione: ContaPosti
+			\item[5.] Booking system sends the event to the Producer.
 			\vspace{-0.5\baselineskip}
-			\item[5.] Se il numero di posti disponibili è 0
+			\item[6.] Producer accepts/rejects.
 			\vspace{-0.5\baselineskip}
-			\begin{itemize}
-			\item[5.1.] Il Sistema segnala un errore e 
-	interrompe la procedura di emissione del
-	biglietto.
-			\end{itemize}
-			\vspace{-0.8\baselineskip}
-			\item[6.] Altrimenti
-			\vspace{-0.5\baselineskip}
-			\begin{itemize}
-			\item[6.1.] Il Sistema emette il biglietto, 
-	aggiornando il numero di posti 
-	disponibili.
-			%\vspace{-0.2\baselineskip}
-			\item[6.2.] Se il biglietto è per persona
-				\vspace{-0.1\baselineskip}
-				\begin{itemize}[leftmargin=2.8em]
-					%\vspace{-0.5\baselineskip}
-					\item[6.2.1.] Il Sistema registra data e ora di emissione del biglietto
-				\end{itemize}
-				\item[6.3.] Se il biglietto è per autoveicolo
-				\vspace{-0.1\baselineskip}
-				\begin{itemize}[leftmargin=2.8em]
-					%\vspace{-0.5\baselineskip}
-					\item[6.3.1.] Il Sistema registra data e ora di emissione e targa del biglietto
-				\end{itemize}
-			\end{itemize}
-			\vspace{-0.4\baselineskip}
+			\item[7.] Booking system notifies the consumer.
 		\end{itemize}
 		\vspace{-1.5\baselineskip}
 		\\
 		\hline
-		Postcondizioni: None\\
+		Postconditions: None \\
 		\hline
-		Sequenze degli eventi alternative: None\\
+		Alternative flows: Details \\
 		\hline
 	\end{tabular}
 	%\caption{Utenti}
-	\label{tab:tab18}
+	%\label{tab:tab18}
 \end{table}
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|p{10cm}|}
+		\hline
+		\multicolumn{1}{|c|}{\textbf{USE CASE: CreateEvent}}\\
+		\hline
+		ID: 2\\
+		\hline
+		Brief description:\\a Producer creates an event to put in the system.\\
+		\hline
+		Primary actors: Producer \\
+		\hline
+		Secondary actors: Consumer \\
+		\hline
+		Preconditions:\\User needs to be registered. User needs to be authenticated.\\
+		\hline
+		Main flow:
+		\vspace{-0.5\baselineskip}
+		\begin{itemize}[leftmargin=1.2em]
+			\item[1.] Producer selects “Create an event”.
+			\vspace{-0.5\baselineskip}
+			\item[2.] Producer selects the type of service.
+			\vspace{-0.5\baselineskip}
+			\item[3.] Producer selects a time slot.
+			\vspace{-0.5\baselineskip}
+			\item[4.] Booking System saves the event.
+		\end{itemize}
+		\vspace{-1.5\baselineskip}
+		\\
+		\hline
+		Postconditions: None \\
+		\hline
+		Alternative flows: Details \\
+		\hline
+	\end{tabular}
+	%\caption{Utenti}
+	%\label{tab:tab18}
+\end{table}
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|p{10cm}|}
+		\hline
+		\multicolumn{1}{|c|}{\textbf{USE CASE: LookForAvailableEvents}}\\
+		\hline
+		ID: 3\\
+		\hline
+		Brief description:\\a Consumer looks for available events.\\
+		\hline
+		Primary actors: Consumer \\
+		\hline
+		Secondary actors: None \\
+		\hline
+		Preconditions:\\User needs to be registered. User needs to be authenticated. Event is in the Booking System.\\
+		\hline
+		Main flow:
+		\vspace{-0.5\baselineskip}
+		\begin{itemize}[leftmargin=1.2em]
+			\item[1.] Consumer selects “Look for available events”.
+			\vspace{-0.5\baselineskip}
+			\item[2.] Consumer selects a service.
+			\vspace{-0.5\baselineskip}
+			\item[3.] The Booking Systems shows the available services.
+		\end{itemize}
+		\vspace{-1.5\baselineskip}
+		\\
+		\hline
+		Postconditions: None \\
+		\hline
+		Alternative flows: Details \\
+		\hline
+	\end{tabular}
+	%\caption{Utenti}
+	%\label{tab:tab18}
+\end{table}
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|p{10cm}|}
+		\hline
+		\multicolumn{1}{|c|}{\textbf{USE CASE: BookEvent}}\\
+		\hline
+		ID: 4\\
+		\hline
+		Brief description:\\a Consumer books an event.\\
+		\hline
+		Primary actors: Consumer \\
+		\hline
+		Secondary actors: None \\
+		\hline
+		Preconditions:\\User needs to be registered. User needs to be authenticated. Event is in the Booking System.\\
+		\hline
+		Main flow:
+		\vspace{-0.5\baselineskip}
+		\begin{itemize}[leftmargin=1.2em]
+			\item[1.] Consumer selects “Book an event”.
+			\vspace{-0.5\baselineskip}
+			\item[2.] Consumer selects a service.
+			\vspace{-0.5\baselineskip}
+			\item[3.] The Booking Systems shows the available services.
+			\vspace{-0.5\baselineskip}
+			\item[4.] Consumer requests the service.
+			\vspace{-0.5\baselineskip}
+			\item[5.] The Booking System sends the event to the Producer.
+			\vspace{-0.5\baselineskip}
+			\item[6.] Producer accepts/rejects.
+			\vspace{-0.5\baselineskip}
+			\item[7.] Booking system notifies the consumer.
+		\end{itemize}
+		\vspace{-1.5\baselineskip}
+		\\
+		\hline
+		Postconditions: None \\
+		\hline
+		Alternative flows: Details \\
+		\hline
+	\end{tabular}
+	%\caption{Utenti}
+	%\label{tab:tab18}
+\end{table}
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{|p{10cm}|}
+		\hline
+		\multicolumn{1}{|c|}{\textbf{USE CASE: PayEevent}}\\
+		\hline
+		ID: 5\\
+		\hline
+		Brief description:\\a Consumer pays for a booked event.\\
+		\hline
+		Primary actors: Consumer \\
+		\hline
+		Secondary actors: Payment authorization system \\
+		\hline
+		Preconditions:\\User needs to be registered. User needs to be authenticated. Event is in the Booking System.\\
+		\hline
+		Main flow:
+		\vspace{-0.5\baselineskip}
+		\begin{itemize}[leftmargin=1.2em]
+			\item[1.] Consumer selects “Pay an event”.
+			\vspace{-0.5\baselineskip}
+			\item[2.] Consumer selects an already booked event.
+			\vspace{-0.5\baselineskip}
+			\item[3.] Consumer pays and Payment authorization system handles payment.
+			\vspace{-0.5\baselineskip}
+			\item[4.] Payment authorization system notifies Booking System.
+		\end{itemize}
+		\vspace{-1.5\baselineskip}
+		\\
+		\hline
+		Postconditions: None \\
+		\hline
+		Alternative flows: Details \\
+		\hline
+	\end{tabular}
+	%\caption{Utenti}
+	%\label{tab:tab18}
+\end{table}
+
+
+
 
 
 

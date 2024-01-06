@@ -1,0 +1,99 @@
+// In the following are shown the use cases of the system
+
+Caso d'uso: Request an event
+ID: 1
+Brief description: a Consumer creates an event
+                   to put in the system
+Primary actors: Consumer
+Secondary actors: Producer
+Preconditions: User needs to be registered. User needs to be authenticated.
+Main flow:
+1. Consumer selects "Request an event"
+2. Consumer finds the person that offers the event/service
+3. Consumer selects the type of service
+4. Consumer selects a time slot
+5. Booking system sends the event to the Producer
+6. Producer accepts/rejects
+7. Booking system notifies the consumer
+Postconditions: None
+Alternative flows:
+Details
+
+----------------------------------------
+
+Caso d'uso: Create an event
+ID: 2
+Brief description: a Producer creates an event
+                   to put in the system
+Primary actors: Producer
+Secondary actors: Consumer
+Preconditions: User needs to be registered. User needs to be authenticated.
+Main flow:
+1. Producer selects "Create an event"
+2. Producer selects the type of service
+3. Producer selects a time slot
+4. Booking System saves the event
+Postconditions: None
+Alternative flows:
+Details
+
+----------------------------
+
+Caso d'uso: Look for available events (publish/subscribe)
+ID: 3
+Brief description: a Consumer looks for available events
+Primary actors: Consumer
+Secondary actors: None
+Preconditions: User needs to be registered. User needs to be authenticated.
+               Event is in the Booking System.
+Main flow:
+1. Consumer selects "Look for available events"
+2. Consumer selects a service.
+3. The Booking Systems shows the available services.
+
+-----------------------------
+
+Caso d'uso: Book an event
+ID: 4
+Brief description: a Consumer books an event
+Primary actors: Consumer
+Secondary actors: None
+Preconditions: User needs to be registered. User needs to be authenticated.
+               Event is in the Booking System.
+Main flow:
+1. Consumer selects "Book an event"
+2. Consumer selects a service.
+3. The Booking Systems shows the available services.
+4. Consumer requests the service.
+5. The Booking System sends the event to the Producer
+6. Producer accepts/rejects
+7. Booking system notifies the consumer
+
+----------------------
+
+Caso d'uso: Pay an event
+ID: 5
+Brief description: a Consumer pays for a booked event
+Primary actors: Consumer
+Secondary actors: Payment authorization system
+Preconditions: User needs to be registered. User needs to be authenticated.
+Main flow:
+1. Consumer selects "Pay an event".
+2. Consumer selects an already booked event.
+3. Consumer pays and Payment authorization system handles payment.
+4. Payment authorization system notifies Booking System.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
