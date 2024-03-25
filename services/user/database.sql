@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS prenotalo_user;
-USE prenotalo_user;
+CREATE DATABASE IF NOT EXISTS prenotalo;
+USE prenotalo;
 
 -- Tabelle
 CREATE TABLE `users` (
