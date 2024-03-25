@@ -1,0 +1,61 @@
+version: "3.8"
+name: prenotalo
+
+## docker compose up --service-ports
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - 80:8000
+    user: 1000:1000
+
+  event:
+    build:
+      context: ./services/event
+    ports:
+      - 8001:8000
+    user: 1000:1000
+
+  notify:
+    build:
+      context: ./services/notify
+    ports:
+      - 8002:8000
+    user: 1000:1000
+
+  pay:
+    build:
+      context: ./services/pay
+    ports:
+      - 8003:8000
+    user: 1000:1000
+
+  survey:
+    build:
+      context: ./services/survey
+    ports:
+      - 8004:8000
+    user: 1000:1000
+
+  user:
+    build:
+      context: ./services/user
+    ports:
+      - 8005:8000
+    user: 1000:1000
+
+  database:
+    image: mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: password
+
+      MARIADB_DATABASE: prenotalo
+      MARIADB_USER: prenotalo
+      MARIADB_PASSWORD: password
+    ports:
+      - 3306:3306
+    user: 1000:1000
+    volumes:
+      - db-data:/var/lib/mysql
