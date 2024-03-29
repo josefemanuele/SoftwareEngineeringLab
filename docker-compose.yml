@@ -7,12 +7,14 @@ services:
   frontend:
     build:
       context: ./frontend
+    network_mode: host
     ports:
       - 80:80
 
   event:
     build:
       context: ./services/event
+    network_mode: host
     ports:
       - 8001:8000
     user: 1000:1000
@@ -20,6 +22,7 @@ services:
   notify:
     build:
       context: ./services/notify
+    network_mode: host
     ports:
       - 8002:8000
     user: 1000:1000
@@ -27,6 +30,7 @@ services:
   pay:
     build:
       context: ./services/pay
+    network_mode: host
     ports:
       - 8003:8000
     user: 1000:1000
@@ -34,6 +38,7 @@ services:
   survey:
     build:
       context: ./services/survey
+    network_mode: host
     ports:
       - 8004:8000
     user: 1000:1000
@@ -41,6 +46,7 @@ services:
   user:
     build:
       context: ./services/user
+    network_mode: host
     ports:
       - 8005:8000
     user: 1000:1000
@@ -53,6 +59,7 @@ services:
       MARIADB_DATABASE: prenotalo
       MARIADB_USER: prenotalo
       MARIADB_PASSWORD: password
+    network_mode: host
     ports:
       - 3306:3306
     volumes:
