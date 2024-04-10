@@ -1,7 +1,6 @@
 CREATE DATABASE IF NOT EXISTS prenotalo;
 USE prenotalo;
 
--- Tabelle
 CREATE TABLE `users` (
   `id`        INT          NOT NULL AUTO_INCREMENT,
   `username`  VARCHAR(16)  NOT NULL,
