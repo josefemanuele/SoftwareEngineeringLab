@@ -1,11 +1,11 @@
 FROM node:alpine AS frontend-build
-WORKDIR /data
+WORKDIR /app
 
-COPY src/package.json .
+COPY package.json .
 RUN npm install
 
-COPY src .
+COPY . .
 RUN npx expo export:web
 
 FROM nginx:alpine-slim
-COPY --from=frontend-build /data/web-build /usr/share/nginx/html
+COPY --from=frontend-build /app/web-build /usr/share/nginx/html
