@@ -8,8 +8,29 @@ services:
     build:
       context: ./frontend
     network_mode: host
+    # networks:
+    #   prenotalo:
+    #     ipv4_address: 10.234.0.1
     ports:
       - 80:80
+
+#####
+  java:
+    build:
+      context: ./services/_java
+    network_mode: host
+    ports:
+      - 8080:8080
+    user: 1000:1000
+
+  python:
+    build:
+      context: ./services/_python
+    network_mode: host
+    ports:
+      - 8080:8080
+    user: 1000:1000
+#####
 
   event:
     build:

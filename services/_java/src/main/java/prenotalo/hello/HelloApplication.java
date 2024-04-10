@@ -12,8 +12,8 @@ public class HelloApplication {
 		SpringApplication.run(HelloApplication.class, args);
 	}
 
-	@GetMapping("/home")
+	@GetMapping("/")
 	public String index() {
-		return "Spring Application is Running...";
+		return "Hello, Spring!";
 	}
 }

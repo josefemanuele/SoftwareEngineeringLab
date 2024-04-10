@@ -1,3 +1,15 @@
+FROM maven:3-eclipse-temurin-17-alpine AS service-build
+WORKDIR /app
+
+COPY pom.xml .
+RUN mvn verify --fail-never
+
+COPY . .
+RUN mvn package
+
 FROM openjdk:17-alpine
-ADD target/hello-0.0.1-SNAPSHOT.war hello.war
-ENTRYPOINT [ "java", "-jar", "hello.war" ]
+WORKDIR /app
+
+COPY --from=service-build /app/target/hello-1.0.0.jar /app/hello.jar
+
+ENTRYPOINT [ "java", "-jar", "/app/hello.jar" ]
