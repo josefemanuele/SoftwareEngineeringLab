@@ -1,4 +1,3 @@
-version: "3.8"
 name: prenotalo
 
 ## docker compose up --service-ports
@@ -7,69 +6,51 @@ services:
   frontend:
     build:
       context: ./frontend
-    network_mode: host
+    # network_mode: host
     # networks:
     #   prenotalo:
     #     ipv4_address: 10.234.0.1
     ports:
       - 80:80
 
-#####
-  java:
-    build:
-      context: ./services/_java
-    network_mode: host
-    ports:
-      - 8080:8080
-    user: 1000:1000
-
-  python:
-    build:
-      context: ./services/_python
-    network_mode: host
-    ports:
-      - 8080:8080
-    user: 1000:1000
-#####
-
   event:
     build:
       context: ./services/event
-    network_mode: host
+    # network_mode: host
     ports:
-      - 8001:8000
+      - 8001:8080
     user: 1000:1000
 
   notify:
     build:
       context: ./services/notify
-    network_mode: host
+    # network_mode: host
     ports:
-      - 8002:8000
+      - 8002:8080
     user: 1000:1000
 
   pay:
     build:
       context: ./services/pay
-    network_mode: host
+    # network_mode: host
     ports:
-      - 8003:8000
+      - 8003:8080
     user: 1000:1000
 
   survey:
     build:
       context: ./services/survey
-    network_mode: host
+    # network_mode: host
     ports:
-      - 8004:8000
+      - 8004:8080
     user: 1000:1000
 
   user:
     build:
       context: ./services/user
-    network_mode: host
+    # network_mode: host
     ports:
-      - 8005:8000
+      - 8005:8080
     user: 1000:1000
 
   database:
@@ -80,7 +61,7 @@ services:
       MARIADB_DATABASE: prenotalo
       MARIADB_USER: prenotalo
       MARIADB_PASSWORD: password
-    network_mode: host
+    # network_mode: host
     ports:
       - 3306:3306
     volumes:
