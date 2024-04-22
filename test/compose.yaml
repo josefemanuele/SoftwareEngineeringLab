@@ -17,7 +17,7 @@ services:
       watch:
         - path: ./main
           target: /app
-          action: sync+restart
+          action: sync
   second:
     build:
       context: ./second
