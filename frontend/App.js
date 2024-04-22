@@ -1,10 +1,15 @@
 import React from 'react';
 import { AppRegistry, View } from 'react-native';
-import { PaperProvider, Appbar, TextInput, Button } from 'react-native-paper';
+import { PaperProvider, Appbar } from 'react-native-paper';
+import { NavigationContainer } from '@react-navigation/native';
+import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
+
+import Login from './pages/Login.js';
+import Registration from './pages/Registration.js';
+
+const Tab = createMaterialBottomTabNavigator();
 
 export default function App() {
-  let [ text, setText ] = React.useState('iniziale');
-
   return (
     <PaperProvider>
       <Appbar.Header>
@@ -12,16 +17,13 @@ export default function App() {
         <Appbar.Action icon="abacus" />
         <Appbar.Action icon="account-box" />
       </Appbar.Header>
-      <View>
-        <TextInput label="Campo" value={text} onChangeText={text => setText(text)} />
-        <TextInput label="Campo" value={text} onChangeText={text => setText(text)} />
-        <TextInput label="Campo" value={text} onChangeText={text => setText(text)} />
-        <TextInput label="Campo" value={text} onChangeText={text => setText(text)} />
-        <TextInput label="Campo" value={text} onChangeText={text => setText(text)} />
-        <Button>
-          Invia
-        </Button>
-      </View>
+
+      <NavigationContainer>
+        <Tab.Navigator>
+          <Tab.Screen name='Login' component={Login} />
+          <Tab.Screen name='Registration' component={Registration} />
+        </Tab.Navigator>
+      </NavigationContainer>
     </PaperProvider>
   );
 }
