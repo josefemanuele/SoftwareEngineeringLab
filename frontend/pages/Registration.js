@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Appbar, Text, TextInput, Button } from 'react-native-paper';
 
 export default function Login() {
-  let [ name, setName ] = React.useState('');
-  let [ surname, setSurname ] = React.useState('');
-  let [ email, setEmail ] = React.useState('');
-  let [ password, setPassword ] = React.useState('');
+  let [ name, setName ] = useState('nome');
+  let [ surname, setSurname ] = useState('cognome');
+  let [ email, setEmail ] = useState('email');
+  let [ password, setPassword ] = useState('password');
 
   return (
     <View>
@@ -34,25 +34,24 @@ export default function Login() {
         style={{ marginBottom: 20 }}
       />
 
-      <Button title="Invia" mode="contained" onPress={async function () {
-        let loginData = { name, surname, email, password };
+      <Button title="Register" mode="contained" onPress={async function () {
+        let userData = { name, surname, email, password };
 
         let response = await fetch('http://localhost:5000/user', {
           method: 'POST',
           headers: {
-            /* 'Authorization': 'Bearer <TOKEN>', */
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify(loginData)
+          body: JSON.stringify(userData)
         });
 
-        if (response.status === 200) {
-          console.log('Login corretto');
+        if (response.status === 204) {
+          console.log('Registrazione corretta');
         } else {
-          console.log('Login fallito');
+          console.log('Registrazione fallita');
         }
       }}>
-        Login
+        Register
       </Button>
     </View>
   );

@@ -6,6 +6,7 @@ import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navig
 
 import Login from './pages/Login.js';
 import Registration from './pages/Registration.js';
+import OrganizationList from './pages/OrganizationList.js';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -20,6 +21,7 @@ export default function App() {
 
       <NavigationContainer>
         <Tab.Navigator>
+          <Tab.Screen name='OrganizationList' component={OrganizationList} />
           <Tab.Screen name='Login' component={Login} />
           <Tab.Screen name='Registration' component={Registration} />
         </Tab.Navigator>

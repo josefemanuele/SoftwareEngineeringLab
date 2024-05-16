@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
-import { Appbar, Text, TextInput, Button } from 'react-native-paper';
+import { Appbar, Text, TextInput, Button, Divider } from 'react-native-paper';
 
 export default function Login() {
-  let [ username, setUsername ] = React.useState('');
-  let [ password, setPassword ] = React.useState('');
+  let [ username, setUsername ] = useState('prova');
+  let [ password, setPassword ] = useState('ciao');
 
   return (
     <View>
@@ -20,7 +20,7 @@ export default function Login() {
         style={{ marginBottom: 20 }}
       />
 
-      <Button title="Invia" mode="contained" onPress={async function () {
+      <Button title="Login" mode="contained" onPress={async function () {
         let loginData = {
           username: username,
           password: password
@@ -42,6 +42,10 @@ export default function Login() {
         }
       }}>
         Login
+      </Button>
+      {/* <Divider /> */}
+      <Button title="Register" mode="contained" onPress={null}>
+        Create account
       </Button>
     </View>
   );
