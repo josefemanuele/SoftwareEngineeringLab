@@ -4,6 +4,8 @@ import { PaperProvider, Appbar } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
 
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
 
 import Login from './pages/Login.js';
 import Registration from './pages/Registration.js';
