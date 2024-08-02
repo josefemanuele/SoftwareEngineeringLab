@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Appbar, Text, TextInput, Button, Divider, Switch } from 'react-native-paper';
-// import { Link } from '@react-navigation/native';
-import { useNavigation } from '@react-navigation/native';
 
-
+import { doLogin } from '../lib/user.js';
 import style from '../style.js';
 
-export default function Login() {
+export default function Login({ navigation }) {
   let [ username, setUsername ] = useState('prova');
   let [ password, setPassword ] = useState('ciao');
   let [ staySignedIn, setStaySignedIn ] = useState(false);
-
-  const navigation = useNavigation();
 
   return (
     <View style={style.spaced}>
@@ -30,35 +26,21 @@ export default function Login() {
         />
       </View>
 
-      <View style={{ flexDirection: 'row', alignItems: 'center',}}>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Switch value={staySignedIn} onValueChange={value => setStaySignedIn(value)} />
         <Text style={style.ml10}>Stay signed in</Text>
       </View>
 
-      <Button title="Login" mode="text" onPress={null}>
+      <Button title="Login" mode="text" onPress={() => navigation.navigate('Forgot')}>
         Forgot password?
       </Button>
-      {/* <Link to={{ screen: 'ForgotPassword', params: { username: username } }}>
-        Forgot password?
-      </Link> */}
 
       <Button title="Login" mode="contained" onPress={async function () {
-        let loginData = {
-          username: username,
-          password: password
-        };
+        let loginOk = await doLogin(username, password);
 
-        let response = await fetch('http://localhost:5000/token', {
-          method: 'POST',
-          headers: {
-            /* 'Authorization': 'Bearer <TOKEN>', */
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(loginData)
-        });
-
-        if (response.status === 200) {
+        if (loginOk) {
           console.log('Login corretto');
+          navigation.navigate('OrganizationList');
         } else {
           console.log('Login fallito');
         }
@@ -68,7 +50,7 @@ export default function Login() {
 
       <Divider style={[ style.mt20, style.mb20 ]}/>
 
-      <Button title="Register" mode="contained" onPress={() => navigation.navigate("Registration")}>
+      <Button title="Register" mode="contained" onPress={() => navigation.push('Registration')}>
         Create account
       </Button>
     </View>
