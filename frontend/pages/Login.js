@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Appbar, Text, TextInput, Button, Divider, Switch } from 'react-native-paper';
 // import { Link } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+
 
 import style from '../style.js';
 
@@ -10,25 +12,27 @@ export default function Login() {
   let [ password, setPassword ] = useState('ciao');
   let [ staySignedIn, setStaySignedIn ] = useState(false);
 
+  const navigation = useNavigation();
+
   return (
     <View style={style.spaced}>
       <View style={style.mb20}>
-        <Text>Username</Text>
+        <Text style={style.mb10}>Username</Text>
         <TextInput label="Username" value={username}
           onChangeText={text => setUsername(text)}
         />
       </View>
 
       <View style={style.mb20}>
-        <Text>Password</Text>
+        <Text style={style.mb10}>Password</Text>
         <TextInput label="Password" value={password}
           onChangeText={text => setPassword(text)} secureTextEntry={true}
         />
       </View>
 
-      <View style={{ flexDirection: 'row' }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center',}}>
         <Switch value={staySignedIn} onValueChange={value => setStaySignedIn(value)} />
-        <Text>Stay signed in</Text>
+        <Text style={style.ml10}>Stay signed in</Text>
       </View>
 
       <Button title="Login" mode="text" onPress={null}>
@@ -64,7 +68,7 @@ export default function Login() {
 
       <Divider style={[ style.mt20, style.mb20 ]}/>
 
-      <Button title="Register" mode="contained" onPress={null}>
+      <Button title="Register" mode="contained" onPress={() => navigation.navigate("Registration")}>
         Create account
       </Button>
     </View>
