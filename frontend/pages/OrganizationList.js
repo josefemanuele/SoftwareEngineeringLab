@@ -1,10 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity} from 'react-native';
 import { Card, Searchbar, Text } from 'react-native-paper';
 
+import style from '../style.js';
+
 export default function OrganizationList() {
-  let [ searchQuery, setSearchQuery ] = useState('barber');
-  let [ organizations, setOrganizations ] = useState([]);
+  let [ searchQuery, setSearchQuery ] = useState('Barber shop');
+  let [ organizations, setOrganizations ] = useState(
+    [
+     {
+       index: 1,
+       title: 'Barber shop',
+       subtitle: 'Subtitle',
+       content: 'Description',
+     },
+     {
+       index: 2,
+       title: 'Lawyer',
+       subtitle: 'Subtitle',
+       content: 'Description',
+     },
+     {
+       index: 3,
+       title: 'Dance school',
+       subtitle: 'Subtitle',
+       content: 'Description',
+     }
+  ]);
+
+  const handleCardPress = (organization) => {
+    console.log('Card clicked: ', organization.index);
+  };
 
   useEffect(async () => {
     let response = await fetch('http://localhost:5000/organization', {
@@ -44,12 +70,16 @@ export default function OrganizationList() {
     <View>
       <Searchbar placeholder="Search" onChangeText={setSearchQuery} value={searchQuery} />
       {organizations.map((organization) => (
-        <Card>
-          <Card.Title title={organization.title} subtitle={organization.subtitle} />
-          <Card.Content>
-            <Text>{organization.content}</Text>
-          </Card.Content>
-        </Card>
+          <TouchableOpacity key={organization.index} onPress={() => handleCardPress(organization)}>
+            <Card style={style.card}>
+              <Card.Title title={organization.title} subtitle={organization.subtitle} 
+                titleStyle={{ fontWeight: 'bold' }}
+              />
+              <Card.Content>
+                <Text>{organization.content}</Text>
+              </Card.Content>
+            </Card>
+          </TouchableOpacity>
       ))}
     </View>
   );
