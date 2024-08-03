@@ -20,3 +20,13 @@ export async function doLogin(username, password) {
 
   return true;
 }
+
+export async function doRegistration(userData) {
+  let response = await doRequest('user', 'POST', '/user', userData, true);
+  console.log(response);
+  if (!response) {
+    return false;
+  }
+
+  return true;
+}

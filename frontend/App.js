@@ -1,71 +1,39 @@
 import React from 'react';
-import { AppRegistry, Text } from 'react-native';
+
+import { AppRegistry, View, useColorScheme } from 'react-native';
 import { PaperProvider, Appbar } from 'react-native-paper';
-import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
+
+import { NavigationContainer, DarkTheme, DefaultTheme } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
 import Login from './pages/Login.js';
 import Registration from './pages/Registration.js';
-import OrganizationList from './pages/OrganizationList.js';
+import OrganizationList from './pages/participant/OrganizationList.js';
 
-const Tab = createMaterialBottomTabNavigator();
-
-function MyTabs() {
-  return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: () => {
-          let icon;
-          if (route.name === 'OrganizationList') {
-            icon = '🏢';
-          } else if (route.name === 'Login') {
-            icon = '🔑';
-          } else if (route.name === 'Registration') {
-            icon = '📝';
-          }
-          return <Text>{icon}</Text>;
-        }
-      })}
-    >
-      <Tab.Screen
-        name="OrganizationList"
-        component={OrganizationList}
-        options={{
-          tabBarLabel: 'Organization List',
-        }}
-      />
-      <Tab.Screen
-        name="Login"
-        component={Login}
-        options={{
-          tabBarLabel: 'Login',
-        }}
-      />
-      <Tab.Screen
-        name="Registration"
-        component={Registration}
-        options={{
-          tabBarLabel: 'Registration',
-        }}
-      />
-    </Tab.Navigator>
-  );
-}
+const Stack = createNativeStackNavigator();
 
 export default function App() {
+  let colorScheme = useColorScheme();
+
+  let navTheme = colorScheme === 'dark' ? DarkTheme : DefaultTheme;
+
   return (
-    <PaperProvider>
-      <Appbar.Header mode="center-aligned">
+    <PaperProvider theme={{ version: 3 }}>
+      {/* <Appbar.Header>
         <Appbar.Content title="Prenotalo" />
         <Appbar.Action icon="abacus" />
         <Appbar.Action icon="account-box" />
-      </Appbar.Header>
+      </Appbar.Header> */}
 
-      <NavigationContainer>
-        <MyTabs />
+      <NavigationContainer theme={navTheme}>
+        <Stack.Navigator>
+          <Stack.Screen name='Login' component={Login} />
+          <Stack.Screen name='Registration' component={Registration} />
+          <Stack.Screen name='OrganizationList' component={OrganizationList} />
+        </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
   );

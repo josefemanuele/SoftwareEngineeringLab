@@ -6,25 +6,19 @@ import { doLogin } from '../lib/user.js';
 import style from '../style.js';
 
 export default function Login({ navigation }) {
-  let [ username, setUsername ] = useState('prova');
-  let [ password, setPassword ] = useState('ciao');
+  let [ username, setUsername ] = useState('');
+  let [ password, setPassword ] = useState('');
   let [ staySignedIn, setStaySignedIn ] = useState(false);
 
   return (
     <View style={style.spaced}>
-      <View style={style.mb20}>
-        <Text style={style.mb10}>Username</Text>
-        <TextInput label="Username" value={username}
-          onChangeText={text => setUsername(text)}
-        />
-      </View>
+      <TextInput label="Username" value={username} style={style.mb20}
+        onChangeText={text => setUsername(text)}
+      />
 
-      <View style={style.mb20}>
-        <Text style={style.mb10}>Password</Text>
-        <TextInput label="Password" value={password}
-          onChangeText={text => setPassword(text)} secureTextEntry={true}
-        />
-      </View>
+      <TextInput label="Password" value={password} style={style.mb20}
+        onChangeText={text => setPassword(text)} secureTextEntry={true}
+      />
 
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Switch value={staySignedIn} onValueChange={value => setStaySignedIn(value)} />

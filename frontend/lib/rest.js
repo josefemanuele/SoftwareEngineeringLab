@@ -31,6 +31,9 @@ export async function doRequest(service, method, endpoint, payload, unauthentica
 		case 200:
 			result = await response.json();
 			break;
+		case 204:
+			result = true;
+			break;
 		default:
 			result = null;
 			break;

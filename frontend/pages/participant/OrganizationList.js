@@ -10,7 +10,7 @@ export default function OrganizationList() {
 
   useEffect(() => {
     (async () => {
-      let response = await doRequest('event', 'GET', '/organization', null);
+      let response = await doRequest('user', 'GET', '/organization', null);
 
       if (response != null) {
         setOrganizations(response);
