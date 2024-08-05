@@ -3,8 +3,9 @@ from flask_restful import Api, Resource, reqparse
 import db
 
 app = Flask(__name__)
-api = Api(app)
+id_counter = 2
 
+<<<<<<< HEAD
 parser = reqparse.RequestParser()
 parser.add_argument('event_desc', type=str)
 
@@ -19,6 +20,7 @@ class EventsCollection(Resource):
         return db.create_event(event_desc)
 
 class Event(Resource):
+    # TODO: add somewhere 'get events by organization id'
     def get(self, event_id):
         return db.get_event(event_id)
     
