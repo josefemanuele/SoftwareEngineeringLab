@@ -3,9 +3,8 @@ from flask_restful import Api, Resource, reqparse
 import db
 
 app = Flask(__name__)
-id_counter = 2
+api = Api(app)
 
-<<<<<<< HEAD
 parser = reqparse.RequestParser()
 parser.add_argument('event_desc', type=str)
 
