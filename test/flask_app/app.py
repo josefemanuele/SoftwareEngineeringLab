@@ -13,8 +13,13 @@ organizations = {
 def hello_world():
     return "Prenotalo!"
 
+@app.route('/getall', methods=['GET'])
+def get_all(user_id):
+    global organizations
+    return jsonify(organizations)
+
 @app.route('/getbyuser/<int:user_id>', methods=['GET'])
-def getbyuser(user_id):
+def get_by_user(user_id):
     global organizations
     match = {k : v for k, v in organizations.items() if int(v['owner_id']) == user_id }
     return jsonify(match)
