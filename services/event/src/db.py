@@ -1,35 +1,56 @@
-import sqlite3
+from sqlalchemy import create_engine, select
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, Session
 
-db_connection = sqlite3.connect(":memory:", check_same_thread=False)
-# db_connection = sqlite3.connect("events.db", check_same_thread=False)
-db_cursor = db_connection.cursor()
+engine = create_engine('sqlite:///test.db', echo=True)
 
-db_cursor.execute("CREATE TABLE IF NOT EXISTS Events(event_desc)")
-db_connection.commit()
+class Base(DeclarativeBase):
+    pass
 
-def get_all():
-    # This returns a dictionary, would be better if it was json
-    return db_cursor.execute("SELECT rowid, * FROM Events").fetchall()
+class Event(Base):
+    __tablename__ = "Events"
 
-def create_event(event_desc: str) -> int:
-    """Creates a new event having all the parameters required.
-    Returns the ID of the new event"""
+    id: Mapped[int] = mapped_column(primary_key=True)
+    # For now title is nullable
+    title: Mapped[str | None]
 
-    db_cursor.execute("INSERT INTO Events VALUES (?)", (event_desc, ))
-    rowid = db_cursor.lastrowid
-    db_connection.commit()
-    return rowid
+    def update_all(title: str):
+        self.title = title
 
-def get_event(event_id: int):
-    # Using fetchall for safety but should return only one row
-    return db_cursor.execute("SELECT rowid, * FROM Events WHERE rowid=(?)", (event_id, )).fetchall()
+    def __repr__(self):
+        return f"Event(id={self.id}, title={self.title})"
 
-def update_event(event_id:int, event_desc: str):
-    db_cursor.execute("""UPDATE Events
-                      SET event_desc=(?)
-                      WHERE rowid=(?)""", (event_desc, event_id))
-    db_connection.commit()
+# Generating schemas in db
+Base.metadata.create_all(engine) 
 
-def delete_event(event_id: int):
-    db_cursor.execute("DELETE FROM Events WHERE rowid=(?)", (event_id, ))
-    db_connection.commit()
+# Probably some of these functions can be moved inside the Event class
+# for ease of use
+def create_event(title: str) -> int:
+    with Session(engine) as session:
+        new_event = Event(title=title)
+        session.add(new_event)
+        session.commit()
+        return new_event.id
+
+def get_all_events():
+    with Session(engine) as session:
+        query = select(Event)
+        return session.scalars(query)
+
+def get_event_by_id(id: int):
+    with Session(engine) as session:
+        query = select(Event).where(Event.id == id)
+        return session.scalars(query)
+
+def update_event(id: int, title):
+    with Session(engine) as session:
+        query = select(Event).where(Event.id == id)
+        event = session.scalar(query).one()
+        event.update_all(title)
+        session.commit()
+
+def delete_event(id: int):
+    with Session(engine) as session:
+        query = select(Event).where(Event.id == id)
+        event = session.scalar(query).one()
+        session.delete(event)
+        session.commit()
