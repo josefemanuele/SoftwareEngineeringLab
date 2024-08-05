@@ -9,11 +9,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 api = Api(app)
-id_counter = 2
-users = {
-  "admin": {'id' : 1, 'pwd' : 'admin'},
-  "josef": {'id' : 2, 'pwd' : 'zerpa'}
-}
+id_counter = 0
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
