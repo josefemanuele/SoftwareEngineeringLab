@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 from flask_restful import Api, Resource
+import random
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
@@ -12,9 +13,10 @@ api = Api(app)
 id_counter = 2
 
 users = {
-  "admin": {'id' : 1, 'pwd' : 'admin'},
-  "josef": {'id' : 2, 'pwd' : 'zerpa'}
+  1 : {'username' : 'admin', 'password' : 'admin', 'name' : 'Admin', 'surname' : 'Admin', 'email' : 'admin@prenotalo.com'},
+  2 : {'username' : 'josef' , 'password' : 'zerpa', 'name' : 'Josef Emanuele', 'surname' : 'Zerpa Ruiz', 'email' : 'zerparuiz@prenotalo.com'}
 }
+sessions = dict()
 
 '''
 class User(db.Model):
@@ -32,30 +34,30 @@ class UserSchema(ma.Schema):
 def hello_world():
     return "Prenotalo!"
 
-def generateSessionId(data):
-    return data['id']
-
-@app.route('/login', methods=['POST'])
-def login():
-    data = request.json
-    user = data['user']
-    pwd = data['pwd']
+@app.route('/getbyid/<int:id>', methods=['GET'])
+def getById(id):
     global users
-    match = users.get(user)
-    if (match is not None and match['pwd'] == pwd):
-        sessionId = generateSessionId(match)
-        return jsonify(sessionId)
-    return "Error"
+    match = users.get(id, {})
+    return jsonify(match)
+
+@app.route('/getbyusername/<string:username>', methods=['GET'])
+def getByUsername(username):
+    global users
+    match = {user for id, user in users if user['username'] == username}
+    return jsonify(match)
 
 @app.route('/register', methods=['POST'])
 def register():
-    data = request.json
-    user = data['user']
-    pwd = data['pwd']
     global users
-    match = users.get(user)
+    global id_counter
+    data = request.json
+    username = data['username']
+    password = data['password']
+    name = data['name']
+    surname = data['surname']
+    email = data['email']
+    match = getByUsername(username)
     if (match is None):
-        global id_counter
         id_counter += 1
         '''
         new_user = User(id = id_counter, username = user, password = pwd)
@@ -64,8 +66,35 @@ def register():
         db.session.commit()
         print(UserSchema(many=True).dump(User.query.all()))
         '''
-        users[user] = {"id" : id_counter, "pwd" : pwd}
+        users[id] = {'username':username, 'password':password, 'name':name, 'surname':surname, 'email':email}
         print(users)
-        return "User registered"
-    
-    return "Error"
+        return jsonify(id)
+    return jsonify({})
+
+def generateSessionId():
+    global sessions
+    while (True):
+        session_id = random.randrange(1024)
+        if session_id not in sessions:
+            break
+    return jsonify(session_id)
+
+@app.route('/login', methods=['POST'])
+def login():
+    global users
+    global sessions
+    data = request.json
+    username = data['username']
+    password = data['password']
+    match = getByUsername(username)
+    if (match is not None and match['password'] == password):
+        session_id = generateSessionId()
+        sessions[session_id] = match['id']
+        return jsonify(session_id)
+    return jsonify({})
+
+@app.route('/logout/<int:session_id>', methods=['GET'])
+def logout(session_id):
+    global sessions
+    match = sessions.get(session_id, {})
+    return jsonify(match)
