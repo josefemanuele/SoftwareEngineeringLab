@@ -32,10 +32,7 @@ export default function Login({ navigation }) {
       <Button title="Login" mode="contained" onPress={async function () {
         let loginOk = await doLogin(username, password);
 
-        if (loginOk) {
-          console.log('Login corretto');
-          navigation.navigate('OrganizationList');
-        } else {
+        if (!loginOk) {
           console.log('Login fallito');
         }
       }}>

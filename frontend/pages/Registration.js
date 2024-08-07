@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Text, TextInput, Button, Divider, Modal, Portal } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
-import { doRegistration } from '../lib/user.js';
+import { doRegistration, doLogin } from '../lib/user.js';
 import style from '../style.js';
 
 export default function Registration({ navigation }) {
@@ -52,12 +52,21 @@ export default function Registration({ navigation }) {
         let userData = { name, surname, email, password };
 
         let registrationOk = await doRegistration(userData);
-
-        if (registrationOk) {
-          console.log('Registrazione corretta');
-          setModalVisible(true);
-        } else {
+        if (!registrationOk) {
           console.log('Registrazione fallita');
+          setModalVisible(true);
+
+          return;
+        }
+
+        console.log('Registrazione corretta');
+
+        let loginOk = await doLogin(email, password);
+        if (!loginOk) {
+          console.log('Login fallito');
+          setModalVisible(true);
+
+          return;
         }
       }}>
         Register

@@ -25,16 +25,16 @@ export default function OrganizationList() {
     <>
       <Searchbar placeholder="Search" onChangeText={setSearchQuery} value={searchQuery} />
       {organizations.map((organization) => (
-          <TouchableOpacity key={organization.index} onPress={() => handleCardPress(organization)}>
-            <Card style={style.card}>
-              <Card.Title title={organization.title} subtitle={organization.subtitle}
-                titleStyle={{ fontWeight: 'bold' }}
-              />
-              <Card.Content>
-                <Text>{organization.content}</Text>
-              </Card.Content>
-            </Card>
-          </TouchableOpacity>
+        <TouchableOpacity key={organization.index} onPress={() => handleCardPress(organization)}>
+          <Card style={style.card}>
+            <Card.Title title={organization.title} subtitle={organization.subtitle}
+              titleStyle={{ fontWeight: 'bold' }}
+            />
+            <Card.Content>
+              <Text>{organization.content}</Text>
+            </Card.Content>
+          </Card>
+        </TouchableOpacity>
       ))}
     </>
   );
