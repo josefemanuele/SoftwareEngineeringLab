@@ -9,9 +9,10 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
+import EventCreation from './pages/organizer/EventCreation.js';
+import OrganizationList from './pages/organizer/OrganizationList.js';
 import Login from './pages/Login.js';
 import Registration from './pages/Registration.js';
-import OrganizationList from './pages/participant/OrganizationList.js';
 
 import AppHeader from './components/AppHeader.js';
 
@@ -28,14 +29,15 @@ export default function App() {
   user.setLoggedIn = setLoggedIn;
 
   let screens = isLoggedIn ? (
-    <>
+    <Stack.Group>
       <Stack.Screen name='OrganizationList' component={OrganizationList} />
-    </>
+      <Stack.Screen name='EventCreation' component={EventCreation} />
+    </Stack.Group>
   ) : (
-    <>
+    <Stack.Group>
       <Stack.Screen name='Login' component={Login} />
       <Stack.Screen name='Registration' component={Registration} />
-    </>
+    </Stack.Group>
   );
 
   return (
