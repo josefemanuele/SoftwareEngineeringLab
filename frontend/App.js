@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { AppRegistry, View, useColorScheme } from 'react-native';
-import { PaperProvider, Appbar } from 'react-native-paper';
+import { PaperProvider } from 'react-native-paper';
 
 import { NavigationContainer, DarkTheme, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -12,6 +12,8 @@ import 'regenerator-runtime/runtime';
 import Login from './pages/Login.js';
 import Registration from './pages/Registration.js';
 import OrganizationList from './pages/participant/OrganizationList.js';
+
+import AppHeader from './components/AppHeader.js';
 
 import user from './lib/user.js';
 
@@ -38,14 +40,10 @@ export default function App() {
 
   return (
     <PaperProvider theme={{ version: 3 }}>
-      {/* <Appbar.Header>
-        <Appbar.Content title="Prenotalo" />
-        <Appbar.Action icon="abacus" />
-        <Appbar.Action icon="account-box" />
-      </Appbar.Header> */}
-
       <NavigationContainer theme={navTheme}>
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{
+          header: AppHeader,
+        }}>
           { screens }
         </Stack.Navigator>
       </NavigationContainer>
