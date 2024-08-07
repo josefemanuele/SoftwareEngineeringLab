@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import { Card, Searchbar, Text } from 'react-native-paper';
 
 import { doRequest } from '../../lib/rest.js';
+import style from '../../style.js';
 
 export default function OrganizationList() {
   let [ searchQuery, setSearchQuery ] = useState('barber');
@@ -21,16 +22,24 @@ export default function OrganizationList() {
   }, []);
 
   return (
-    <View>
+    <>
       <Searchbar placeholder="Search" onChangeText={setSearchQuery} value={searchQuery} />
       {organizations.map((organization) => (
-        <Card key={organization.key}>
-          <Card.Title title={organization.title} subtitle={organization.subtitle} />
-          <Card.Content>
-            <Text>{organization.content}</Text>
-          </Card.Content>
-        </Card>
+          <TouchableOpacity key={organization.index} onPress={() => handleCardPress(organization)}>
+            <Card style={style.card}>
+              <Card.Title title={organization.title} subtitle={organization.subtitle}
+                titleStyle={{ fontWeight: 'bold' }}
+              />
+              <Card.Content>
+                <Text>{organization.content}</Text>
+              </Card.Content>
+            </Card>
+          </TouchableOpacity>
       ))}
-    </View>
+    </>
   );
 }
+
+const handleCardPress = (organization) => {
+  console.log('Card clicked: ', organization.index);
+};
