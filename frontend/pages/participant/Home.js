@@ -6,7 +6,7 @@ import { doRequest } from '../../lib/rest.js';
 import style from '../../style.js';
 
 export default function Home({ navigation }) {
-  let [ searchQuery, setSearchQuery ] = useState('barber');
+  let [ searchQuery, setSearchQuery ] = useState('');
   let [ organizations, setOrganizations ] = useState([]);
 
   useEffect(() => {
@@ -20,6 +20,14 @@ export default function Home({ navigation }) {
       }
     })();
   }, []);
+
+  let tempSQ = searchQuery.toLowerCase();
+
+  organizations = organizations.filter(organization => (
+    organization.title.toLowerCase().includes(tempSQ) ||
+    organization.subtitle.toLowerCase().includes(tempSQ) ||
+    organization.content.toLowerCase().includes(tempSQ)
+  ));
 
   return (
     <>
