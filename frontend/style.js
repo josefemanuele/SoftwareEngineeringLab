@@ -26,5 +26,13 @@ export default StyleSheet.create({
 		shadowOpacity:  0.20,
 		shadowRadius: 5.62,
 		elevation: 7
+	},
+	row: {
+		flexDirection: "row",
+		marginTop: "15%",
+		justifyContent: "center"
+	},
+	button_row: {
+		margin: 20
 	}
 });
