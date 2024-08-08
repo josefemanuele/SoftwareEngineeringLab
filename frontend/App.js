@@ -18,6 +18,7 @@ import ParticipantHome from './pages/participant/Home.js';
 import ParticipantRegistration from './pages/participant/Registration.js';
 
 import AppHeader from './components/AppHeader.js';
+import AppError from './components/AppError.js';
 
 import user from './lib/user.js';
 
@@ -67,6 +68,14 @@ export default function App() {
         }}/>
         <Stack.Screen name='organizer/EventCreation' component={OrganizerEventCreation} options={{
           title: 'Event creation'
+        }}/>
+      </Stack.Group>
+    );
+  } else {
+    screens = (
+      <Stack.Group>
+        <Stack.Screen name='error' component={AppError} options={{
+          title: 'Prenotalo'
         }}/>
       </Stack.Group>
     );
