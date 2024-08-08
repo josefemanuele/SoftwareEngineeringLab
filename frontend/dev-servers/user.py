@@ -36,19 +36,19 @@ def r_user_create():
 def r_organization_get():
 	response = [
 	  {
-		'key': 1,
+		'id': 1,
 		'title': 'Barber shop',
 		'subtitle': 'Subtitle',
 		'content': 'Description',
 	  },
 	  {
-		'key': 2,
+		'id': 2,
 		'title': 'Lawyer',
 		'subtitle': 'Subtitle',
 		'content': 'Description',
 	  },
 	  {
-		'key': 3,
+		'id': 3,
 		'title': 'Dance school',
 		'subtitle': 'Subtitle',
 		'content': 'Description',
