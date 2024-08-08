@@ -9,10 +9,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
-import EventCreation from './pages/organizer/EventCreation.js';
-import OrganizationList from './pages/organizer/OrganizationList.js';
 import Login from './pages/Login.js';
-import Registration from './pages/Registration.js';
+import RoleSelection from './pages/RoleSelection.js';
+import OrganizerEventCreation from './pages/organizer/EventCreation.js';
+import OrganizerHome from './pages/organizer/Home.js';
+import OrganizerRegistration from './pages/organizer/Registration.js';
+import ParticipantHome from './pages/participant/Home.js';
+import ParticipantRegistration from './pages/participant/Registration.js';
 
 import AppHeader from './components/AppHeader.js';
 
@@ -28,36 +31,57 @@ export default function App() {
   let [ isLoggedIn, setLoggedIn ] = useState(true);
   user.setLoggedIn = setLoggedIn;
 
-  let screens = isLoggedIn ? (
-    <Stack.Group>
-      <Stack.Screen name='OrganizationList' component={OrganizationList} options={{
-        title: 'Prenotalo'
-      }}/>
-      <Stack.Screen name='EventCreation' component={EventCreation} options={{
-        title: 'Event creation'
-      }}/>
-    </Stack.Group>
-  ) : (
-    <Stack.Group>
-      <Stack.Screen name='Login' component={Login} options={{
-        title: 'Login'
-      }}/>
-      <Stack.Screen name='Registration' component={Registration} options={{
-        title: 'Register'
-      }}/>
-    </Stack.Group>
-  );
+  let userRole = 'organizer';
+
+  let screens;
+  if (!isLoggedIn) {
+    screens = (
+      <Stack.Group>
+        <Stack.Screen name='Login' component={Login} options={{
+          title: 'Login'
+        }}/>
+        <Stack.Screen name='RoleSelection' component={RoleSelection} options={{
+          title: 'Register'
+        }}/>
+        <Stack.Screen name='participant/Registration' component={ParticipantRegistration} options={{
+          title: 'Register'
+        }}/>
+        <Stack.Screen name='organizer/Registration' component={OrganizerRegistration} options={{
+          title: 'Register'
+        }}/>
+      </Stack.Group>
+    );
+  } else if (userRole === 'participant') {
+    screens = (
+      <Stack.Group>
+        <Stack.Screen name='participant/Home' component={ParticipantHome} options={{
+          title: 'Prenotalo'
+        }}/>
+      </Stack.Group>
+    );
+  } else if (userRole === 'organizer') {
+    screens = (
+      <Stack.Group>
+        <Stack.Screen name='organizer/Home' component={OrganizerHome} options={{
+          title: 'Prenotalo'
+        }}/>
+        <Stack.Screen name='organizer/EventCreation' component={OrganizerEventCreation} options={{
+          title: 'Event creation'
+        }}/>
+      </Stack.Group>
+    );
+  }
 
   return (
-    <PaperProvider theme={{ version: 3 }}>
-      <NavigationContainer theme={navTheme}>
-        <Stack.Navigator screenOptions={{
-          header: AppHeader,
-        }}>
-          { screens }
-        </Stack.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
+      <PaperProvider theme={{ version: 3 }}>
+        <NavigationContainer theme={navTheme}>
+          <Stack.Navigator screenOptions={{
+            header: AppHeader,
+          }}>
+            { screens }
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PaperProvider>
   );
 }
 
