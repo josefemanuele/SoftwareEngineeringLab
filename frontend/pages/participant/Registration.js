@@ -61,12 +61,6 @@ export default function Registration({ navigation }) {
       }}>
         Register
       </Button>
-
-      {/* <Divider style={[ style.mt20, style.mb20 ]}/>
-
-      <Button title="Login" mode="contained" onPress={() => navigation.navigate("Login")}>
-        Login
-      </Button> */}
     </View>
   );
 }

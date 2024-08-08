@@ -15,6 +15,7 @@ import OrganizerEventCreation from './pages/organizer/EventCreation.js';
 import OrganizerHome from './pages/organizer/Home.js';
 import OrganizerRegistration from './pages/organizer/Registration.js';
 import ParticipantHome from './pages/participant/Home.js';
+import ParticipantOrganization from './pages/participant/Organization.js';
 import ParticipantRegistration from './pages/participant/Registration.js';
 
 import AppHeader from './components/AppHeader.js';
@@ -57,6 +58,9 @@ export default function App() {
       <Stack.Group>
         <Stack.Screen name='participant/Home' component={ParticipantHome} options={{
           title: 'Prenotalo'
+        }}/>
+        <Stack.Screen name='participant/Organization' component={ParticipantOrganization} options={{
+          title: 'Organization'
         }}/>
       </Stack.Group>
     );
