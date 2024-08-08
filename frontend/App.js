@@ -30,13 +30,21 @@ export default function App() {
 
   let screens = isLoggedIn ? (
     <Stack.Group>
-      <Stack.Screen name='OrganizationList' component={OrganizationList} />
-      <Stack.Screen name='EventCreation' component={EventCreation} />
+      <Stack.Screen name='OrganizationList' component={OrganizationList} options={{
+        title: 'Prenotalo'
+      }}/>
+      <Stack.Screen name='EventCreation' component={EventCreation} options={{
+        title: 'Event creation'
+      }}/>
     </Stack.Group>
   ) : (
     <Stack.Group>
-      <Stack.Screen name='Login' component={Login} />
-      <Stack.Screen name='Registration' component={Registration} />
+      <Stack.Screen name='Login' component={Login} options={{
+        title: 'Login'
+      }}/>
+      <Stack.Screen name='Registration' component={Registration} options={{
+        title: 'Register'
+      }}/>
     </Stack.Group>
   );
 
