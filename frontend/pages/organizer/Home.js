@@ -3,8 +3,8 @@ import { View, TouchableOpacity } from 'react-native';
 import { Card, Searchbar, Text } from 'react-native-paper';
 import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
 
-import OrganizerEvents from '../../components/OrganizerEvents.js';
-import OrganizerSurveys from '../../components/OrganizerSurveys.js';
+import EventList from './EventList.js';
+import Surveys from './Surveys.js';
 
 import { doRequest } from '../../lib/rest.js';
 import style from '../../style.js';
@@ -29,10 +29,10 @@ export default function OrganizationList() {
   return (
     <>
       <Tab.Navigator>
-        <Tab.Screen name="Events"  component={OrganizerEvents} options={{
+        <Tab.Screen name="Events"  component={EventList} options={{
           tabBarIcon: 'calendar',
         }} />
-        <Tab.Screen name="Surveys" component={OrganizerSurveys} options={{
+        <Tab.Screen name="Surveys" component={Surveys} options={{
           tabBarIcon: 'playlist-check',
         }} />
       </Tab.Navigator>

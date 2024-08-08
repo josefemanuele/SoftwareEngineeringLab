@@ -12,6 +12,7 @@
     "@react-native-async-storage/async-storage": "^1.24.0",
     "@react-navigation/native": "^6.1.18",
     "@react-navigation/native-stack": "^6.11.0",
+    "@reduxjs/toolkit": "^2.2.7",
     "core-js": "^3.37.1",
     "expo": "^51.0.22",
     "expo-status-bar": "^1.12.1",
@@ -22,6 +23,7 @@
     "react-native-storage": "^1.0.1",
     "react-native-vector-icons": "^10.1.0",
     "react-native-web": "^0.19.12",
+    "react-redux": "^9.1.2",
     "regenerator-runtime": "^0.14.1"
   },
   "devDependencies": {

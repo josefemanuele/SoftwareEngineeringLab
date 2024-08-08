@@ -13,7 +13,7 @@ def hello_flask():
 def r_token_create():
 	data = request.json
 
-	if data['username'] == 'prova' and data['password'] == 'ciao':
+	if data['email'] == 'prova@prova' and data['password'] == 'ciao':
 		response = {
 			'token': TOKEN
 		}

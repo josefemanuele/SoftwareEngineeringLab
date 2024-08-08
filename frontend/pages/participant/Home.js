@@ -5,7 +5,7 @@ import { Card, Searchbar, Text } from 'react-native-paper';
 import { doRequest } from '../../lib/rest.js';
 import style from '../../style.js';
 
-export default function OrganizationList() {
+export default function Home() {
   let [ searchQuery, setSearchQuery ] = useState('barber');
   let [ organizations, setOrganizations ] = useState([]);
 

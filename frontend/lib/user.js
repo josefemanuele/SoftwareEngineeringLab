@@ -6,9 +6,9 @@ import { save as storageSave, remove as storageRemove } from './storage.js';
 
 let misc = {};
 
-export async function doLogin(username, password) {
+export async function doLogin(email, password) {
   let loginData = {
-    username: username,
+    email: email,
     password: password
   };
 
