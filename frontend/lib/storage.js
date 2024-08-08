@@ -1,8 +1,8 @@
+import { Platform } from 'react-native';
 import Storage from 'react-native-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// let backend = AsyncStorage;
-let backend = window.localStorage;
+let backend = Platform.OS === 'web' ? window.localStorage : AsyncStorage;
 
 export let storage = new Storage({
 	size: 1024,
