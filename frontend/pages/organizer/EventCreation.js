@@ -35,26 +35,45 @@ export default function EventCreation({ navigation }) {
 	let [ loading, setLoading ] = useState(false);
 
 	return (
-			<TextInput label="Name" value={name}
 		<View style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>
+			<TextInput
+				label="Name"
+				value={name}
         onChangeText={text => setName(text)}
         style={{ marginBottom: 20 }}
+				disabled={loading}
       />
 
-			<DatePickerInput locale="en" label="Date" value={date} onChange={setDate} inputMode="start"
-				style={{ marginBottom: 20 }}/>
+			<DatePickerInput
+				label="Date"
+				value={date}
+				onChange={setDate}
+				style={{ marginBottom: 20 }}
+				disabled={loading}
+				locale="en"
+				inputMode="start"
+			/>
 
-			<View style={{ flexDirection: "row", }}>
-				<TextInput label="Start time" value={formatTime(startTime)}
-					style={{ marginBottom: 20, marginRight: 20 }} onFocus={() => setStVisible(true)}
-					/>
+			<View style={{ flexDirection: "row" }}>
+				<TextInput
+					label="Start time"
+					value={formatTime(startTime)}
+					onFocus={() => setStVisible(true)}
+					style={{ marginBottom: 20, marginRight: 20 }}
+					disabled={loading}
+				/>
 
-				<TextInput label="End time" value={formatTime(endTime)}
-					style={{ marginBottom: 20 }} onFocus={() => setEtVisible(true)}
-					/>
+				<TextInput
+					label="End time"
+					value={formatTime(endTime)}
+					onFocus={() => setEtVisible(true)}
+					style={{ marginBottom: 20 }}
+					disabled={loading}
+				/>
 			</View>
 
-			<TimePickerModal visible={stVisible}
+			<TimePickerModal
+				visible={stVisible}
 				onDismiss={() => setStVisible(false)}
 				onConfirm={time => {
 					setStVisible(false);
@@ -62,9 +81,11 @@ export default function EventCreation({ navigation }) {
 				}}
 				hours={startTime.hours}
 				minutes={startTime.minutes}
+				disabled={loading}
 			/>
 
-			<TimePickerModal visible={etVisible}
+			<TimePickerModal
+				visible={etVisible}
 				onDismiss={() => setEtVisible(false)}
 				onConfirm={time => {
 					setEtVisible(false);
@@ -72,52 +93,86 @@ export default function EventCreation({ navigation }) {
 				}}
 				hours={endTime.hours}
 				minutes={endTime.minutes}
+				disabled={loading}
 			/>
 
-			<Dropdown label="Category" options={eventCategories} value={category} onSelect={setCategory}
-				style={{ marginBottom: 20 }} />
+			<Dropdown
+				label="Category"
+				value={category}
+				onSelect={setCategory}
+				style={{ marginBottom: 20 }}
+				disabled={loading}
+				options={eventCategories}
+			/>
 
-			<CurrencyInput prefix='€' value={price} onChangeValue={setPrice}
+			<CurrencyInput
 				renderTextInput={tiProps => <TextInput label="Price" {...tiProps} />}
+				value={price}
+				onChangeValue={setPrice}
 				style={{
 					marginBottom: 20,
 					marginTop: 20,
-				}} />
+				}}
+				disabled={loading}
+				prefix='€'
+			/>
 
-			<TextInput label="Description" value={description}
+			<TextInput
+				label="Description"
+				value={description}
         onChangeText={text => setDescription(text)}
         style={{ marginBottom: 20 }}
+				disabled={loading}
 				numberOfLines={5}
 				multiline={true}
       />
 
-			<CurrencyInput value={participantsNum} onChangeValue={setParticipantNum}
-				precision={0} minValue={1}
+			<CurrencyInput
+				value={participantsNum}
+				onChangeValue={setParticipantNum}
+				style={{ marginBottom: 20 }}
+				disabled={loading}
+				precision={0}
+				minValue={1}
 				renderTextInput={tiProps => <TextInput label="n° participants" {...tiProps} />}
-				style={{ marginBottom: 20 }} />
+			/>
 
-			<Button title="Submit" mode="contained" style={[ style.mt20, style.mb20 ]} onPress={() => {
-				setLoading(true);
+			<Button
+				title="Submit"
+				mode="contained"
+				style={[ style.mt20, style.mb20 ]}
+				onPress={() => {
+					setLoading(true);
 
-				setTimeout(() => {
-					setLoading(false);
+					{/* setTimeout(() => {
+						setLoading(false);
 
-					setDialogVisible(true);
-				}, 1000);
-			}} loading={loading}>
+						setDialogVisible(true);
+					}, 1000); */}
+				}}
+				loading={loading}
+				disabled={loading}
+			>
 				Create
 			</Button>
 
-			<FullDialog title="Event created!" content="" actions={[
-				{ name: 'OK', callback: () => {
-					setDialogVisible(false);
-					navigation.pop();
-				}},
-			]} visible={dialogVisible} onDismiss={() => setDialogVisible(false)} />
+			<FullDialog
+				title="Event created!"
+				content=""
+				actions={[
+				{
+					name: 'OK',
+					callback: () => {
+						setDialogVisible(false);
+						navigation.pop();
+					}},
+				]}
+				visible={dialogVisible}
+				onDismiss={() => setDialogVisible(false)}
+			/>
 		</View>
 	);
 }
-
 
 function formatTime(time) {
 	if (time.hours == null) {

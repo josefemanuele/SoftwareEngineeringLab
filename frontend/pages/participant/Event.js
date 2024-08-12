@@ -7,7 +7,7 @@ export default function EventPage({ route }) {
 
 	return (
 		<>
-			<Text>Event {params.id} page!</Text>
+			<Text>Event page! organization_id={params.organization_id}, event_id={params.event_id}</Text>
 		</>
 	);
 }
