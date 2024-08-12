@@ -1,15 +1,20 @@
 #!/usr/bin/env python3
 from flask import Flask, jsonify, redirect, request
+from flask_cors import CORS, cross_origin
 
 TOKEN = 'N2WxAvqeJ3Eap7qvhxVLSL5VFxc97UEpQnWSjGWDnwk='
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route('/')
+@cross_origin()
 def hello_flask():
 	return 'Hello, Flask!'
 
 @app.post('/token')
+@cross_origin()
 def r_token_create():
 	data = request.json
 
@@ -23,16 +28,19 @@ def r_token_create():
 		return '', 403
 
 @app.delete('/token/{token}')
+@cross_origin()
 def r_token_delete():
 	return '', 204
 
 @app.post('/user')
+@cross_origin()
 def r_user_create():
 	data = request.json
 	print(data)
 	return '', 204
 
 @app.get('/organization')
+@cross_origin()
 def r_organization_get():
 	response = [
 	  {
@@ -58,4 +66,4 @@ def r_organization_get():
 	return jsonify(response), 200
 
 if __name__ == '__main__':
-	app.run(debug=True, host='127.0.0.1', port=8084)
+	app.run(debug=True, host='0.0.0.0', port=8084)

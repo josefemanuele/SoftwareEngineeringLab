@@ -1,7 +1,7 @@
 export const API_BASE_URLS =  {
-	event:  'http://localhost:8080',
-	notify: 'http://localhost:8081',
-	pay:    'http://localhost:8082',
-	survey: 'http://localhost:8083',
-	user:   'http://localhost:8084',
+	event:  'http://192.168.1.23:8080',
+	notify: 'http://192.168.1.23:8081',
+	pay:    'http://192.168.1.23:8082',
+	survey: 'http://192.168.1.23:8083',
+	user:   'http://192.168.1.23:8084',
 };
