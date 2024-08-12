@@ -24,26 +24,26 @@ export default function Home({ navigation }) {
   let tempSQ = searchQuery.toLowerCase();
 
   organizations = organizations.filter(organization => (
-    organization.title.toLowerCase().includes(tempSQ) ||
-    organization.subtitle.toLowerCase().includes(tempSQ) ||
-    organization.content.toLowerCase().includes(tempSQ)
+    organization.name.toLowerCase().includes(tempSQ) ||
+    organization.type.toLowerCase().includes(tempSQ) ||
+    organization.description.toLowerCase().includes(tempSQ)
   ));
 
   return (
     <>
       <Searchbar placeholder="Search" onChangeText={setSearchQuery} value={searchQuery} />
-      {organizations.map((organization) => (
-        <Card key={organization.id} style={style.card} onPress={() => navigation.push('participant/Organization', {
-          id: organization.id
-        })}>
-          <Card.Title title={organization.title} subtitle={organization.subtitle}
-            titleStyle={{ fontWeight: 'bold' }}
-          />
-          <Card.Content>
-            <Text>{organization.content}</Text>
-          </Card.Content>
-        </Card>
-      ))}
+        {organizations.map((organization) => (
+          <Card key={organization.id} style={style.card} onPress={() => navigation.push('participant/Organization', {
+            id: organization.id
+          })}>
+            <Card.Title title={organization.name} subtitle={organization.type}
+              titleStyle={{ fontWeight: 'bold' }}
+            />
+            <Card.Content>
+              <Text>{organization.description}</Text>
+            </Card.Content>
+          </Card>
+        ))}
     </>
   );
 }
