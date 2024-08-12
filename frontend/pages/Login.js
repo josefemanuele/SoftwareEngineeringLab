@@ -3,7 +3,9 @@ import { View } from 'react-native';
 import { Appbar, Button, Divider, HelperText, Switch, Text, TextInput } from 'react-native-paper';
 
 import { doLogin } from '../lib/user.js';
-import style from '../style.js';
+
+import { ids as bsIds, styles as bsStyles } from '../style/bootstrap.js';
+import style from '../style/custom.js';
 
 let loginErrors = {
   'network': 'Network error',
@@ -42,7 +44,7 @@ export default function Login({ navigation }) {
   };
 
   return (
-    <View style={[ style.spaced, style.container ]}>
+    <View style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>
       <TextInput label="E-mail" value={email} error={emailError}
         onChangeText={text => {
           let validEmail = text.length > 0 &&

@@ -3,7 +3,8 @@ import React from 'react';
 import { Button } from 'react-native-paper';
 import { View } from 'react-native';
 
-import style from '../style.js';
+import { ids as bsIds, styles as bsStyles } from '../style/bootstrap.js';
+import style from '../style/custom.js';
 
 export default function RoleSelection({ navigation }) {
 	return (
@@ -14,6 +15,6 @@ export default function RoleSelection({ navigation }) {
 			<Button  style={style.button_row} title="Organizer" mode="elevated" icon="home" onPress={() => navigation.push('organizer/Registration')}>
 				Organizer
 			</Button>
-		</View>	
+		</View>
 	);
 }

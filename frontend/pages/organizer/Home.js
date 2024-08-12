@@ -7,7 +7,9 @@ import EventList from './EventList.js';
 import Surveys from './Surveys.js';
 
 import { doRequest } from '../../lib/rest.js';
-import style from '../../style.js';
+
+import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
+import style from '../../style/custom.js';
 
 const Tab = createMaterialBottomTabNavigator();
 

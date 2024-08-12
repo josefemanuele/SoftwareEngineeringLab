@@ -2,7 +2,8 @@ import React from 'react';
 
 import { Card, FAB, Text } from 'react-native-paper';
 
-import style from '../../style.js';
+import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
+import style from '../../style/custom.js';
 
 export default function EventList({ navigation }) {
 	let organization = {

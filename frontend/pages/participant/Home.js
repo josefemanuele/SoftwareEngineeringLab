@@ -3,7 +3,9 @@ import { RefreshControl, ScrollView, View } from 'react-native';
 import { Card, Searchbar, Text } from 'react-native-paper';
 
 import { doRequest } from '../../lib/rest.js';
-import style from '../../style.js';
+
+import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
+import style from '../../style/custom.js';
 
 export default function Home({ navigation }) {
   let [ searchQuery, setSearchQuery ] = useState('');

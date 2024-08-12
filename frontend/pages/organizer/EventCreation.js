@@ -7,7 +7,9 @@ import { Dropdown } from 'react-native-paper-dropdown';
 import { DatePickerInput, TimePickerModal } from 'react-native-paper-dates';
 
 import FullDialog from '../../components/FullDialog.js';
-import style from '../../style.js';
+
+import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
+import style from '../../style/custom.js';
 
 let eventCategories = [
 	{ label: 'Unspecified', value: 'default' },
@@ -33,8 +35,8 @@ export default function EventCreation({ navigation }) {
 	let [ loading, setLoading ] = useState(false);
 
 	return (
-		<View style={[style.spaced, style.container]}>
 			<TextInput label="Name" value={name}
+		<View style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>
         onChangeText={text => setName(text)}
         style={{ marginBottom: 20 }}
       />

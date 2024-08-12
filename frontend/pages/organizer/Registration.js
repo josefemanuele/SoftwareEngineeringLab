@@ -4,7 +4,9 @@ import { Text, TextInput, Button, Divider, Modal, Portal } from 'react-native-pa
 import { useNavigation } from '@react-navigation/native';
 
 import { doRegistration, doLogin } from '../../lib/user.js';
-import style from '../../style.js';
+
+import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
+import style from '../../style/custom.js';
 
 export default function Registration({ navigation }) {
   let [ name, setName ] = useState('');
@@ -14,7 +16,7 @@ export default function Registration({ navigation }) {
   let [ modalVisible, setModalVisible ] = useState(false);
 
   return (
-    <View style={style.spaced}>
+    <View style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>
       <Portal>
         <Modal visible={modalVisible} onDismiss={() => {
           setModalVisible(false);
