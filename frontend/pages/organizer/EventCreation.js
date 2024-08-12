@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 
 import { View } from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
-import { Button, Dialog, Portal, Text, TextInput } from 'react-native-paper';
+import { Button, Text, TextInput } from 'react-native-paper';
 import { Dropdown } from 'react-native-paper-dropdown';
 import { DatePickerInput, TimePickerModal } from 'react-native-paper-dates';
 
+import FullDialog from '../../components/FullDialog.js';
 import style from '../../style.js';
 
 let eventCategories = [
@@ -96,23 +97,12 @@ export default function EventCreation({ navigation }) {
 				Create
 			</Button>
 
-
-			<Portal>
-				<Dialog visible={dialogVisible} onDismiss={() => setDialogVisible(false)}>
-					<Dialog.Title>Event created!</Dialog.Title>
-					{/* <Dialog.Content>
-						<Text>Event created!</Text>
-					</Dialog.Content> */}
-					<Dialog.Actions>
-						<Button title="Submit" mode="contained" onPress={() => {
-							setDialogVisible(false);
-							navigation.pop();
-						}}>
-							OK
-						</Button>
-					</Dialog.Actions>
-				</Dialog>
-			</Portal>
+			<FullDialog title="Event created!" content="" actions={[
+				{ name: 'OK', callback: () => {
+					setDialogVisible(false);
+					navigation.pop();
+				}},
+			]} visible={dialogVisible} onDismiss={() => setDialogVisible(false)} />
 		</View>
 	);
 }
