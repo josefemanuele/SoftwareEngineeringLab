@@ -30,6 +30,7 @@ export default function EventCreation({ navigation }) {
 	let [ etVisible, setEtVisible ] = useState(false);
 
 	let [ dialogVisible, setDialogVisible ] = useState(false);
+	let [ loading, setLoading ] = useState(false);
 
 	return (
 		<View style={[style.spaced, style.container]}>
@@ -93,7 +94,15 @@ export default function EventCreation({ navigation }) {
 				renderTextInput={tiProps => <TextInput label="n° participants" {...tiProps} />}
 				style={{ marginBottom: 20 }} />
 
-			<Button title="Submit" mode="contained" style={[ style.mt20, style.mb20 ]} onPress={() => setDialogVisible(true)}>
+			<Button title="Submit" mode="contained" style={[ style.mt20, style.mb20 ]} onPress={() => {
+				setLoading(true);
+
+				setTimeout(() => {
+					setLoading(false);
+
+					setDialogVisible(true);
+				}, 1000);
+			}} loading={loading}>
 				Create
 			</Button>
 
