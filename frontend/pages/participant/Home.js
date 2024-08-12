@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { RefreshControl, ScrollView, View } from 'react-native';
 import { Card, Searchbar, Text } from 'react-native-paper';
 
 import { doRequest } from '../../lib/rest.js';
@@ -9,16 +9,29 @@ export default function Home({ navigation }) {
   let [ searchQuery, setSearchQuery ] = useState('');
   let [ organizations, setOrganizations ] = useState([]);
 
-  useEffect(() => {
-    (async () => {
-      let response = await doRequest('user', 'GET', '/organization', null);
+  let [ refreshing, setRefreshing ] = useState(false);
 
-      if (response != null) {
-        setOrganizations(response);
-      } else {
-        console.log('Error fetching organization list')
-      }
-    })();
+  async function doRefresh() {
+    setRefreshing(true);
+
+    let response;
+    try {
+      response = await doRequest('user', 'GET', '/organization', null);
+    } catch (e) {
+      // nothing
+    }
+
+    if (response != null) {
+      setOrganizations(response);
+    } else {
+      console.log('Error fetching organization list')
+    }
+
+    setRefreshing(false);
+  }
+
+  useEffect(() => {
+    doRefresh();
   }, []);
 
   let tempSQ = searchQuery.toLowerCase();
@@ -32,6 +45,9 @@ export default function Home({ navigation }) {
   return (
     <>
       <Searchbar placeholder="Search" onChangeText={setSearchQuery} value={searchQuery} />
+      <ScrollView refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={doRefresh} />
+      }>
         {organizations.map((organization) => (
           <Card key={organization.id} style={style.card} onPress={() => navigation.push('participant/Organization', {
             id: organization.id
@@ -44,6 +60,7 @@ export default function Home({ navigation }) {
             </Card.Content>
           </Card>
         ))}
+      </ScrollView>
     </>
   );
 }
