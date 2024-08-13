@@ -11,7 +11,7 @@ users = {
 sessions = dict()
 
 @app.route("/")
-def hello_world():
+def helloWorld():
     return "Prenotalo!"
 
 def getId(id):
