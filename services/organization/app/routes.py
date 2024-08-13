@@ -1,3 +1,4 @@
+from app import app
 from flask import jsonify, request
 
 organizations = {
@@ -14,7 +15,7 @@ def getAll():
 @app.route('/getbyuser/<int:user_id>', methods=['GET'])
 def getByUser(user_id):
     global organizations
-    match = {k : v for k, v in organizations.items() if v['owner_id'] == user_id }
+    match = {k : v for k, v in organizations.items() if v.get('owner_id') == user_id }
     return jsonify(match)
 
 @app.route('/create', methods=['POST'])
