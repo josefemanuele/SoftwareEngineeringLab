@@ -1,37 +1,30 @@
-from flask import Flask, jsonify, request
-from flask_restful import Api, Resource
-
-app = Flask(__name__)
-id_counter = 2
+from flask import jsonify, request
 
 organizations = {
-  "barber_shop" : {'organization_id' : 1, 'owner_id' : 2},
-  "sapienza": {'organization_id' : 2, 'owner_id' : 1}
+  1 : {'id' : 1, 'owner_id' : 2, 'name' : 'Sapienza'},
+  2 : {'id' : 2, 'owner_id' : 1, 'name' : 'Barber Shop'}
 }
-
-@app.route("/")
-def hello_world():
-    return "Prenotalo!"
+id_counter = 2
 
 @app.route('/getall', methods=['GET'])
-def get_all(user_id):
+def getAll():
     global organizations
     return jsonify(organizations)
 
 @app.route('/getbyuser/<int:user_id>', methods=['GET'])
-def get_by_user(user_id):
+def getByUser(user_id):
     global organizations
     match = {k : v for k, v in organizations.items() if v['owner_id'] == user_id }
     return jsonify(match)
 
 @app.route('/create', methods=['POST'])
 def create():
-    data = request.json
-    organization = data['organization']
-    owner_id = data['owner_id']
     global organizations
-    match = organizations.get(organization)
-    if (match is None):
+    data = request.json
+    name = data['name']
+    owner_id = data['owner_id']
+    match = {k : v for k, v in organizations.items() if v['name'] == name }
+    if (len(match) == 0):
         global id_counter
         id_counter += 1
         '''
@@ -41,8 +34,9 @@ def create():
         db.session.commit()
         print(UserSchema(many=True).dump(User.query.all()))
         '''
-        organizations[organization] = {"id" : id_counter, "owner_id" : owner_id}
+        organization = { "id" : id_counter, "owner_id" : owner_id, 'name' : name }
+        organizations[id_counter] = {id_counter : organization }
         print(organizations)
-        return "Organization created."
+        return jsonify(organization)
     
-    return "Error"
+    return jsonify(None)
