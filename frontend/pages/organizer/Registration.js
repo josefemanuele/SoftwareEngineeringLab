@@ -1,54 +1,141 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
-import { Text, TextInput, Button, Divider, Modal, Portal } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
+import React, { useRef, useState } from 'react';
 
-import { doRegistration, doLogin } from '../../lib/user.js';
+import { ScrollView } from 'react-native';
+import { Button, Divider, Text, TextInput } from 'react-native-paper';
+import { en, registerTranslation, registerDefaultLocale, useFormState, Form } from 'react-native-use-form';
+
+import FullDialog from '../../components/FullDialog.js';
+import InputWithError from '../../components/InputWithError.js';
 
 import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
 import style from '../../style/custom.js';
 
+registerTranslation('en', en);
+registerDefaultLocale('en');
+
+const DIALOG_MESSAGES = {
+  null: {
+    title: '',
+    description: '',
+  },
+  'success': {
+    title: 'Email sent!',
+    description: 'Your organization has been registered. Login with your credentials and start using the app!'
+  },
+  'exists': {
+    title: 'Account exists',
+    description: 'An account with the same email address already exists. Use another email address or recover the password in the login page.'
+  },
+}
+
 export default function Registration({ navigation }) {
-  let [ name, setName ] = useState('');
-  let [ email, setEmail ] = useState('');
-  let [ password, setPassword ] = useState('');
+  let [ loading, setLoading ] = useState(false);
+  let [ dialogMessage, setDialogMessage ] = useState(null);
 
-  let [ modalVisible, setModalVisible ] = useState(false);
+  let scrollViewRef = useRef(null);
 
+  let [{ errors, submit, formProps, hasError }, fh] = useFormState({
+    email: '',
+    password: '',
+    orgName: '',
+    phoneNumber: '',
+    address: '',
+    description: '',
+  }, {
+    scrollViewRef: scrollViewRef,
+    onSubmit: values => {
+      setLoading(true);
+
+      // do registration
+
+      setTimeout(() => {
+        setLoading(false);
+        setDialogMessage('success');
+      }, 1000);
+    }
+  });
+
+  function onDialogDismiss() {
+    setDialogMessage(null);
+
+    if (dialogMessage === 'success') {
+      navigation.navigate('Login');
+    }
+  }
+
+  // style={[{
+  //   alignSelf: 'center',
+  // }]}
   return (
-    <View style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>
-      <Portal>
-        <Modal visible={modalVisible} onDismiss={() => {
-          setModalVisible(false);
-          navigation.navigate('Login');
-        }} contentContainerStyle={{
-          backgroundColor: 'white',
-          padding: 20,
-        }}>
-          <Text>Ciao</Text>
-        </Modal>
-      </Portal>
+    <>
+      <ScrollView ref={scrollViewRef} style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>
+        <Form {...formProps}>
+          <InputWithError Component={TextInput} {...fh.email('email', {
+            required: true,
+            label: 'Email *',
+            shouldFollowRegexes: [
+              { regex: /^[a-zA-Z0-9._]+\@[a-zA-Z0-9.]+$/, errorMessage: 'Invalid email' },
+            ],
+          })} disabled={loading} />
 
-      <TextInput label="E-mail" value={email}
-        onChangeText={text => setEmail(text)}
-        style={{ marginBottom: 20 }}
-        keyboardType='email-address'
+          <InputWithError Component={TextInput} {...fh.password('password', {
+            required: true,
+            label: 'Password *',
+            minLength: 8,
+            maxLength: 128,
+            shouldFollowRegexes: [
+              { regex: /^[a-zA-Z0-9._]+$/, errorMessage: 'Password must contain only: a-z A-Z 0-9' },
+            ],
+          })} disabled={loading} />
+
+          <Divider style={[ style.mb20 ]} />
+
+          <InputWithError Component={TextInput} {...fh.text('orgName', {
+            required: true,
+            label: 'Organization name',
+          })} disabled={loading} />
+
+          <InputWithError Component={TextInput} {...fh.telephone('phoneNumber', {
+            required: true,
+            label: 'Phone number *',
+            shouldFollowRegexes: [
+              { regex: /^[0-9+]+$/, errorMessage: 'Invalid phone number' },
+            ],
+          })} disabled={loading} />
+
+          <InputWithError Component={TextInput} {...fh.streetAddress('address', {
+            required: false,
+            label: 'Address',
+          })} disabled={loading} />
+
+          {/* <InputWithError Component={TextInput} {...fh.text('openingHours', {
+            required: false,
+            label: 'Opening hours',
+          })} /> */}
+
+          <InputWithError Component={TextInput} {...fh.text('description', {
+            required: false,
+            label: 'Description',
+          })} multiline={true} numberOfLines={5} disabled={loading} />
+
+          <Text variant="labelLarge" style={style.mt20}>All fields with an asterisk (*) are mandatory</Text>
+
+          <Button title="Register" mode="contained" style={style.mt20} loading={loading} onPress={submit} disabled={loading}>
+            Register
+          </Button>
+        </Form>
+      </ScrollView>
+
+      <FullDialog
+        title={DIALOG_MESSAGES[dialogMessage].title}
+        content={DIALOG_MESSAGES[dialogMessage].description}
+        actions={[{
+          name: 'OK',
+          callback: onDialogDismiss,
+        }]}
+        visible={dialogMessage != null}
+        onDismiss={onDialogDismiss}
       />
-
-      <TextInput label="Password" value={password}
-        onChangeText={text => setPassword(text)}
-        secureTextEntry={true}
-        style={{ marginBottom: 20 }}
-      />
-
-      <TextInput label="Name" value={name}
-        onChangeText={text => setName(text)}
-        style={{ marginBottom: 20 }}
-      />
-
-      <Button title="Register" mode="contained" onPress={null}>
-        Register
-      </Button>
-    </View>
+    </>
   );
 }
