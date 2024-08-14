@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { Text } from 'react-native';
-import { Button, Dialog, Portal } from 'react-native-paper';
+import { Button, Dialog, Portal, Text } from 'react-native-paper';
 
 export default function FullDialog({ visible, title, content, actions, onDismiss }) {
 	let buttons = actions.map((action, index) => (
@@ -12,7 +11,10 @@ export default function FullDialog({ visible, title, content, actions, onDismiss
 
 	return (
 		<Portal>
-			<Dialog visible={visible} onDismiss={onDismiss}>
+			<Dialog visible={visible} onDismiss={onDismiss} style={{
+				alignSelf: 'center',
+				maxWidth: 500,
+			}}>
 				<Dialog.Title>{title}</Dialog.Title>
 				<Dialog.Content>
 					<Text>{content}</Text>
