@@ -19,7 +19,7 @@ const DIALOG_MESSAGES = {
     description: '',
   },
   'success': {
-    title: 'Email sent!',
+    title: 'Account created',
     description: 'Your organization has been registered. Login with your credentials and start using the app!'
   },
   'exists': {
@@ -34,9 +34,10 @@ export default function Registration({ navigation }) {
 
   let scrollViewRef = useRef(null);
 
-  let [{ errors, submit, formProps, hasError }, fh] = useFormState({
+  let [{ errors, submit, formProps, hasError, values }, fh] = useFormState({
     email: '',
-    password: '',
+    passwordA: '',
+    passwordB: '',
     orgName: '',
     phoneNumber: '',
     address: '',
@@ -78,7 +79,7 @@ export default function Registration({ navigation }) {
             ],
           })} disabled={loading} />
 
-          <InputWithError Component={TextInput} {...fh.password('password', {
+          <InputWithError Component={TextInput} {...fh.password('passwordA', {
             required: true,
             label: 'Password *',
             minLength: 8,
@@ -88,11 +89,23 @@ export default function Registration({ navigation }) {
             ],
           })} disabled={loading} />
 
+          <InputWithError Component={TextInput} {...fh.password('passwordB', {
+            required: true,
+            label: 'Confirm password *',
+            validate: value => {
+              if (value !== values.passwordA) {
+                return "Passwords don't match";
+              }
+
+              return true;
+            }
+          })} disabled={loading} />
+
           <Divider style={[ style.mb20 ]} />
 
           <InputWithError Component={TextInput} {...fh.text('orgName', {
             required: true,
-            label: 'Organization name',
+            label: 'Organization name *',
           })} disabled={loading} />
 
           <InputWithError Component={TextInput} {...fh.telephone('phoneNumber', {
