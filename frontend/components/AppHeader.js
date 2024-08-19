@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Appbar, Divider, IconButton, Menu, Text } from 'react-native-paper';
+import { Appbar, Divider, Menu, Text } from 'react-native-paper';
 import { getHeaderTitle } from '@react-navigation/elements'
 
 import style from '../style/custom.js';
@@ -24,7 +24,7 @@ export default function AppHeader({ navigation, route, options, back, isLoggedIn
 			<Menu visible={accountMenuVisible} onDismiss={() => setAccountMenuVisible(false)} anchor={accountIcon} anchorPosition="bottom">
 				<Text style={style.box} variant="titleMedium">Welcome, USER!</Text>
 				<Divider />
-				<Menu.Item title="Profile" leadingIcon="account" />
+				<Menu.Item title="Profile" leadingIcon="account" onPress={() => navigation.push('participant/Profile')}/>
 				<Menu.Item title="Logout" leadingIcon="logout" onPress={doLogout} />
 			</Menu>
 		</>
