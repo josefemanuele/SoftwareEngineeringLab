@@ -64,7 +64,7 @@ export default function Registration({ navigation }) {
 
   return (
     <>
-      <ScrollView ref={scrollViewRef} style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>
+      <ScrollView ref={scrollViewRef} contentContainerStyle={style.box} style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>
         <Form {...formProps}>
           <InputWithError Component={TextInput} {...fh.email('email', {
             required: true,
@@ -96,7 +96,7 @@ export default function Registration({ navigation }) {
             }
           })} disabled={loading} />
 
-          <Divider style={[ style.mb20 ]} />
+          <Divider style={[ style.spaceBottom ]} />
 
           <InputWithError Component={TextInput} {...fh.text('name', {
             required: true,

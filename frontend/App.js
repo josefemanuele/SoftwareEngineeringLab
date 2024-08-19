@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 import { AppRegistry, View, useColorScheme } from 'react-native';
-import { PaperProvider } from 'react-native-paper';
+import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
+import { Provider as ReduxProvider } from 'react-redux';
 
 import { NavigationContainer, DarkTheme, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -11,8 +12,9 @@ import 'regenerator-runtime/runtime';
 
 import Login from './pages/Login.js';
 import RoleSelection from './pages/RoleSelection.js';
+import OrganizerEvent from './pages/organizer/Event.js';
 import OrganizerEventCreation from './pages/organizer/EventCreation.js';
-import OrganizerHome from './pages/organizer/Home.js';
+import OrganizerEventList from './pages/organizer/EventList.js';
 import OrganizerRegistration from './pages/organizer/Registration.js';
 import ParticipantEvent from './pages/participant/Event.js';
 import ParticipantHome from './pages/participant/Home.js';
@@ -22,13 +24,16 @@ import ParticipantRegistration from './pages/participant/Registration.js';
 import AppHeader from './components/AppHeader.js';
 import AppError from './components/AppError.js';
 
+import store from './lib/state.js';
 import user from './lib/user.js';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   let colorScheme = useColorScheme();
+  // let colorScheme = 'light';
 
+  let paperTheme = colorScheme === 'dark' ? MD3DarkTheme : MD3LightTheme;
   let navTheme = colorScheme === 'dark' ? DarkTheme : DefaultTheme;
 
   let [ isLoggedIn, setLoggedIn ] = useState(true);
@@ -71,11 +76,14 @@ export default function App() {
   } else if (userRole === 'organizer') {
     screens = (
       <Stack.Group>
-        <Stack.Screen name='organizer/Home' component={OrganizerHome} options={{
+        <Stack.Screen name='organizer/EventList' component={OrganizerEventList} options={{
           title: 'Prenotalo'
         }}/>
         <Stack.Screen name='organizer/EventCreation' component={OrganizerEventCreation} options={{
           title: 'Event creation'
+        }}/>
+        <Stack.Screen name='organizer/Event' component={OrganizerEvent} options={{
+          title: 'Event'
         }}/>
       </Stack.Group>
     );
@@ -90,15 +98,17 @@ export default function App() {
   }
 
   return (
-      <PaperProvider theme={{ version: 3 }}>
+    // <ReduxProvider store={store}>
+      <PaperProvider theme={paperTheme}>
         <NavigationContainer theme={navTheme}>
           <Stack.Navigator screenOptions={{
-            header: AppHeader,
+            header: (args) => (<AppHeader isLoggedIn={isLoggedIn} {...args} />),
           }}>
             { screens }
           </Stack.Navigator>
         </NavigationContainer>
       </PaperProvider>
+    // </ReduxProvider>
   );
 }
 

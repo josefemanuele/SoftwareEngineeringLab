@@ -1,23 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
-import { Card, Divider, Text } from 'react-native-paper';
+import { Button, Card, Divider, Text } from 'react-native-paper';
 
 import { doRequest } from '../../lib/rest.js';
 
 import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
-import style from '../../style/custom.js';
+import style, { GLOBAL_SPACING } from '../../style/custom.js';
 
 export default function Organization({ navigation, route }) {
 	let { params } = route;
 
   let [ events, setEvents ] = useState([]);
+	let [ info, setInfo ] = useState({
+		name: '',
+		category: '',
+		description: '',
+	});
 
   let [ refreshing, setRefreshing ] = useState(false);
 
   async function doRefresh() {
     setRefreshing(true);
 
-    let response;
+		let response;
+
+    // try {
+    //   response = await doRequest('user', 'GET', `/organization/${params.id}`, null);
+    // } catch (e) {
+    //   // nothing
+    // }
+		//
+		// if (response != null) {
+    //   setInfo(response);
+    // } else {
+    //   console.log('Error fetching organization info')
+    // }
+
     try {
       response = await doRequest('event', 'GET', `/organization/${params.id}/event`, null);
     } catch (e) {
@@ -25,6 +43,11 @@ export default function Organization({ navigation, route }) {
     }
 
     if (response != null) {
+			setInfo({
+				name: 'Adventure Explorers Outdoor Gear Rentals',
+				category: 'Outdoor Equipment Rental',
+				description: 'A rental service for outdoor gear, including camping, hiking, and water sports equipment, perfect for adventure enthusiasts looking to explore nature',
+			})
       setEvents(response);
     } else {
       console.log('Error fetching event list')
@@ -38,41 +61,40 @@ export default function Organization({ navigation, route }) {
   }, []);
 
   return (
-    <>
-      <ScrollView refreshControl={
+      <ScrollView contentContainerStyle={style.box} refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={doRefresh} />
       }>
-				<Card key="details" style={style.card}>
-					<Card.Title title='Details' titleStyle={{ fontWeight: 'bold' }} />
+				<Card key="details">
+					<Card.Title title={info.name} titleVariant="headlineSmall" titleStyle={{ fontWeight: 'bold' }} />
 					<Card.Content>
-						<Text>
-							Description: prova
-						</Text>
+						<Text>{info.category}</Text>
+						<Text>{info.description}</Text>
 					</Card.Content>
 					{/* <Card.Actions>
 						<Button>Prenota</Button>
 					</Card.Actions> */}
 				</Card>
 
-				<Divider style={[ style.mt20, style.mb20 ]} />
+				<Divider style={[ style.spaceTop, style.spaceBottom ]} />
 
         {events.map((event) => (
-          <Card key={event.id} style={style.card} onPress={() => navigation.push('participant/Event', {
-						organization_id: params.id,
-            event_id: event.id,
-          })}>
+          <Card key={event.id} style={{
+						marginBottom: GLOBAL_SPACING,
+					}}>
             <Card.Title title={event.name} subtitle={event.category}
               titleStyle={{ fontWeight: 'bold' }}
             />
             <Card.Content>
               <Text>{event.description}</Text>
             </Card.Content>
-						{/* <Card.Actions>
-							<Button>Prenota</Button>
-						</Card.Actions> */}
+						<Card.Actions>
+							<Button onPress={() => navigation.push('participant/Event', {
+								organization_id: params.id,
+		            event_id: event.id,
+		          })}>View more</Button>
+						</Card.Actions>
           </Card>
         ))}
       </ScrollView>
-    </>
   );
 }

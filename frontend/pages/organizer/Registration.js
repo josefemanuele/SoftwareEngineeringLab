@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { Button, Divider, Text, TextInput } from 'react-native-paper';
 import { en, registerTranslation, registerDefaultLocale, useFormState, Form } from 'react-native-use-form';
 
@@ -69,7 +69,7 @@ export default function Registration({ navigation }) {
   // }]}
   return (
     <>
-      <ScrollView ref={scrollViewRef} style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>
+      <ScrollView ref={scrollViewRef} contentContainerStyle={style.box} style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>
         <Form {...formProps}>
           <InputWithError Component={TextInput} {...fh.email('email', {
             required: true,
@@ -101,7 +101,7 @@ export default function Registration({ navigation }) {
             }
           })} disabled={loading} />
 
-          <Divider style={[ style.mb20 ]} />
+          <Divider style={[ style.spaceBottom ]} />
 
           <InputWithError Component={TextInput} {...fh.text('orgName', {
             required: true,
@@ -131,9 +131,9 @@ export default function Registration({ navigation }) {
             label: 'Description',
           })} multiline={true} numberOfLines={5} disabled={loading} />
 
-          <Text variant="labelLarge" style={style.mt20}>All fields with an asterisk (*) are mandatory</Text>
+          <Text variant="labelLarge" style={style.spaceTop}>All fields with an asterisk (*) are mandatory</Text>
 
-          <Button title="Register" mode="contained" style={style.mt20} loading={loading} onPress={submit} disabled={loading}>
+          <Button title="Register" mode="contained" style={style.spaceTop} loading={loading} onPress={submit} disabled={loading}>
             Register
           </Button>
         </Form>

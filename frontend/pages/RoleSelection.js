@@ -13,11 +13,27 @@ export default function RoleSelection({ navigation }) {
 				textAlign: 'center',
 			}}>Sign up as</Text>
 
-			<View style={[ style.row, style.mt20 ]}>
-				<Button style={style.button_row} title="Participant" mode="elevated" icon="account" onPress={() => navigation.push('participant/Registration')}>
+			<View style={{
+				flexDirection: "row",
+				justifyContent: "center",
+				marginTop: 20,
+			}}>
+				<Button
+					title="Participant"
+					icon="account"
+					mode="elevated"
+					style={{ margin: 20 }}
+					onPress={() => navigation.push('participant/Registration')}
+				>
 					Participant
 				</Button>
-				<Button  style={style.button_row} title="Organizer" mode="elevated" icon="home" onPress={() => navigation.push('organizer/Registration')}>
+				<Button
+					title="Organizer"
+					icon="home"
+					mode="elevated"
+					style={{ margin: 20 }}
+					onPress={() => navigation.push('organizer/Registration')}
+				>
 					Organizer
 				</Button>
 			</View>

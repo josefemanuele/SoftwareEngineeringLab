@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 import { Button, Text, TextInput } from 'react-native-paper';
 import { Dropdown } from 'react-native-paper-dropdown';
 import { DatePickerInput, TimePickerModal } from 'react-native-paper-dates';
 
 import FullDialog from '../../components/FullDialog.js';
+import LoadingOverlay from '../../components/LoadingOverlay.js';
 
 import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
 import style from '../../style/custom.js';
@@ -35,7 +36,7 @@ export default function EventCreation({ navigation }) {
 	let [ loading, setLoading ] = useState(false);
 
 	return (
-		<View style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>
+		<ScrollView contentContainerStyle={style.box} style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>
 			<TextInput
 				label="Name"
 				value={name}
@@ -58,7 +59,11 @@ export default function EventCreation({ navigation }) {
 				<TextInput
 					label="Start time"
 					value={formatTime(startTime)}
-					onFocus={() => setStVisible(true)}
+					onFocus={(event) => {
+						console.log(event);
+						event.preventDefault();
+						setStVisible(true);
+					}}
 					style={{ marginBottom: 20, marginRight: 20 }}
 					disabled={loading}
 				/>
@@ -123,8 +128,8 @@ export default function EventCreation({ navigation }) {
         onChangeText={text => setDescription(text)}
         style={{ marginBottom: 20 }}
 				disabled={loading}
-				numberOfLines={5}
 				multiline={true}
+				numberOfLines={5}
       />
 
 			<CurrencyInput
@@ -140,15 +145,15 @@ export default function EventCreation({ navigation }) {
 			<Button
 				title="Submit"
 				mode="contained"
-				style={[ style.mt20, style.mb20 ]}
+				style={[ style.spaceTop ]}
 				onPress={() => {
 					setLoading(true);
 
-					{/* setTimeout(() => {
+					setTimeout(() => {
 						setLoading(false);
 
 						setDialogVisible(true);
-					}, 1000); */}
+					}, 1000);
 				}}
 				loading={loading}
 				disabled={loading}
@@ -156,6 +161,7 @@ export default function EventCreation({ navigation }) {
 				Create
 			</Button>
 
+			{/* <LoadingOverlay visible={name === 'ciao'} /> */}
 			<FullDialog
 				title="Event created!"
 				content=""
@@ -170,7 +176,7 @@ export default function EventCreation({ navigation }) {
 				visible={dialogVisible}
 				onDismiss={() => setDialogVisible(false)}
 			/>
-		</View>
+		</ScrollView>
 	);
 }
 

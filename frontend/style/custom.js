@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 
+export let GLOBAL_SPACING = 15;
+
 export default StyleSheet.create({
 	mb20: {
 		marginBottom: 20
@@ -16,23 +18,21 @@ export default StyleSheet.create({
 	ml10: {
 		marginLeft: 10
 	},
-	card: {
-		margin: 15,
-		shadowColor: "#000000",
-		shadowOffset: {
-			width: 0,
-			height: 5,
-		},
-		shadowOpacity:  0.20,
-		shadowRadius: 5.62,
-		elevation: 7
+	mt15p: {
+		marginTop: "15%",
 	},
 	row: {
 		flexDirection: "row",
-		marginTop: "15%",
 		justifyContent: "center"
 	},
-	button_row: {
-		margin: 20
-	}
+
+	box: {
+		padding: GLOBAL_SPACING,
+	},
+	spaceBottom: {
+		marginBottom: GLOBAL_SPACING,
+	},
+	spaceTop: {
+		marginTop: GLOBAL_SPACING,
+	},
 });

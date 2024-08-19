@@ -5,7 +5,7 @@ import { Card, Searchbar, Text } from 'react-native-paper';
 import { doRequest } from '../../lib/rest.js';
 
 import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
-import style from '../../style/custom.js';
+import style, { GLOBAL_SPACING } from '../../style/custom.js';
 
 export default function Home({ navigation }) {
   let [ searchQuery, setSearchQuery ] = useState('');
@@ -46,12 +46,18 @@ export default function Home({ navigation }) {
 
   return (
     <>
-      <Searchbar placeholder="Search" onChangeText={setSearchQuery} value={searchQuery} />
-      <ScrollView refreshControl={
+      <Searchbar placeholder="Search" style={{
+        margin: GLOBAL_SPACING,
+      }} onChangeText={setSearchQuery} value={searchQuery} />
+      <ScrollView contentContainerStyle={[ style.box, {
+        paddingVertical: 0,
+      } ]} refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={doRefresh} />
       }>
         {organizations.map((organization) => (
-          <Card key={organization.id} style={style.card} onPress={() => navigation.push('participant/Organization', {
+          <Card key={organization.id} style={{
+						marginBottom: GLOBAL_SPACING
+					}} onPress={() => navigation.push('participant/Organization', {
             id: organization.id
           })}>
             <Card.Title title={organization.name} subtitle={organization.type}
