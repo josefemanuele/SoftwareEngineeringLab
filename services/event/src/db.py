@@ -10,20 +10,17 @@ class Event(Base):
     __tablename__ = "Events"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    # For now title is nullable
+    # For now these are all nullable
     title: Mapped[str | None]
-
-    def update_all(title: str):
-        self.title = title
+    organization_id: Mapped[int | None]
 
     def __repr__(self):
-        return f"Event(id={self.id}, title={self.title})"
+        return f"Event(id={self.id}, title={self.title}, organization_id={self.organization_id})"
 
 # Generating schemas in db
 Base.metadata.create_all(engine) 
 
-# Probably some of these functions can be moved inside the Event class
-# for ease of use
+# DB functions for the whole collection
 def create_event(title: str) -> int:
     with Session(engine) as session:
         new_event = Event(title=title)
@@ -34,8 +31,20 @@ def create_event(title: str) -> int:
 def get_all_events():
     with Session(engine) as session:
         query = select(Event)
-        return session.scalars(query)
+        return_dict = {}
+        for event in session.scalars(query):
+            return_dict[event.id] = str(event)
+        return return_dict
 
+def get_all_events_by_organization_id(org_id: int):
+    with Session(engine) as session:
+        query = select(Event).where(Event.organization_id == org_id)
+        return_dict = {}
+        for event in session.scalars(query):
+            return_dict[event.id] = str(event)
+        return return_dict
+
+# DB functions for a single element
 def get_event_by_id(id: int):
     with Session(engine) as session:
         query = select(Event).where(Event.id == id)

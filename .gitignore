@@ -4,3 +4,6 @@ local
 #Python
 .venv
 __pycache__
+
+#Temporary DBs
+test.db
