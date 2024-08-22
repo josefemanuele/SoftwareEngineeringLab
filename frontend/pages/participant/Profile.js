@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { View } from 'react-native';
+import { TextComponent, View } from 'react-native';
 import { Text, Divider } from 'react-native-paper';
 
 import { doRequest } from '../../lib/rest.js';
@@ -9,7 +9,7 @@ import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
 import style, { GLOBAL_SPACING } from '../../style/custom.js';
 
 export default function Profile({ navigation, route }) {
-    let part_name = 'Gino';
+  let part_name = 'Gino';
 
 	let { params } = route;
 
@@ -23,7 +23,7 @@ export default function Profile({ navigation, route }) {
 		let response;
 
     try {
-      response = await doRequest('event', 'GET', `/user/${partId}`, null);
+      response = await doRequest('user', 'GET', `/user/${partId}`, null);
     } catch (e) {
       // nothing
     }
@@ -47,24 +47,24 @@ export default function Profile({ navigation, route }) {
 				alignSelf: 'center',
 			} ]}>Hi {part_name}, this is your profile!</Text>
 
-            <Divider />
+            <Divider style={[ style.spaceBottom ]}/>
 
-            <View>
-                <Text>
+            <View style={ {alignSelf: 'center'} }>
+                <Text style={[ style.spaceBottom ]}>
                     <Text style={{fontWeight: "bold"}}> Email: </Text>
-                    <Text> {part_name.email}</Text>
+                    <Text>{part_spec.email}</Text>
                 </Text>
-                <Text>
+                <Text style={[ style.spaceBottom ]}>
                     <Text style={{fontWeight: "bold"}}> Password: </Text>
-                    <Text> {part_name.password}</Text>
+                    <Text>{part_spec.password}</Text>
                 </Text>
-                <Text>
+                <Text style={[ style.spaceBottom ]}>
                     <Text style={{fontWeight: "bold"}}> Name: </Text>
-                    <Text> {part_name.nome}</Text>
+                    <Text>{part_spec.name}</Text>
                 </Text>
                 <Text>
                     <Text style={{fontWeight: "bold"}}> Surname: </Text>
-                    <Text> {part_name.cognome}</Text>
+                    <Text>{part_spec.surname}</Text>
                 </Text>
             </View>
 

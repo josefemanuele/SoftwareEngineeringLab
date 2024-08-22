@@ -20,6 +20,7 @@ import ParticipantEvent from './pages/participant/Event.js';
 import ParticipantHome from './pages/participant/Home.js';
 import ParticipantOrganization from './pages/participant/Organization.js';
 import ParticipantRegistration from './pages/participant/Registration.js';
+import Profile from './pages/participant/Profile.js'; 
 
 import AppHeader from './components/AppHeader.js';
 import AppError from './components/AppError.js';
@@ -39,7 +40,7 @@ export default function App() {
   let [ isLoggedIn, setLoggedIn ] = useState(true);
   user.setLoggedIn = setLoggedIn;
 
-  let userRole = 'organizer';
+  let userRole = 'participant';
 
   let screens;
   if (!isLoggedIn) {
@@ -71,11 +72,17 @@ export default function App() {
         <Stack.Screen name='participant/Event' component={ParticipantEvent} options={{
           title: 'Event'
         }}/>
+        <Stack.Screen name='participant/Profile' component={Profile} options={{
+          title: 'Profile'
+        }}/>
       </Stack.Group>
     );
   } else if (userRole === 'organizer') {
     screens = (
       <Stack.Group>
+        <Stack.Screen name='participant/Profile' component={Profile} options={{
+          title: 'Profile'
+        }}/>
         <Stack.Screen name='organizer/EventList' component={OrganizerEventList} options={{
           title: 'Prenotalo'
         }}/>
