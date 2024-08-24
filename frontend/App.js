@@ -80,9 +80,6 @@ export default function App() {
   } else if (userRole === 'organizer') {
     screens = (
       <Stack.Group>
-        <Stack.Screen name='participant/Profile' component={Profile} options={{
-          title: 'Profile'
-        }}/>
         <Stack.Screen name='organizer/EventList' component={OrganizerEventList} options={{
           title: 'Prenotalo'
         }}/>
@@ -91,6 +88,9 @@ export default function App() {
         }}/>
         <Stack.Screen name='organizer/Event' component={OrganizerEvent} options={{
           title: 'Event'
+        }}/>
+        <Stack.Screen name='participant/Profile' component={Profile} options={{
+          title: 'Profile'
         }}/>
       </Stack.Group>
     );
