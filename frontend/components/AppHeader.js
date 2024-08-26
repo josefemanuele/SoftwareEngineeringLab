@@ -11,7 +11,12 @@ export default function AppHeader({ navigation, route, options, back, isLoggedIn
 	let notifNum = 1;
 
 	let notifIcon = notifNum > 0 ? 'message-badge-outline' : 'message-outline';
-	let backButton = back ? <Appbar.BackAction onPress={navigation.goBack} /> : null;
+
+	if (back) {
+		leftButton = <Appbar.BackAction onPress={navigation.goBack} />;
+	} else {
+		leftButton = <Appbar.Action icon='menu' onPress={navigation.toggleDrawer} />;
+	}
 
 	let title = getHeaderTitle(options, route.name);
 
@@ -32,7 +37,7 @@ export default function AppHeader({ navigation, route, options, back, isLoggedIn
 
 	return (
 		<Appbar.Header>
-			{backButton}
+			{leftButton}
 			<Appbar.Content title={title} titleStyle={{ fontWeight: 'bold' }} />
 			{actions}
 		</Appbar.Header>
