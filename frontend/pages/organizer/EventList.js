@@ -47,13 +47,14 @@ export default function EventList({ navigation, route }) {
 	let cardMenu = () => (
 		<ThreeDotsMenu>
 			<Menu.Item title="Cancel event" leadingIcon="close-circle-outline" onPress={console.log} />
+			<Menu.Item title="Modify event" leadingIcon="pencil" onPress={console.log} />
 		</ThreeDotsMenu>
 	);
 
 	return (
 		<>
 			<Text variant="headlineMedium" style={[ style.box, {
-				alignSelf: 'center',
+				alignSelf: 'center', fontWeight: 'bold'
 			} ]}>{orgName}</Text>
 
 			<ScrollView contentContainerStyle={style.box} refreshControl={
@@ -65,12 +66,31 @@ export default function EventList({ navigation, route }) {
 					}} onPress={() => navigation.push('organizer/Event', {
             event_id: event.id,
           })}>
-						<Card.Title title={event.name} subtitle={event.category}
-							titleStyle={{ fontWeight: 'bold' }}
+						<Card.Title title={event.name}
+							titleStyle={{ fontWeight: 'bold', fontSize: 22 }}
 							right={cardMenu}
 						/>
 						<Card.Content>
-							<Text>{event.description}</Text>
+							<View style={{ flexDirection: 'row', marginBottom: 5}}>
+								<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Category: </Text>
+								<Text>{event.category}</Text>
+							</View>
+							<View style={{ flexDirection: 'row', marginBottom: 5 }}>
+								<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Description: </Text>
+								<Text>{event.description}</Text>
+							</View>
+							<View style={{ flexDirection: 'row', marginBottom: 5 }}>
+								<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Date: </Text>
+								<Text>{event.date}</Text>
+							</View>
+							<View style={{ flexDirection: 'row', marginBottom: 5 }}>
+								<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Time: </Text>
+								<Text>{event.start_time} - {event.end_time}</Text>
+							</View>
+							<View style={{ flexDirection: 'row'}}>
+								<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Price: </Text>
+								<Text>{event.price}€</Text>
+							</View>
 						</Card.Content>
 					</Card>
 				))}

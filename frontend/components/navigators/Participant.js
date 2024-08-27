@@ -27,6 +27,8 @@ export default function ParticipantStack({ home, header }) {
 					title: 'Event'
 				}}/>
 				<Stack.Screen name='participant/Profile' component={ParticipantProfile} options={{
+					title: 'Profile'
+				}}/>
 				<Stack.Screen name='participant/BookingPersonalization' component={ParticipantBookingPersonalization} options={{
 					title: 'Booking personalization'
 				}}/>
@@ -35,9 +37,6 @@ export default function ParticipantStack({ home, header }) {
 				}}/>
 				<Stack.Screen name='participant/Payment' component={ParticipantPayment} options={{
 					title: 'Payment'
-				}}/>
-
-					title: 'Profile'
 				}}/>
 				<Stack.Screen name='participant/Reservations' component={ParticipantReservations} options={{
 					title: 'Reservations'
