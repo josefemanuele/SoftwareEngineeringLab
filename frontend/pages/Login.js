@@ -3,6 +3,7 @@ import { ScrollView } from 'react-native';
 import { Appbar, Button, Divider, HelperText, Switch, Text, TextInput, useTheme } from 'react-native-paper';
 
 import FullDialog from '../components/FullDialog.js';
+import PasswordInput from '../components/PasswordInput.js';
 
 import { doLogin } from '../lib/user.js';
 
@@ -86,7 +87,7 @@ export default function Login({ navigation }) {
         Invalid email
       </HelperText>
 
-      <TextInput label="Password" value={password} secureTextEntry={true}
+      <PasswordInput label="Password" value={password}
         onChangeText={text => {
           setLoginError('');
           setPassword(text);

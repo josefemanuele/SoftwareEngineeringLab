@@ -6,6 +6,7 @@ import { en, registerTranslation, registerDefaultLocale, useFormState, Form } fr
 
 import FullDialog from '../../components/FullDialog.js';
 import InputWithError from '../../components/InputWithError.js';
+import PasswordInput from '../../components/PasswordInput.js';
 
 import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
 import style from '../../style/custom.js';
@@ -74,7 +75,7 @@ export default function Registration({ navigation }) {
             ],
           })} disabled={loading} />
 
-          <InputWithError Component={TextInput} {...fh.password('passwordA', {
+          <InputWithError Component={PasswordInput} {...fh.password('passwordA', {
             required: true,
             label: 'Password *',
             minLength: 8,
@@ -84,7 +85,7 @@ export default function Registration({ navigation }) {
             ],
           })} disabled={loading} />
 
-          <InputWithError Component={TextInput} {...fh.password('passwordB', {
+          <InputWithError Component={PasswordInput} {...fh.password('passwordB', {
             required: true,
             label: 'Confirm password *',
             validate: value => {
