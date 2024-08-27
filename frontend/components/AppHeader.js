@@ -12,10 +12,14 @@ export default function AppHeader({ navigation, route, options, back, isLoggedIn
 
 	let notifIcon = notifNum > 0 ? 'message-badge-outline' : 'message-outline';
 
+	let leftButton;
+	
 	if (back) {
 		leftButton = <Appbar.BackAction onPress={navigation.goBack} />;
-	} else {
+	} else if (navigation.openDrawer) {
 		leftButton = <Appbar.Action icon='menu' onPress={navigation.toggleDrawer} />;
+	} else {
+		leftButton = null;
 	}
 
 	let title = getHeaderTitle(options, route.name);

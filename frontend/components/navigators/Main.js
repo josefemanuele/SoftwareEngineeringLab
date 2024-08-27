@@ -16,67 +16,82 @@ const Drawer = createDrawerNavigator();
 export default function MainNavigator({ isLoggedIn, userRole }) {
 	let header = (args) => (<AppHeader isLoggedIn={isLoggedIn} {...args} />);
 
-	let specificScreens = [];
-
-	if (userRole === 'participant') {
-		specificScreens = [
-			<Drawer.Screen key='1' name='participant/NavBrowse'
-				component={(args) => <ParticipantStack header={header} home='participant/Browse' />}
-				options={{
-					title: 'Browse',
-					drawerIcon: () => <Icon source='earth' size={20} />,
-				}} />,
-			<Drawer.Screen key='2' name='participant/NavReservations'
-				component={(args) => <ParticipantStack header={header} home='participant/Reservations' />}
-				options={{
-					title: 'Reservations',
-					drawerIcon: () => <Icon source='receipt' size={20} />,
-				}} />,
-			<Drawer.Screen key='4' name='participant/NavProfile'
-				component={(args) => <ParticipantStack header={header} home='participant/Profile' />}
-				options={{
-				title: 'Profile',
-				drawerIcon: () => <Icon source='account' size={20} />,
-			}}/>,
-		];
-	} else if (userRole === 'organizer') {
-		specificScreens = [
-			<Drawer.Screen key='3' name='organizer/NavManage'
-				component={(args) => <OrganizerStack header={header} home='organizer/EventList' />}
-				options={{
-					title: 'Events',
-					drawerIcon: () => <Icon source='card-text' size={20} />,
-				}}/>,
-			<Drawer.Screen key='5' name='organizer/NavProfile'
-				component={(args) => <OrganizerStack header={header} home='organizer/Profile' />}
-				options={{
-				title: 'Organization',
-				drawerIcon: () => <Icon source='account' size={20} />,
-			}}/>,
-		];
+	if (!isLoggedIn) {
+		return (
+			<UnauthenticatedStack header={header} />
+		);
 	}
 
-	let generalScreens = [];
+	let specificScreens = null;
 
-	if (isLoggedIn) {
-		generalScreens = [
-			<Drawer.Screen key='6' name='general/NavSettings'
-				component={(args) => <GeneralStack header={header} home='general/Settings' />}
-				options={{
-					title: 'Settings',
-					drawerIcon: () => <Icon source='cog' size={20} />,
-				}}/>,
-		];
+	if (userRole === 'participant') {
+		specificScreens = (
+			<Drawer.Group>
+
+				<Drawer.Screen key='1' name='participant/NavBrowse' options={{
+						title: 'Browse',
+						drawerIcon: getIconNode('earth', 20),
+				}}>
+					{(args) => <ParticipantStack header={header} home='participant/Browse' />}
+				</Drawer.Screen>
+
+				<Drawer.Screen key='2' name='participant/NavReservations' options={{
+					title: 'Reservations',
+					drawerIcon: getIconNode('receipt', 20),
+				}}>
+					{(args) => <ParticipantStack header={header} home='participant/Reservations' />}
+				</Drawer.Screen>
+
+				<Drawer.Screen key='4' name='participant/NavProfile' options={{
+					title: 'Profile',
+					drawerIcon: getIconNode('account', 20),
+				}}>
+					{(args) => <ParticipantStack header={header} home='participant/Profile' />}
+				</Drawer.Screen>
+
+			</Drawer.Group>
+		);
+	} else if (userRole === 'organizer') {
+		specificScreens = (
+			<Drawer.Group>
+
+				<Drawer.Screen key='3' name='organizer/NavManage' options={{
+					title: 'Events',
+					drawerIcon: getIconNode('card-text', 20),
+				}}>
+					{(args) => <OrganizerStack header={header} home='organizer/EventList' />}
+				</Drawer.Screen>
+
+				<Drawer.Screen key='5' name='organizer/NavProfile' options={{
+					title: 'Organization',
+					drawerIcon: getIconNode('account', 20),
+				}}>
+					{(args) => <OrganizerStack header={header} home='organizer/Profile' />}
+				</Drawer.Screen>
+
+			</Drawer.Group>
+		);
 	}
 
 	return (
 		<Drawer.Navigator screenOptions={{
 			headerShown: false,
 		}}>
+			{specificScreens}
+
 			<Drawer.Group>
-				{specificScreens}
-				{generalScreens}
+				<Drawer.Screen key='6' name='general/NavSettings' options={{
+					title: 'Settings',
+					drawerIcon: getIconNode('cog', 20),
+				}}>
+					{(args) => <GeneralStack header={header} home='general/Settings' />}
+				</Drawer.Screen>
 			</Drawer.Group>
+
 		</Drawer.Navigator>
 	);
+}
+
+function getIconNode(source, size) {
+	return (args) => (<Icon source={source} size={size} />);
 }
