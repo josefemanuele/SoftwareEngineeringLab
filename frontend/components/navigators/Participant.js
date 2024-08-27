@@ -6,6 +6,7 @@ import ParticipantEvent from '../../pages/participant/Event.js';
 import ParticipantHome from '../../pages/participant/Home.js';
 import ParticipantOrganization from '../../pages/participant/Organization.js';
 import ParticipantProfile from '../../pages/participant/Profile.js';
+import ParticipantReservations from '../../pages/participant/Reservations.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,9 @@ export default function ParticipantStack({ home, header }) {
 				}}/>
 				<Stack.Screen name='participant/Profile' component={ParticipantProfile} options={{
 					title: 'Profile'
+				}}/>
+				<Stack.Screen name='participant/Reservations' component={ParticipantReservations} options={{
+					title: 'Reservations'
 				}}/>
 			</Stack.Group>
 		</Stack.Navigator>
