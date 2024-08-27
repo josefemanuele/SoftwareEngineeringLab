@@ -63,7 +63,7 @@ export default function EventPage({ navigation, route }) {
 				mode="elevated"
 				style={{ margin: 20 }}
         disabled={!bookable}
-				onPress={() => navigation.push('participant/Payment', {
+				onPress={() => navigation.push('participant/BookingPersonalization', {
 					event_id: params.event_id,
 				})}
 			>Book now!</Button>
