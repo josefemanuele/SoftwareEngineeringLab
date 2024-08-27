@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
-import { Button, Card, Divider, Text } from 'react-native-paper';
+import { Button, Card, Divider, Text, Avatar } from 'react-native-paper';
 
 import { doRequest } from '../../lib/rest.js';
 
@@ -65,10 +65,16 @@ export default function Organization({ navigation, route }) {
         <RefreshControl refreshing={refreshing} onRefresh={doRefresh} />
       }>
 				<Card key="details">
-					<Card.Title title={info.name} titleVariant="headlineSmall" titleStyle={{ fontWeight: 'bold' }} />
+					<Card.Title  left={(props) => <Avatar.Icon {...props} icon="store" />} title={info.name} titleVariant="headlineSmall" titleStyle={{ fontWeight: 'bold' }} />
 					<Card.Content>
-						<Text>{info.category}</Text>
-						<Text>{info.description}</Text>
+						<Text style={{ marginBottom: 10 }}>
+              <Text style={{ fontWeight: 'bold' }}>Category: </Text>
+              {info.category}
+            </Text>
+						<Text>
+              <Text style={{ fontWeight: 'bold' }}>Info: </Text>
+              {info.description}
+            </Text>
 					</Card.Content>
 					{/* <Card.Actions>
 						<Button>Prenota</Button>
