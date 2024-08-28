@@ -58,7 +58,7 @@ export default function EventPage({ navigation, route }) {
       <Text style={[]}>
         <Icon source="account-group-outline" size={20} />
         <Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Capacity: </Text>
-        <Text variant="bodyLarge">{eventInfo.reservations} / {eventInfo.capacity}</Text>
+        <Text variant="bodyLarge">{eventInfo.capacity - eventInfo.reservations} slots left</Text>
       </Text>
 
 		<Divider style={[ style.spaceBottom, style.spaceTop ]} />
