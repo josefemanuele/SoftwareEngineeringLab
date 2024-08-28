@@ -17,7 +17,7 @@ export default function BookingPersonalization({ navigation, route }) {
 
 	let scrollViewRef = useRef(null);
 
-	let maxParticipants = 23;
+	let maxParticipants = params.event_info.capacity - params.event_info.reservations;
 
 	let [{ errors, submit, formProps, hasError }, fh] = useFormState({
 		participants: 1,
@@ -26,7 +26,8 @@ export default function BookingPersonalization({ navigation, route }) {
 		scrollViewRef: scrollViewRef,
 		onSubmit: (values) => {
 			navigation.push('participant/BookingReview', {
-				event_id: params.event_id,
+				user_info: params.user_info,
+				event_info: params.event_info,
 				booking_data: values,
 			});
 		}

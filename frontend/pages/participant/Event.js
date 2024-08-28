@@ -9,6 +9,11 @@ import style from '../../style/custom.js';
 export default function EventPage({ navigation, route }) {
 	let params = route.params;
 
+	let userInfo = {
+		name: 'Gino',
+		surname: 'Rossi',
+	}
+
 	let [ eventInfo, setEventInfo ] = useState({
 		"id": 1,
 		"name": "Summer Vibes Festival",
@@ -50,6 +55,12 @@ export default function EventPage({ navigation, route }) {
       </Text>
 
       <Text style={[ style.spaceBottom ]}>
+        <Icon source="map-marker" size={20} />
+        <Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Location: </Text>
+        <Text variant="bodyLarge">{eventInfo.location}</Text>
+      </Text>
+
+      <Text style={[ style.spaceBottom ]}>
         <Icon source="currency-usd" size={20} />
         <Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Price: </Text>
         <Text variant="bodyLarge">{eventInfo.price} €</Text>
@@ -61,11 +72,11 @@ export default function EventPage({ navigation, route }) {
         <Text variant="bodyLarge">{eventInfo.capacity - eventInfo.reservations} slots left</Text>
       </Text>
 
-		<Divider style={[ style.spaceBottom, style.spaceTop ]} />
+			<Divider style={[ style.spaceBottom, style.spaceTop ]} />
 
-	  <Text style={[ style.spaceBottom ]}>
+		  <Text style={[ style.spaceBottom ]}>
         <Icon source="text-box" size={20} />
-		<Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Description:</Text>
+				<Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Description:</Text>
         <Text style={{ marginLeft: 20 }}>{eventInfo.description}</Text>
       </Text>
 
@@ -77,6 +88,8 @@ export default function EventPage({ navigation, route }) {
         		disabled={!bookable}
 				onPress={() => navigation.push('participant/BookingPersonalization', {
 					event_id: params.event_id,
+					event_info: eventInfo,
+					user_info: userInfo,
 				})}>Book now!</Button>
 
     </ScrollView>
