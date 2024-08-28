@@ -19,7 +19,25 @@ let eventCategories = [
 	{ label: 'Categoria 3', value: 3 },
 ]
 
-export default function EventCreation({ navigation }) {
+export default function EventCreation({ navigation, route }) {
+	let { event_info } = route.params;
+
+	if (event_info == null) {
+		event_info = {
+			"id": 1,
+			"name": '',
+			"location": "Central Park, New York City",
+			"date": null,
+			"start_time": "5:00 PM",
+			"end_time": "10:00 PM",
+			"category": "Festival",
+			"price": 50,
+			"description": "Join us for a night filled with sunshine, music, and good vibes featuring top local bands.",
+			"capacity": 5000,
+			"reservations": 2438,
+		};
+	}
+
 	let [ date, setDate ] = useState();
 	let [ name, setName ] = useState('');
 	let [ category, setCategory ] = useState('default');
@@ -29,6 +47,7 @@ export default function EventCreation({ navigation }) {
 
 	let [ startTime, setStartTime ] = useState({});
 	let [ endTime, setEndTime ] = useState({});
+
 	let [ stVisible, setStVisible ] = useState(false);
 	let [ etVisible, setEtVisible ] = useState(false);
 
