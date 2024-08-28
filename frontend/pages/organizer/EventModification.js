@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { ScrollView, View } from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
-import { Button, Text, TextInput } from 'react-native-paper';
+import { Button, Icon, Text, TextInput } from 'react-native-paper';
 import { Dropdown } from 'react-native-paper-dropdown';
 import { DatePickerInput, TimePickerModal, it, registerTranslation } from 'react-native-paper-dates';
 
@@ -66,6 +66,10 @@ export default function EventCreation({ navigation, route }) {
 
 	return (
 		<ScrollView contentContainerStyle={style.box} style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>
+			<View style={{ alignSelf: 'center', marginBottom: 25 }}>
+				<Icon source={event_info.id > 0 ? 'calendar-edit' : 'calendar-plus'} size={75}></Icon>
+			</View>
+
 			<TextInput
 				label="Name"
 				value={name}
