@@ -52,7 +52,7 @@ export default function EventPage({ navigation, route }) {
       <Text style={[ style.spaceBottom ]}>
         <Icon source="currency-usd" size={20} />
         <Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Price: </Text>
-        <Text variant="bodyLarge">{eventInfo.price}</Text>
+        <Text variant="bodyLarge">{eventInfo.price} €</Text>
       </Text>
 
       <Text style={[]}>
@@ -61,10 +61,11 @@ export default function EventPage({ navigation, route }) {
         <Text variant="bodyLarge">{eventInfo.reservations} / {eventInfo.capacity}</Text>
       </Text>
 
-			<Divider style={[ style.spaceBottom, style.spaceTop ]} />
+		<Divider style={[ style.spaceBottom, style.spaceTop ]} />
 
-			<Text style={[ style.spaceBottom ]}>
+	  <Text style={[ style.spaceBottom ]}>
         <Icon source="text-box" size={20} />
+		<Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Description:</Text>
         <Text style={{ marginLeft: 20 }}>{eventInfo.description}</Text>
       </Text>
 
@@ -73,11 +74,11 @@ export default function EventPage({ navigation, route }) {
 				icon="book-arrow-right-outline"
 				mode="elevated"
 				style={{ margin: 20 }}
-        disabled={!bookable}
+        		disabled={!bookable}
 				onPress={() => navigation.push('participant/BookingPersonalization', {
 					event_id: params.event_id,
-				})}
-			>Book now!</Button>
+				})}>Book now!</Button>
+
     </ScrollView>
 	);
 }
