@@ -2,40 +2,31 @@ import React, { useState, useEffect }from 'react';
 
 import FullDialog from '../../components/FullDialog.js';
 
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { Button, Text, Icon } from 'react-native-paper';
 
+import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
 import style from '../../style/custom.js';
 
 export default function EventPage({ navigation, route }) {
 	let params = route.params;
     let [ dialogVisible, setDialogVisible ] = useState(false);
 
-    let title = 'title'
-    let description = 'description'
-    let date = 'date'
-    let start_time = 'start_time'
-    let end_time = 'end_time'
-    let price = 'price'
-    let capacity = 30
-    let reservations = 20
+    let [ eventInfo, setEventInfo ] = useState({
+		"id": 1,
+		"name": "Summer Vibes Festival",
+		"location": "Central Park, New York City",
+		"date": "July 15, 2024",
+		"start_time": "5:00 PM",
+		"end_time": "10:00 PM",
+		"category": "Festival",
+		"price": 50,
+		"description": "Join us for a night filled with sunshine, music, and good vibes featuring top local bands.",
+		"capacity": 5000,
+		"reservations": 2438,
+	});
 
-    let [ booking, setBooking ] = useState(true);
     let [ cancel, setCancel ] = useState(true);
-
-
-
-    const checkAvailability = (value) => {
-        if (value === capacity) { 
-          setBooking(false);
-        } else {
-          setBooking(true);
-        }
-    };
-
-    useEffect(() => {
-        checkAvailability(reservations);
-    }, [reservations]);
     
     const checkCancel = (value) => {
         if (value >= 1) { 
@@ -46,65 +37,68 @@ export default function EventPage({ navigation, route }) {
     };
 
     useEffect(() => {
-        checkCancel(reservations);
-    }, [reservations]);
+        checkCancel(eventInfo.reservations);
+    }, [eventInfo.reservations]);
 
 
 	return (
-		<>
-			<View style={ {alignSelf: 'center' }}>
-                <Text style={[ style.spaceBottom, style.mt20 ]}>
-                    <Icon source="format-title" size={20}/> 
-                    <Text style={{fontWeight: "bold"}} variant='headlineSmall'> Title: </Text>
-                    <Text variant="bodyLarge">{title}</Text>
-                </Text>
+        <ScrollView contentContainerStyle={style.box} style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>            
+            <Text style={[ style.spaceBottom ]}>
+                <Icon source="tag" size={20} />
+                <Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Category: </Text>
+                <Text variant="bodyLarge">{eventInfo.category}</Text>
+            </Text>
 
-                <Text style={[ style.spaceBottom ]}>
-                    <Icon source="text-box" size={20}/> 
-                    <Text style={{fontWeight: "bold"}} variant='headlineSmall'> Description: </Text>
-                    <Text variant="bodyLarge">{description}</Text>
-                </Text>
+            <Text style={[ style.spaceBottom ]}>
+                <Icon source="calendar-text" size={20} />
+                <Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Date: </Text>
+                <Text variant="bodyLarge">{eventInfo.date}</Text>
+            </Text>
 
-                <Text style={[ style.spaceBottom ]}>
-                    <Icon source="calendar-text" size={20}/> 
-                    <Text style={{fontWeight: "bold"}} variant='headlineSmall'> Date: </Text>
-                    <Text variant="bodyLarge">{date}</Text>
-                </Text>
+            <Text style={[ style.spaceBottom ]}>
+                <Icon source="clock-time-four" size={20} />
+                <Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Time: </Text>
+                <Text variant="bodyLarge">{eventInfo.start_time} - {eventInfo.end_time}</Text>
+            </Text>
 
-                <Text style={[ style.spaceBottom ]}>
-                    <Icon source="clock-time-four" size={20}/> 
-                    <Text style={{fontWeight: "bold"}} variant='headlineSmall'> Time: </Text>
-                    <Text variant="bodyLarge">{start_time} - {end_time}</Text>
-                </Text>
+            <Text style={[ style.spaceBottom ]}>
+                <Icon source="currency-usd" size={20} />
+                <Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Price: </Text>
+                <Text variant="bodyLarge">{eventInfo.price} €</Text>
+            </Text>
 
-                <Text style={[ style.spaceBottom ]}>
-                    <Icon source="currency-usd" size={20}/> 
-                    <Text style={{fontWeight: "bold"}} variant='headlineSmall'> Price: </Text>
-                    <Text variant="bodyLarge">{price}€</Text>
-                </Text>
+            <Text style={[ style.spaceBottom ]}>
+                <Icon source="account-group-outline" size={20} />
+                <Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Capacity: </Text>
+                <Text variant="bodyLarge">{eventInfo.capacity}</Text>
+            </Text>
 
-                <Text style={[ style.spaceBottom ]}>
-                    <Icon source="account-group-outline" size={20}/> 
-                    <Text style={{fontWeight: "bold"}} variant='headlineSmall'> Actual reservations: </Text>
-                    <Text variant="bodyLarge">{reservations} / {capacity}</Text>
-                </Text>
-				<View style ={{flexDirection: 'row'}}>
+            <Text style={[ style.spaceBottom ]}>
+                <Icon source="account-group-outline" size={20} />
+                <Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Actual reservations: </Text>
+                <Text variant="bodyLarge">{eventInfo.reservations}</Text>
+            </Text>
+
+            <Text style={[ style.spaceBottom ]}>
+                <Icon source="text-box" size={20} />
+                <Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Description: </Text>
+                <Text style={{ marginLeft: 20 }}>{eventInfo.description}</Text>
+            </Text>
+
+			<View style ={{flexDirection: 'row', justifyContent: "center"}}>
                     <Button
                         title="modify"
                         icon="pencil"
                         mode="elevated"
                         style={{ margin: 20 }}
-                        disabled={!booking}
-                        onPress={() => console.log('modify event')}
-                    >Modify</Button>
+                        onPress={() => console.log('modify event')}>Modify</Button>
                     <Button
                         title="cancel"
                         icon="close-circle-outline"
                         mode="elevated"
                         style={{ margin: 20 }}
                         disabled={!cancel}
-                        onPress={() => console.log('cancel event')}
-                    >Cancel</Button>
+                        onPress={() => console.log('cancel event')}>Cancel</Button>
                     
                     <FullDialog /* TODO */
                         title="Confirmation message"
@@ -116,8 +110,7 @@ export default function EventPage({ navigation, route }) {
                         visible={dialogVisible}
                         onDismiss={() => setDialogVisible(false)}
                     />
-                </View>                
-            </View>		
-		</>
+            </View>                
+         </ScrollView>
 	);
 }
