@@ -9,27 +9,17 @@ import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
 import style from '../../style/custom.js';
 
 export default function EventPage({ navigation, route }) {
-	let params = route.params;
+	let { params } = route;
+	let { event_info } = params;
+
     let [ dialogVisible, setDialogVisible ] = useState(false);
 
-    let [ eventInfo, setEventInfo ] = useState({
-		"id": 1,
-		"name": "Summer Vibes Festival",
-		"location": "Central Park, New York City",
-		"date": "July 15, 2024",
-		"start_time": "5:00 PM",
-		"end_time": "10:00 PM",
-		"category": "Festival",
-		"price": 50,
-		"description": "Join us for a night filled with sunshine, music, and good vibes featuring top local bands.",
-		"capacity": 5000,
-		"reservations": 0,
-	});
+    let [ eventInfo, setEventInfo ] = useState(event_info);
 
     let [ cancel, setCancel ] = useState(true);
-    
+
     const checkCancel = (value) => {
-        if (value >= 1) { 
+        if (value >= 1) {
           setCancel(false);
         } else {
           setCancel(true);
@@ -42,7 +32,7 @@ export default function EventPage({ navigation, route }) {
 
 
 	return (
-        <ScrollView contentContainerStyle={style.box} style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>            
+        <ScrollView contentContainerStyle={style.box} style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>
             <Text style={[ style.spaceBottom ]}>
                 <Icon source="tag" size={20} />
                 <Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Category: </Text>
@@ -91,7 +81,12 @@ export default function EventPage({ navigation, route }) {
                         icon="pencil"
                         mode="elevated"
                         style={{ margin: 20 }}
-                        onPress={() => navigation.push('organizer/EventModification')}>Modify</Button>
+                        onPress={() => {
+													navigation.push('organizer/EventModification', {
+														event_info: event_info,
+													});
+												}}
+											>Modify</Button>
                     <Button
                         title="cancel"
                         icon="close-circle-outline"
@@ -102,7 +97,7 @@ export default function EventPage({ navigation, route }) {
 
                     <FullDialog
                         title="Confirmation message"
-                        content={`Do you want to cancel the event?`}    
+                        content={`Do you want to cancel the event?`}
                         actions={[{
                             name: 'Yes',
                             callback: () => {setDialogVisible(false), navigation.push('organizer/EventList')}
@@ -113,7 +108,7 @@ export default function EventPage({ navigation, route }) {
                         visible={dialogVisible}
                         onDismiss={() => setDialogVisible(false)}
                     />
-            </View>                
+            </View>
          </ScrollView>
 	);
 }

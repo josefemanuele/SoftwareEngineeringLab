@@ -61,6 +61,7 @@ export default function EventList({ navigation, route }) {
 						marginBottom: GLOBAL_SPACING
 					}} onPress={() => navigation.push('organizer/Event', {
             event_id: event.id,
+						event_info: event,
           })}>
 						<Card.Title title={event.name}
 							titleStyle={{ fontWeight: 'bold', fontSize: 22 }}
