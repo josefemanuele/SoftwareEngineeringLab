@@ -64,14 +64,14 @@ export default function Home({ navigation }) {
               titleStyle={{ fontWeight: 'bold' }}
             />
             <Card.Content>
-            <View style={{ flexDirection: 'row', marginBottom: 5}}>
-								<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Category: </Text>
-								<Text>{organization.type}</Text>
-							</View>
-							<View style={{ flexDirection: 'row', marginBottom: 5 }}>
-								<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Description: </Text>
-								<Text>{organization.description}</Text>
-							</View>
+            <Text style={{ flexDirection: 'row', marginBottom: 5}}>
+							<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Category: </Text>
+							<Text>{organization.type}</Text>
+						</Text>
+						<Text style={{ flexDirection: 'row', marginBottom: 5 }}>
+							<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Description: </Text>
+							<Text>{organization.description}</Text>
+						</Text>
             </Card.Content>
           </Card>
         ))}

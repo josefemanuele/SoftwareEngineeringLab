@@ -91,30 +91,30 @@ export default function Organization({ navigation, route }) {
 					}}>
             <Card.Title title={event.name} titleStyle={{ fontWeight: 'bold', fontSize: 22 }} />
             <Card.Content>
-							<View style={{ flexDirection: 'row', marginBottom: 5 }}>
+							<Text style={{ marginBottom: 5 }}>
                 <Text style={{ marginRight: 4, fontWeight: 'bold' }}>Category: </Text>
                 <Text>{event.category}</Text>
-              </View>
-							<View style={{ flexDirection: 'row', marginBottom: 5 }}>
+              </Text>
+							<Text style={{ marginBottom: 5 }}>
                 <Text style={{ marginRight: 4, fontWeight: 'bold' }}>Date: </Text>
                 <Text>{event.date}</Text>
-              </View>
-              <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+              </Text>
+              <Text style={{ marginBottom: 5 }}>
                 <Text style={{ marginRight: 4, fontWeight: 'bold' }}>Time: </Text>
                 <Text>{event.start_time} - {event.end_time}</Text>
-              </View>
-							<View style={{ flexDirection: 'row', marginBottom: 5 }}>
+              </Text>
+							<Text style={{ marginBottom: 5 }}>
                 <Text style={{ marginRight: 4, fontWeight: 'bold' }}>Location: </Text>
                 <Text>{event.location}</Text>
-              </View>
-							<View style={{ flexDirection: 'row', marginBottom: 5 }}>
+              </Text>
+							<Text style={{ marginBottom: 5 }}>
                 <Text style={{ marginRight: 4, fontWeight: 'bold' }}>Price: </Text>
                 <Text>{event.price}€</Text>
-              </View>
-              <View style={{ flexDirection: 'row', marginBottom: 5 }}>
+              </Text>
+              <Text style={{ marginBottom: 5 }}>
                 <Text style={{ marginRight: 4, fontWeight: 'bold' }}>Description: </Text>
                 <Text>{event.description}</Text>
-              </View>
+              </Text>
             </Card.Content>
 						<Card.Actions>
 							<Button onPress={() => navigation.push('participant/Event', {

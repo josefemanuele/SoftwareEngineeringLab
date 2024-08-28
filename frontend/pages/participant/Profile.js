@@ -51,25 +51,25 @@ export default function Profile({ navigation, route }) {
 
 			<Divider style={[ style.spaceBottom ]}/>
 
-			<View style={[ style.spaceBottom, { flexDirection: 'row' } ]}>
+			<Text style={[ style.spaceBottom ]}>
 				<Text style={{fontWeight: "bold"}}>Email: </Text>
 				<Text>{userInfo.email}</Text>
-			</View>
+			</Text>
 
-			<View style={[ style.spaceBottom, { flexDirection: 'row' } ]}>
+			<Text style={[ style.spaceBottom ]}>
 				<Text style={{fontWeight: "bold"}}>Password: </Text>
 				<Text>{userInfo.password}</Text>
-			</View>
+			</Text>
 
-			<View style={[ style.spaceBottom, { flexDirection: 'row' } ]}>
+			<Text style={[ style.spaceBottom ]}>
 				<Text style={{fontWeight: "bold"}}>Name: </Text>
 				<Text>{userInfo.name}</Text>
-			</View>
+			</Text>
 
-			<View style={[ style.spaceBottom, { flexDirection: 'row' } ]}>
+			<Text style={[ style.spaceBottom ]}>
 				<Text style={{fontWeight: "bold"}}>Surname: </Text>
 				<Text>{userInfo.surname}</Text>
-			</View>
+			</Text>
 		</ScrollView>
 	);
 }
