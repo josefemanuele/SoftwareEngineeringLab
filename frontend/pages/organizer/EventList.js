@@ -4,6 +4,7 @@ import { RefreshControl, ScrollView, View } from 'react-native';
 import { Card, FAB, IconButton, Menu, Text } from 'react-native-paper';
 
 import ThreeDotsMenu from '../../components/ThreeDotsMenu.js';
+import FullDialog from '../../components/FullDialog.js';
 
 import { doRequest } from '../../lib/rest.js';
 
@@ -19,6 +20,8 @@ export default function EventList({ navigation, route }) {
   let [ events, setEvents ] = useState([]);
 
   let [ refreshing, setRefreshing ] = useState(false);
+  let [ dialogVisible, setDialogVisible ] = useState(false);
+
 
   async function doRefresh() {
     setRefreshing(true);
@@ -46,8 +49,8 @@ export default function EventList({ navigation, route }) {
 
 	let cardMenu = () => (
 		<ThreeDotsMenu>
-			<Menu.Item title="Cancel event" leadingIcon="close-circle-outline" onPress={console.log} />
-			<Menu.Item title="Modify event" leadingIcon="pencil" onPress={console.log} />
+			<Menu.Item title="Cancel event" leadingIcon="close-circle-outline" onPress={() => setDialogVisible(true)} />
+			<Menu.Item title="Modify event" leadingIcon="pencil" onPress={navigation.push('organizer/EventModification')} />
 		</ThreeDotsMenu>
 	);
 
@@ -94,6 +97,21 @@ export default function EventList({ navigation, route }) {
 						</Card.Content>
 					</Card>
 				))}
+				
+			<FullDialog
+                title="Confirmation message"
+                content={`Do you want to cancel the event?`}    
+                actions={[{
+                    name: 'Yes',
+                    callback: () => {setDialogVisible(false)}
+                }, {
+                	name: 'No',
+                    callback: () => {setDialogVisible(false)}
+                }]}
+                visible={dialogVisible}
+                onDismiss={() => setDialogVisible(false)}
+            />
+			
 			</ScrollView>
 
 			<FAB icon='plus' size='medium' style={{
@@ -102,6 +120,8 @@ export default function EventList({ navigation, route }) {
 				right: 0,
 				bottom: 0,
 			}} onPress={() => navigation.push('organizer/EventCreation')}></FAB>
+
+			
 		</>
 	);
 }
