@@ -46,7 +46,7 @@ export default function MainNavigator({ isLoggedIn, userRole }) {
 					title: 'Profile',
 					drawerIcon: getIconNode('account', 20),
 				}}>
-					{(args) => <ParticipantStack header={header} home='participant/Profile' />}
+					{(args) => <ParticipantStack header={header} home='general/Profile' />}
 				</Drawer.Screen>
 
 			</Drawer.Group>
@@ -66,7 +66,7 @@ export default function MainNavigator({ isLoggedIn, userRole }) {
 					title: 'Organization',
 					drawerIcon: getIconNode('account', 20),
 				}}>
-					{(args) => <OrganizerStack header={header} home='organizer/Profile' />}
+					{(args) => <OrganizerStack header={header} home='general/Profile' />}
 				</Drawer.Screen>
 
 			</Drawer.Group>
