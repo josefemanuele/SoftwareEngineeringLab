@@ -60,11 +60,18 @@ export default function Home({ navigation }) {
 					}} onPress={() => navigation.push('participant/Organization', {
             id: organization.id
           })}>
-            <Card.Title title={organization.name} subtitle={organization.type}
+            <Card.Title title={organization.name}
               titleStyle={{ fontWeight: 'bold' }}
             />
             <Card.Content>
-              <Text>{organization.description}</Text>
+            <View style={{ flexDirection: 'row', marginBottom: 5}}>
+								<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Category: </Text>
+								<Text>{organization.type}</Text>
+							</View>
+							<View style={{ flexDirection: 'row', marginBottom: 5 }}>
+								<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Description: </Text>
+								<Text>{organization.description}</Text>
+							</View>
             </Card.Content>
           </Card>
         ))}
