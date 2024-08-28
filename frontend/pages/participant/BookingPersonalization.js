@@ -39,7 +39,17 @@ export default function BookingPersonalization({ navigation, route }) {
 			</View>
 
 			<Form {...formProps}>
+				{/* <Dropdown
+					label="Type of ticket"
+					value={category}
+					onSelect={setCategory}
+					style={{ marginBottom: 20 }}
+					disabled={loading}
+					options={eventCategories}
+				/> */}
+
 				<InputWithError Component={TextInput}
+					inputMode='numeric'
 					right={<TextInput.Affix text={`/${maxParticipants}`} />}
 					{...fh.text('participants', {
 						required: true,
@@ -62,8 +72,8 @@ export default function BookingPersonalization({ navigation, route }) {
 					multiline={true}
 					numberOfLines={5}
 					{...fh.text('notes', {
-						required: true,
-						label: 'Additional notes for the organizer',
+						required: false,
+						label: 'Special requests for the organizer (eg. disabilities)',
 					})}
 				/>
 
