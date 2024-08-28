@@ -10,21 +10,32 @@ export default function EventPage({ navigation, route }) {
 	let params = route.params;
 
 	let [ eventInfo, setEventInfo ] = useState({
-		title: 'Event title',
-		description: 'Event description',
-		date: '01/12/2025',
-		start_time: '10:00',
-		end_time: '12:00',
-		price: '25 €',
-		capacity: 30,
-		reservations: 20,
+		"id": 1,
+		"name": "Summer Vibes Festival",
+		"location": "Central Park, New York City",
+		"date": "July 15, 2024",
+		"start_time": "5:00 PM",
+		"end_time": "10:00 PM",
+		"category": "Festival",
+		"price": 50,
+		"description": "Join us for a night filled with sunshine, music, and good vibes featuring top local bands.",
+		"capacity": 5000,
+
+		"reservations": 2438,
 	});
+
 
 	let [ bookable, setBookable ] = useState(true);
 
 	return (
 		<ScrollView contentContainerStyle={style.box} style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>
-			<Text variant="headlineMedium" style={[ style.spaceBottom, style.mt20 ]}>{eventInfo.title}</Text>
+			<Text variant="headlineMedium" style={[ style.spaceBottom, style.mt20 ]}>{eventInfo.name}</Text>
+
+			<Text style={[ style.spaceBottom ]}>
+        <Icon source="tag" size={20} />
+        <Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Category: </Text>
+        <Text variant="bodyLarge">{eventInfo.category}</Text>
+      </Text>
 
       <Text style={[ style.spaceBottom ]}>
         <Icon source="calendar-text" size={20} />
@@ -47,7 +58,7 @@ export default function EventPage({ navigation, route }) {
       <Text style={[]}>
         <Icon source="account-group-outline" size={20} />
         <Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Capacity: </Text>
-        <Text variant="bodyLarge">{eventInfo.eservations} / {eventInfo.capacity}</Text>
+        <Text variant="bodyLarge">{eventInfo.reservations} / {eventInfo.capacity}</Text>
       </Text>
 
 			<Divider style={[ style.spaceBottom, style.spaceTop ]} />
