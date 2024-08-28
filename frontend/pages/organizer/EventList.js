@@ -71,26 +71,26 @@ export default function EventList({ navigation, route }) {
 							right={cardMenu}
 						/>
 						<Card.Content>
-							<View style={{ flexDirection: 'row', marginBottom: 5}}>
+							<Text style={{ flexDirection: 'row', marginBottom: 5}}>
 								<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Category: </Text>
 								<Text>{event.category}</Text>
-							</View>
-							<View style={{ flexDirection: 'row', marginBottom: 5 }}>
+							</Text>
+							<Text style={{ flexDirection: 'row', marginBottom: 5 }}>
 								<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Description: </Text>
 								<Text>{event.description}</Text>
-							</View>
-							<View style={{ flexDirection: 'row', marginBottom: 5 }}>
+							</Text>
+							<Text style={{ flexDirection: 'row', marginBottom: 5 }}>
 								<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Date: </Text>
 								<Text>{event.date}</Text>
-							</View>
-							<View style={{ flexDirection: 'row', marginBottom: 5 }}>
+							</Text>
+							<Text style={{ flexDirection: 'row', marginBottom: 5 }}>
 								<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Time: </Text>
 								<Text>{event.start_time} - {event.end_time}</Text>
-							</View>
-							<View style={{ flexDirection: 'row'}}>
+							</Text>
+							<Text style={{ flexDirection: 'row'}}>
 								<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Price: </Text>
 								<Text>{event.price}€</Text>
-							</View>
+							</Text>
 						</Card.Content>
 					</Card>
 				))}

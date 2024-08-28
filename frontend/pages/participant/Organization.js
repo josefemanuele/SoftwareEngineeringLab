@@ -44,9 +44,9 @@ export default function Organization({ navigation, route }) {
 
     if (response != null) {
 			setInfo({
-				name: 'Adventure Explorers Outdoor Gear Rentals',
-				category: 'Outdoor Equipment Rental',
-				description: 'A rental service for outdoor gear, including camping, hiking, and water sports equipment, perfect for adventure enthusiasts looking to explore nature',
+				name: 'Melody Events Group',
+				category: 'Music Event Management and Production',
+				description: 'Melody Events Group is a dynamic event planning organization dedicated to curating a diverse array of live music experiences that celebrate various genres and seasonal festivals',
 			})
       setEvents(response);
     } else {
