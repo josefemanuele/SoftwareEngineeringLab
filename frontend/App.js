@@ -22,9 +22,14 @@ export default function App() {
   let navTheme = colorScheme === 'dark' ? DarkTheme : DefaultTheme;
 
   let [ isLoggedIn, setLoggedIn ] = useState(true);
-  user.setLoggedIn = setLoggedIn;
+  let [ roleBool, setRoleBool ] = useState(false);
 
-  let userRole = 'organizer';
+  user.setLoggedIn = setLoggedIn;
+  user.switchRole = () => {
+    setRoleBool(!roleBool);
+  };
+
+  let userRole = roleBool ? 'organizer' : 'participant';
 
   return (
     // <ReduxProvider store={store}>

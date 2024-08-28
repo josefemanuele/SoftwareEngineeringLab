@@ -5,7 +5,7 @@ import { getHeaderTitle } from '@react-navigation/elements'
 
 import style from '../style/custom.js';
 
-import { doLogout } from '../lib/user.js';
+import user, { doLogout } from '../lib/user.js';
 
 export default function AppHeader({ navigation, route, options, back, isLoggedIn }) {
 	let notifNum = 1;
@@ -34,6 +34,7 @@ export default function AppHeader({ navigation, route, options, back, isLoggedIn
 				<Text style={style.box} variant="titleMedium">Welcome, USER!</Text>
 				<Divider />
 				<Menu.Item title="Profile" leadingIcon="account" onPress={() => navigation.push('general/Profile')}/>
+				<Menu.Item title="Switch role" leadingIcon="swap-horizontal" onPress={user.switchRole} />
 				<Menu.Item title="Logout" leadingIcon="logout" onPress={doLogout} />
 			</Menu>
 		</>
