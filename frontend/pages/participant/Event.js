@@ -1,6 +1,6 @@
 import React, { useState, useEffect }from 'react';
 
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { Button, Divider, Icon, Text } from 'react-native-paper';
 
 import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
@@ -34,6 +34,10 @@ export default function EventPage({ navigation, route }) {
 
 	return (
 		<ScrollView contentContainerStyle={style.box} style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>
+			<View style={{ alignSelf: 'center', marginBottom: 25 }}>
+				<Icon source='calendar-text' size={75}></Icon>
+			</View>
+
 			<Text variant="headlineMedium" style={[ style.spaceBottom, style.mt20 ]}>{eventInfo.name}</Text>
 
 			<Text style={[ style.spaceBottom ]}>

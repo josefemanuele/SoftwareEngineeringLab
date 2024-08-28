@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { ScrollView, View } from 'react-native';
-import { Text, Divider } from 'react-native-paper';
+import { Text, Divider, Icon } from 'react-native-paper';
 
 import { doRequest } from '../../lib/rest.js';
 
@@ -45,6 +45,10 @@ export default function Profile({ navigation, route }) {
 
 	return (
 		<ScrollView contentContainerStyle={style.box} style={bsStyles.container} dataSet={{ media: bsIds.container }}>
+			<View style={{ alignSelf: 'center', marginBottom: 25 }}>
+				<Icon source='account' size={75}></Icon>
+			</View>
+
 			<Text variant="headlineMedium" style={[ style.box, {
 				alignSelf: 'center',
 			} ]}>Hi {userInfo.name}, this is your profile!</Text>

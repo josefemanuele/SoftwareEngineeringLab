@@ -33,6 +33,10 @@ export default function EventPage({ navigation, route }) {
 
 	return (
         <ScrollView contentContainerStyle={style.box} style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>
+					<View style={{ alignSelf: 'center', marginBottom: 25 }}>
+						<Icon source='calendar-text' size={75}></Icon>
+					</View>
+
             <Text style={[ style.spaceBottom ]}>
                 <Icon source="tag" size={20} />
                 <Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Category: </Text>
