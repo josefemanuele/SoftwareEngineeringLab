@@ -4,7 +4,7 @@ import { ScrollView, View } from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 import { Button, Text, TextInput } from 'react-native-paper';
 import { Dropdown } from 'react-native-paper-dropdown';
-import { DatePickerInput, TimePickerModal } from 'react-native-paper-dates';
+import { DatePickerInput, TimePickerModal, it, registerTranslation } from 'react-native-paper-dates';
 
 import FullDialog from '../../components/FullDialog.js';
 import LoadingOverlay from '../../components/LoadingOverlay.js';
@@ -17,36 +17,46 @@ let eventCategories = [
 	{ label: 'Categoria 1', value: 1 },
 	{ label: 'Categoria 2', value: 2 },
 	{ label: 'Categoria 3', value: 3 },
-]
+];
+
+registerTranslation('it', it);
 
 export default function EventCreation({ navigation, route }) {
-	let { event_info } = route.params;
+	let { event_info } = route.params || {};
 
-	if (event_info == null) {
+	let initDate;
+
+	if (!event_info) {
 		event_info = {
-			"id": 1,
+			"id": 0,
 			"name": '',
-			"location": "Central Park, New York City",
-			"date": null,
-			"start_time": "5:00 PM",
-			"end_time": "10:00 PM",
-			"category": "Festival",
-			"price": 50,
-			"description": "Join us for a night filled with sunshine, music, and good vibes featuring top local bands.",
-			"capacity": 5000,
-			"reservations": 2438,
+			"date": undefined,
+			"start_time": null,
+			"end_time": null,
+			"category": 'default',
+			"location": '',
+			"price": 0,
+			"description": '',
+			"capacity": 1,
 		};
+	} else {
+		let parts = event_info.date.split('/');
+
+		initDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
 	}
 
-	let [ date, setDate ] = useState();
-	let [ name, setName ] = useState('');
-	let [ category, setCategory ] = useState('default');
-	let [ price, setPrice ] = useState(0);
-	let [ description, setDescription ] = useState('');
-	let [ participantsNum, setParticipantNum ] = useState(1);
+	let initStartTime = event_info.start_time ? parseTime(event_info.start_time) : {};
+	let initEndTime = event_info.end_time ? parseTime(event_info.end_time) : {};
 
-	let [ startTime, setStartTime ] = useState({});
-	let [ endTime, setEndTime ] = useState({});
+	let [ name, setName ] = useState(event_info.name);
+	let [ category, setCategory ] = useState(event_info.category);
+	let [ date, setDate ] = useState(initDate);
+	let [ startTime, setStartTime ] = useState(initStartTime);
+	let [ endTime, setEndTime ] = useState(initEndTime);
+	let [ location, setLocation ] = useState(event_info.location);
+	let [ price, setPrice ] = useState(event_info.price);
+	let [ description, setDescription ] = useState(event_info.description);
+	let [ participantsNum, setParticipantNum ] = useState(event_info.capacity);
 
 	let [ stVisible, setStVisible ] = useState(false);
 	let [ etVisible, setEtVisible ] = useState(false);
@@ -64,13 +74,22 @@ export default function EventCreation({ navigation, route }) {
 				disabled={loading}
       />
 
+			<Dropdown
+				label="Category"
+				value={category}
+				onSelect={setCategory}
+				style={{ marginBottom: 20 }}
+				disabled={loading}
+				options={eventCategories}
+			/>
+
 			<DatePickerInput
 				label="Date"
 				value={date}
 				onChange={setDate}
-				style={{ marginBottom: 20 }}
+				style={{ marginBottom: 20, marginTop: 20 }}
 				disabled={loading}
-				locale="en"
+				locale="it"
 				inputMode="start"
 			/>
 
@@ -120,13 +139,12 @@ export default function EventCreation({ navigation, route }) {
 				disabled={loading}
 			/>
 
-			<Dropdown
-				label="Category"
-				value={category}
-				onSelect={setCategory}
+			<TextInput
+				label="Location"
+				value={location}
+				onChangeText={text => setLocation(text)}
 				style={{ marginBottom: 20 }}
 				disabled={loading}
-				options={eventCategories}
 			/>
 
 			<CurrencyInput
@@ -135,7 +153,6 @@ export default function EventCreation({ navigation, route }) {
 				onChangeValue={setPrice}
 				style={{
 					marginBottom: 20,
-					marginTop: 20,
 				}}
 				disabled={loading}
 				prefix='€'
@@ -164,6 +181,7 @@ export default function EventCreation({ navigation, route }) {
 			<Button
 				title="Submit"
 				mode="contained"
+				icon={event_info.id > 0 ? 'pencil' : 'plus'}
 				style={[ style.spaceTop ]}
 				onPress={() => {
 					setLoading(true);
@@ -171,18 +189,20 @@ export default function EventCreation({ navigation, route }) {
 					setTimeout(() => {
 						setLoading(false);
 
+						console.log(date);
+
 						setDialogVisible(true);
 					}, 1000);
 				}}
 				loading={loading}
 				disabled={loading}
 			>
-				Create
+				{event_info.id > 0 ? 'Modify' : 'Create'}
 			</Button>
 
 			{/* <LoadingOverlay visible={name === 'ciao'} /> */}
 			<FullDialog
-				title="Event created!"
+				title={event_info.id > 0 ? 'Event modified!' : 'Event created!'}
 				content=""
 				actions={[
 				{
@@ -209,4 +229,13 @@ function formatTime(time) {
 	let padMinutes = minutes.toString().padStart(2, '0');
 
 	return `${hours}:${padMinutes}`;
+}
+
+function parseTime(str) {
+	let parts = str.split(':');
+
+	return {
+		hours: parseInt(parts[0], 10),
+		minutes: parseInt(parts[1], 10),
+	};
 }

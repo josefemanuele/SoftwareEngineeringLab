@@ -47,13 +47,6 @@ export default function EventList({ navigation, route }) {
     doRefresh();
   }, []);
 
-	let cardMenu = () => (
-		<ThreeDotsMenu>
-			<Menu.Item title="Cancel event" leadingIcon="close-circle-outline" onPress={() => setDialogVisible(true)} />
-			<Menu.Item title="Modify event" leadingIcon="pencil" onPress={navigation.push('organizer/EventModification')} />
-		</ThreeDotsMenu>
-	);
-
 	return (
 		<>
 			<Text variant="headlineMedium" style={[ style.box, {
@@ -71,7 +64,16 @@ export default function EventList({ navigation, route }) {
           })}>
 						<Card.Title title={event.name}
 							titleStyle={{ fontWeight: 'bold', fontSize: 22 }}
-							right={cardMenu}
+							right={() => (
+								<ThreeDotsMenu>
+									<Menu.Item title="Modify event" leadingIcon="pencil" onPress={() => {
+										navigation.push('organizer/EventModification', {
+											event_info: event,
+										});
+									}} />
+									<Menu.Item title="Cancel event" leadingIcon="close-circle-outline" onPress={() => setDialogVisible(true)} />
+								</ThreeDotsMenu>
+							)}
 						/>
 						<Card.Content>
 							<Text style={{ flexDirection: 'row', marginBottom: 5}}>
@@ -97,10 +99,10 @@ export default function EventList({ navigation, route }) {
 						</Card.Content>
 					</Card>
 				))}
-				
+
 			<FullDialog
                 title="Confirmation message"
-                content={`Do you want to cancel the event?`}    
+                content={`Do you want to cancel the event?`}
                 actions={[{
                     name: 'Yes',
                     callback: () => {setDialogVisible(false)}
@@ -111,7 +113,7 @@ export default function EventList({ navigation, route }) {
                 visible={dialogVisible}
                 onDismiss={() => setDialogVisible(false)}
             />
-			
+
 			</ScrollView>
 
 			<FAB icon='plus' size='medium' style={{
@@ -121,7 +123,7 @@ export default function EventList({ navigation, route }) {
 				bottom: 0,
 			}} onPress={() => navigation.push('organizer/EventCreation')}></FAB>
 
-			
+
 		</>
 	);
 }
