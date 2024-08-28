@@ -13,7 +13,7 @@ export default function AppHeader({ navigation, route, options, back, isLoggedIn
 	let notifIcon = notifNum > 0 ? 'message-badge-outline' : 'message-outline';
 
 	let leftButton;
-	
+
 	if (back) {
 		leftButton = <Appbar.BackAction onPress={navigation.goBack} />;
 	} else if (navigation.openDrawer) {
@@ -33,7 +33,7 @@ export default function AppHeader({ navigation, route, options, back, isLoggedIn
 			<Menu visible={accountMenuVisible} onDismiss={() => setAccountMenuVisible(false)} anchor={accountIcon} anchorPosition="bottom">
 				<Text style={style.box} variant="titleMedium">Welcome, USER!</Text>
 				<Divider />
-				<Menu.Item title="Profile" leadingIcon="account" onPress={() => navigation.push('participant/Profile')}/>
+				<Menu.Item title="Profile" leadingIcon="account" onPress={() => navigation.push('general/Profile')}/>
 				<Menu.Item title="Logout" leadingIcon="logout" onPress={doLogout} />
 			</Menu>
 		</>
