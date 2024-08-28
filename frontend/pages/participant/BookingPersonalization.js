@@ -1,29 +1,76 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
-import { ScrollView } from 'react-native';
-import { Button, Divider, Icon, Text } from 'react-native-paper';
+import { ScrollView, View } from 'react-native';
+import { Button, Divider, Icon, Text, TextInput } from 'react-native-paper';
+import { en, registerTranslation, registerDefaultLocale, useFormState, Form } from 'react-native-use-form';
+
+import InputWithError from '../../components/InputWithError.js';
 
 import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
 import style from '../../style/custom.js';
 
+registerTranslation('en', en);
+registerDefaultLocale('en');
+
 export default function BookingPersonalization({ navigation, route }) {
 	let { params } = route;
-	
-	let bookingData = {};
+
+	let scrollViewRef = useRef(null);
+
+	let maxParticipants = 23;
+
+	let [{ errors, submit, formProps, hasError }, fh] = useFormState({
+		participants: 1,
+		notes: '',
+	}, {
+		scrollViewRef: scrollViewRef,
+		onSubmit: (values) => {
+			navigation.push('participant/BookingReview', {
+				event_id: params.event_id,
+				booking_data: values,
+			});
+		}
+	});
 
 	return (
 		<ScrollView contentContainerStyle={style.box} style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>
-			<Text>Booking personalization!</Text>
-			<Button
-				title="booking"
-				icon="book-arrow-right-outline"
-				mode="elevated"
-				style={{ margin: 20 }}
-				onPress={() => navigation.push('participant/BookingReview', {
-					event_id: params.event_id,
-					booking_data: bookingData,
-				})}
-			>Continue to payment</Button>
+			<View style={{ alignSelf: 'center', marginBottom: 25 }}>
+				<Icon source='book-cog' size={75}></Icon>
+			</View>
+
+			<Form {...formProps}>
+				<InputWithError Component={TextInput}
+					right={<TextInput.Affix text={`/${maxParticipants}`} />}
+					{...fh.text('participants', {
+						required: true,
+						label: 'Number of participants',
+						validate: value => {
+	            if (isNaN(value)) {
+	              return 'Insert a valid number';
+	            }
+
+							if (!(value >= 1 && value <= maxParticipants)) {
+								return `Insert a number between 1 and ${maxParticipants}`;
+							}
+
+	            return true;
+	          }
+					})}
+				/>
+
+				<InputWithError Component={TextInput}
+					multiline={true}
+					numberOfLines={5}
+					{...fh.text('notes', {
+						required: true,
+						label: 'Additional notes for the organizer',
+					})}
+				/>
+
+				<Button title="Payment" icon="book-arrow-right-outline" mode="elevated" style={style.spaceTop} onPress={submit}>
+					Continue to review
+				</Button>
+			</Form>
 		</ScrollView>
 	);
 }
