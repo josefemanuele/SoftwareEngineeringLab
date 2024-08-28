@@ -23,7 +23,7 @@ export default function EventPage({ navigation, route }) {
 		"price": 50,
 		"description": "Join us for a night filled with sunshine, music, and good vibes featuring top local bands.",
 		"capacity": 5000,
-		"reservations": 2438,
+		"reservations": 0,
 	});
 
     let [ cancel, setCancel ] = useState(true);
@@ -91,21 +91,24 @@ export default function EventPage({ navigation, route }) {
                         icon="pencil"
                         mode="elevated"
                         style={{ margin: 20 }}
-                        onPress={() => console.log('modify event')}>Modify</Button>
+                        onPress={() => navigation.push('organizer/EventModification')}>Modify</Button>
                     <Button
                         title="cancel"
                         icon="close-circle-outline"
                         mode="elevated"
                         style={{ margin: 20 }}
                         disabled={!cancel}
-                        onPress={() => console.log('cancel event')}>Cancel</Button>
-                    
-                    <FullDialog /* TODO */
+                        onPress={() => setDialogVisible(true)}>Cancel</Button>
+
+                    <FullDialog
                         title="Confirmation message"
-                        content={`Do you want to cancel the event?`}
+                        content={`Do you want to cancel the event?`}    
                         actions={[{
                             name: 'Yes',
-                            callback: () => setDialogVisible(false)
+                            callback: () => {setDialogVisible(false), navigation.push('organizer/EventList')}
+                        }, {
+                            name: 'No',
+                            callback: () => {setDialogVisible(false)}
                         }]}
                         visible={dialogVisible}
                         onDismiss={() => setDialogVisible(false)}
