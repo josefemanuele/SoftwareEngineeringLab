@@ -6,39 +6,33 @@ import { Card, FAB, IconButton, Menu, Text } from 'react-native-paper';
 import ThreeDotsMenu from '../../components/ThreeDotsMenu.js';
 import FullDialog from '../../components/FullDialog.js';
 
-import { doRequest } from '../../lib/rest.js';
+import backend from '../../lib/backend.js';
 
 import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
 import style, { GLOBAL_SPACING } from '../../style/custom.js';
 
 export default function EventList({ navigation, route }) {
-	let orgId = 123;
-	let orgName = 'Melody Events Group';
+	let orgId = 1;
 
 	let { params } = route;
 
+	let [ orgInfo, setOrgInfo ] = useState({
+		id: 0,
+		name: '',
+	});
   let [ events, setEvents ] = useState([]);
 
   let [ refreshing, setRefreshing ] = useState(false);
   let [ dialogVisible, setDialogVisible ] = useState(false);
 
-
   async function doRefresh() {
     setRefreshing(true);
 
-		let response;
+		let tmp1 = backend.getOrganizationById(orgId);
+		let tmp2 = backend.getEventsOfOrganization(orgId);
 
-    try {
-      response = await doRequest('event', 'GET', `/organization/${orgId}/event`, null);
-    } catch (e) {
-      // nothing
-    }
-
-    if (response != null) {
-      setEvents(response);
-    } else {
-      console.log('Error fetching event list')
-    }
+		setOrgInfo(tmp1);
+		setEvents(tmp2);
 
     setRefreshing(false);
   }
@@ -51,7 +45,7 @@ export default function EventList({ navigation, route }) {
 		<>
 			<Text variant="headlineMedium" style={[ style.box, {
 				alignSelf: 'center', fontWeight: 'bold'
-			} ]}>{orgName}</Text>
+			} ]}>{orgInfo.name}</Text>
 
 			<ScrollView contentContainerStyle={style.box} refreshControl={
 				<RefreshControl refreshing={refreshing} onRefresh={doRefresh} />
@@ -60,7 +54,6 @@ export default function EventList({ navigation, route }) {
 					<Card key={event.id} style={{
 						marginBottom: GLOBAL_SPACING
 					}} onPress={() => navigation.push('organizer/Event', {
-            event_id: event.id,
 						event_info: event,
           })}>
 						<Card.Title title={event.name}
@@ -72,7 +65,7 @@ export default function EventList({ navigation, route }) {
 											event_info: event,
 										});
 									}} />
-									<Menu.Item title="Cancel event" leadingIcon="close-circle-outline" onPress={() => setDialogVisible(true)} />
+									<Menu.Item title="Cancel event" leadingIcon="close-circle-outline" onPress={() => setDialogVisible(event.id)} />
 								</ThreeDotsMenu>
 							)}
 						/>
@@ -102,18 +95,23 @@ export default function EventList({ navigation, route }) {
 				))}
 
 			<FullDialog
-                title="Confirmation message"
-                content={`Do you want to cancel the event?`}
-                actions={[{
-                    name: 'Yes',
-                    callback: () => {setDialogVisible(false)}
-                }, {
-                	name: 'No',
-                    callback: () => {setDialogVisible(false)}
-                }]}
-                visible={dialogVisible}
-                onDismiss={() => setDialogVisible(false)}
-            />
+          title="Confirmation message"
+          content={`Do you want to cancel the event?`}
+          actions={[{
+              name: 'Yes',
+              callback: () => {
+								let eventId = dialogVisible;
+								setDialogVisible(false);
+								backend.removeEvent(eventId);
+								doRefresh();
+							}
+          }, {
+          	name: 'No',
+              callback: () => setDialogVisible(false)
+          }]}
+          visible={!!dialogVisible}
+          onDismiss={() => setDialogVisible(false)}
+      />
 
 			</ScrollView>
 
@@ -123,8 +121,6 @@ export default function EventList({ navigation, route }) {
 				right: 0,
 				bottom: 0,
 			}} onPress={() => navigation.push('organizer/EventCreation')}></FAB>
-
-
 		</>
 	);
 }

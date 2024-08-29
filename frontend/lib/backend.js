@@ -25,6 +25,10 @@ export function getEventsOfOrganization(org_id) {
 	return events.filter(event => event.organization_id === org_id);
 };
 
+export function removeEvent(event_id) {
+	events = events.filter(event => event.id !== event_id);
+}
+
 export function getReservationById(resv_id) {
 	let tmp = reservations.filter(resv => resv.id === resv_id);
 
@@ -74,6 +78,7 @@ export default {
 
 	getEventById,
 	getEventsOfOrganization,
+	removeEvent,
 
 	getReservationById,
 	getReservationsOfUser,
