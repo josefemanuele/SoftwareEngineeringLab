@@ -10,6 +10,7 @@ import ParticipantOrganization from '../../pages/participant/Organization.js';
 import ParticipantPayment from '../../pages/participant/Payment.js';
 import ParticipantProfile from '../../pages/participant/Profile.js';
 import ParticipantReservations from '../../pages/participant/Reservations.js';
+import ParticipantReservation from '../../pages/participant/Reservation.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +41,9 @@ export default function ParticipantStack({ home, header }) {
 				}}/>
 				<Stack.Screen name='participant/Reservations' component={ParticipantReservations} options={{
 					title: 'Reservations'
+				}}/>
+				<Stack.Screen name='participant/Reservation' component={ParticipantBookingReview} options={{
+					title: 'Reservation'
 				}}/>
 			</Stack.Group>
 		</Stack.Navigator>

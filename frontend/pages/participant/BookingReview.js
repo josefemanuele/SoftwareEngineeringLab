@@ -47,9 +47,10 @@ export default function BookingReview({ navigation, route }) {
 
 			</>
 
+			{user_info !== null ? (
+			<>
 				<Divider style={[ style.spaceTop, style.spaceBottom ]} />
 
-			<>
 				<Text variant="headlineSmall" style={[ style.spaceBottom, style.mt20 ]}>Organizer info</Text>
 
 				<Text style={[ style.spaceBottom ]}>
@@ -58,6 +59,7 @@ export default function BookingReview({ navigation, route }) {
 					<Text variant="bodyLarge">{user_info.name} {user_info.surname}</Text>
 				</Text>
 			</>
+			) : null}
 
 				<Divider style={[ style.spaceTop, style.spaceBottom ]} />
 
@@ -83,6 +85,7 @@ export default function BookingReview({ navigation, route }) {
 				</Text>
 			</>
 
+			{user_info !== null ? (
 			<Button
 				title="booking"
 				icon="book-arrow-right-outline"
@@ -93,6 +96,7 @@ export default function BookingReview({ navigation, route }) {
 					booking_data: booking_data,
 				})}
 			>Continue to payment</Button>
+			) : null}
 		</ScrollView>
 	);
 }
