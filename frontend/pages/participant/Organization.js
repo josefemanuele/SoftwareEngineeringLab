@@ -47,14 +47,14 @@ export default function Organization({ navigation, route }) {
 						left={(props) => <Avatar.Icon {...props} icon="store" />}
 					/>
 					<Card.Content>
-						<View style={{ flexDirection: 'row', marginBottom: 10 }}>
+						<Text style={{ marginBottom: 10 }}>
               <Text style={{ fontWeight: 'bold' }}>Category: </Text>
               <Text>{info.category}</Text>
-            </View>
-						<View style={{ flexDirection: 'row', marginBottom: 10 }}>
+            </Text>
+						<Text style={{ marginBottom: 10 }}>
               <Text style={{ fontWeight: 'bold' }}>Info: </Text>
               <Text>{info.description}</Text>
-            </View>
+            </Text>
 					</Card.Content>
 				</Card>
 
