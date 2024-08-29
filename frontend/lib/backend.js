@@ -51,7 +51,7 @@ export function getReservationsOfUser(user_id) {
 }
 
 export function addReservation(event_id, booking_data, payment_data) {
-	let maxId = reservations.reduce((acc, { id }) => Math.max(acc, id), 0);
+	let maxId = reservations.reduce((acc, { id }) => Math.max(acc, id), 0) + 1;
 
 	let reservation = {
 		id: maxId,
