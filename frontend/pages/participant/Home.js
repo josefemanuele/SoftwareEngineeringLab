@@ -30,7 +30,7 @@ export default function Home({ navigation }) {
 
   organizations = organizations.filter(organization => (
     organization.name.toLowerCase().includes(tempSQ) ||
-    organization.type.toLowerCase().includes(tempSQ) ||
+    organization.category.toLowerCase().includes(tempSQ) ||
     organization.description.toLowerCase().includes(tempSQ)
   ));
 
@@ -56,7 +56,7 @@ export default function Home({ navigation }) {
             <Card.Content>
             <Text style={{ flexDirection: 'row', marginBottom: 5}}>
 							<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Category: </Text>
-							<Text>{organization.type}</Text>
+							<Text>{organization.category}</Text>
 						</Text>
 						<Text style={{ flexDirection: 'row', marginBottom: 5 }}>
 							<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Description: </Text>
