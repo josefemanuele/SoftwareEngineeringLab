@@ -7,6 +7,8 @@ import { en, registerTranslation, registerDefaultLocale, useFormState, Form } fr
 import FullDialog from '../../components/FullDialog.js';
 import InputWithError from '../../components/InputWithError.js';
 
+import backend from '../../lib/backend.js';
+
 import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
 import style from '../../style/custom.js';
 
@@ -29,6 +31,8 @@ const DIALOG_MESSAGES = {
 }
 
 export default function Payment({ navigation, route }) {
+  let { params } = route;
+
 	let [ loading, setLoading ] = useState(false);
   let [ dialogMessage, setDialogMessage ] = useState(null);
 
@@ -44,7 +48,7 @@ export default function Payment({ navigation, route }) {
     onSubmit: values => {
       setLoading(true);
 
-      // do payment
+      backend.addReservation(params.event_id, params.booking_data, values);
 
       setTimeout(() => {
         setLoading(false);

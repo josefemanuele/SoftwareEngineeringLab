@@ -1,39 +1,59 @@
 import React, { useState, useEffect }from 'react';
 
-import { ScrollView, View } from 'react-native';
+import { RefreshControl, ScrollView, View } from 'react-native';
 import { Button, Divider, Icon, Text } from 'react-native-paper';
+
+import backend from '../../lib/backend.js';
 
 import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
 import style from '../../style/custom.js';
 
 export default function EventPage({ navigation, route }) {
-	let params = route.params;
+	let { params } = route;
+	let { event_id } = params;
+
+	let [ eventInfo, setEventInfo ] = useState({
+		id: 0,
+		name: '',
+		location: '',
+		date: '',
+		start_time: '',
+		end_time: '',
+		category: '',
+		price: 0,
+		description: '',
+		capacity: 0,
+
+		reservations: 0,
+	});
+
+	let [ bookable, setBookable ] = useState(true);
+	let [ refreshing, setRefreshing ] = useState(false);
+
+	async function doRefresh() {
+		setRefreshing(true);
+
+		let response = backend.getEventById(event_id);
+		setEventInfo(response);
+		setBookable(response.reservations < response.capacity);
+
+		setRefreshing(false);
+	}
+
+	useEffect(() => {
+		doRefresh();
+	}, []);
 
 	let userInfo = {
 		name: 'Gino',
 		surname: 'Rossi',
 	}
 
-	let [ eventInfo, setEventInfo ] = useState({
-		"id": 1,
-		"name": "Summer Vibes Festival",
-		"location": "Central Park, New York City",
-		"date": "July 15, 2024",
-		"start_time": "5:00 PM",
-		"end_time": "10:00 PM",
-		"category": "Festival",
-		"price": 50,
-		"description": "Join us for a night filled with sunshine, music, and good vibes featuring top local bands.",
-		"capacity": 5000,
-
-		"reservations": 2438,
-	});
-
-
-	let [ bookable, setBookable ] = useState(true);
-
 	return (
-		<ScrollView contentContainerStyle={style.box} style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>
+		<ScrollView contentContainerStyle={style.box} style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}
+			refreshControl={
+				<RefreshControl refreshing={refreshing} onRefresh={doRefresh} />
+			}>
 			<View style={{ alignSelf: 'center', marginBottom: 25 }}>
 				<Icon source='calendar-text' size={75}></Icon>
 			</View>
@@ -89,9 +109,8 @@ export default function EventPage({ navigation, route }) {
 				icon="book-arrow-right-outline"
 				mode="elevated"
 				style={{ margin: 20 }}
-        		disabled={!bookable}
+        disabled={!bookable}
 				onPress={() => navigation.push('participant/BookingPersonalization', {
-					event_id: params.event_id,
 					event_info: eventInfo,
 					user_info: userInfo,
 				})}>Book now!</Button>

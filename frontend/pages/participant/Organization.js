@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
 import { Button, Card, Divider, Text, Avatar } from 'react-native-paper';
 
-import { doRequest } from '../../lib/rest.js';
+import backend from '../../lib/backend.js';
 
 import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
 import style, { GLOBAL_SPACING } from '../../style/custom.js';
@@ -22,36 +22,11 @@ export default function Organization({ navigation, route }) {
   async function doRefresh() {
     setRefreshing(true);
 
-		let response;
+		let orgInfo = backend.getOrganizationById(params.id);
+		let orgEvents = backend.getEventsOfOrganization(params.id);
 
-    // try {
-    //   response = await doRequest('user', 'GET', `/organization/${params.id}`, null);
-    // } catch (e) {
-    //   // nothing
-    // }
-		//
-		// if (response != null) {
-    //   setInfo(response);
-    // } else {
-    //   console.log('Error fetching organization info')
-    // }
-
-    try {
-      response = await doRequest('event', 'GET', `/organization/${params.id}/event`, null);
-    } catch (e) {
-      // nothing
-    }
-
-    if (response != null) {
-			setInfo({
-				name: 'Melody Events Group',
-				category: 'Music Event Management and Production',
-				description: 'Melody Events Group is a dynamic event planning organization dedicated to curating a diverse array of live music experiences that celebrate various genres and seasonal festivals',
-			})
-      setEvents(response);
-    } else {
-      console.log('Error fetching event list')
-    }
+		setInfo(orgInfo);
+		setEvents(orgEvents);
 
     setRefreshing(false);
   }

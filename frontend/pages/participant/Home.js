@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
 import { Card, Searchbar, Text } from 'react-native-paper';
 
-import { doRequest } from '../../lib/rest.js';
+import backend from '../../lib/backend.js';
 
 import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
 import style, { GLOBAL_SPACING } from '../../style/custom.js';
@@ -16,18 +16,8 @@ export default function Home({ navigation }) {
   async function doRefresh() {
     setRefreshing(true);
 
-    let response;
-    try {
-      response = await doRequest('user', 'GET', '/organization', null);
-    } catch (e) {
-      // nothing
-    }
-
-    if (response != null) {
-      setOrganizations(response);
-    } else {
-      console.log('Error fetching organization list')
-    }
+    let orgs = backend.getOrganizations();
+    setOrganizations(orgs);
 
     setRefreshing(false);
   }
