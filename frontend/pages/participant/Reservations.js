@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { RefreshControl, ScrollView, View } from 'react-native';
 import { Button, Card, Icon, Text } from 'react-native-paper';
+import { useFocusEffect } from '@react-navigation/native';
 
 import backend from '../../lib/backend.js';
 
 import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
 import style, { GLOBAL_SPACING } from '../../style/custom.js';
 
-export default function Reservations({navigation}) {
+export default function Reservations({ navigation }) {
 	let [ refreshing, setRefreshing ] = useState(false);
 	let [ reservations, setReservations ] = useState([]);
 
@@ -24,9 +25,9 @@ export default function Reservations({navigation}) {
     setRefreshing(false);
   }
 
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     doRefresh();
-  }, []);
+  }, []));
 
 	return (
 		<ScrollView contentContainerStyle={style.box} refreshControl={
@@ -69,9 +70,7 @@ export default function Reservations({navigation}) {
 					</Card.Content>
 					<Card.Actions>
 						<Button onPress={() => navigation.push('participant/Reservation', {
-							user_info: null,
-							event_info: reservation.event_data,
-							booking_data: reservation.booking_data,
+							reservation,
 						})}>View more</Button>
 					</Card.Actions>
 				</Card>
