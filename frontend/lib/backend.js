@@ -62,8 +62,10 @@ export function addReservation(event_id, booking_data, payment_data) {
 	};
 
 	reservations.push(reservation);
+}
 
-	console.log(reservations);
+export function removeReservation(resv_id) {
+	reservations = reservations.filter(resv => resv.id !== resv_id);
 }
 
 export default {
@@ -75,8 +77,8 @@ export default {
 
 	getReservationById,
 	getReservationsOfUser,
-
 	addReservation,
+	removeReservation,
 };
 
 let users = [{
