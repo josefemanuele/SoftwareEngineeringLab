@@ -106,7 +106,7 @@ export default function EventCreation({ navigation, route }) {
 						event.preventDefault();
 						setStVisible(true);
 					}}
-					style={{ marginBottom: 20, marginRight: 20 }}
+					style={{ marginBottom: 20, marginRight: 20, flex: 1}}
 					disabled={loading}
 				/>
 
@@ -114,7 +114,7 @@ export default function EventCreation({ navigation, route }) {
 					label="End time"
 					value={formatTime(endTime)}
 					onFocus={() => setEtVisible(true)}
-					style={{ marginBottom: 20 }}
+					style={{ marginBottom: 20, flex: 1 }}
 					disabled={loading}
 				/>
 			</View>
