@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
-import { Card, Searchbar, Text } from 'react-native-paper';
+import { Button, Card, Searchbar, Text } from 'react-native-paper';
 
 import backend from '../../lib/backend.js';
 
@@ -63,6 +63,11 @@ export default function Home({ navigation }) {
 							<Text>{organization.description}</Text>
 						</Text>
             </Card.Content>
+            <Card.Actions>
+              <Button icon='eye' onPress={() => navigation.push('participant/Organization', {
+                id: organization.id
+              })}>View more</Button>
+            </Card.Actions>
           </Card>
         ))}
       </ScrollView>

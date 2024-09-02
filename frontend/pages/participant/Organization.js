@@ -92,7 +92,7 @@ export default function Organization({ navigation, route }) {
               </Text>
             </Card.Content>
 						<Card.Actions>
-							<Button onPress={() => navigation.push('participant/Event', {
+							<Button icon='eye' onPress={() => navigation.push('participant/Event', {
 								organization_id: params.id,
 		            event_id: event.id,
 		          })}>View more</Button>

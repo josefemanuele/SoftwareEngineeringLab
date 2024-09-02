@@ -36,14 +36,14 @@ export default function MainNavigator({ isLoggedIn, userRole }) {
 				</Drawer.Screen>
 
 				<Drawer.Screen key='2' name='participant/NavReservations' options={{
-					title: 'Reservations',
+					title: 'My reservations',
 					drawerIcon: getIconNode('receipt', 20),
 				}}>
 					{(args) => <ParticipantStack header={header} home='participant/Reservations' />}
 				</Drawer.Screen>
 
 				<Drawer.Screen key='4' name='participant/NavProfile' options={{
-					title: 'Profile',
+					title: 'My profile',
 					drawerIcon: getIconNode('account', 20),
 				}}>
 					{(args) => <ParticipantStack header={header} home='general/Profile' />}
