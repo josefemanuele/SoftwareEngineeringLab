@@ -8,6 +8,8 @@ import FullDialog from '../../components/FullDialog.js';
 import InputWithError from '../../components/InputWithError.js';
 import PasswordInput from '../../components/PasswordInput.js';
 
+import backend from '../../lib/backend.js';
+
 import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
 import style from '../../style/custom.js';
 
@@ -48,12 +50,25 @@ export default function Registration({ navigation }) {
     onSubmit: values => {
       setLoading(true);
 
-      // do registration
+      let userId = await backend.addUser({
+        email,
+        password: passwordA,
+        name: null,
+        surname: null,
+        organizer: true,
+      });
 
-      setTimeout(() => {
-        setLoading(false);
-        setDialogMessage('success');
-      }, 1000);
+      await backend.addOrganization({
+        name: orgName,
+        category,
+        phoneNumber,
+        address,
+        description,
+        owner_id: userId,
+      });
+      
+      setLoading(false);
+      setDialogMessage('success');
     }
   });
 

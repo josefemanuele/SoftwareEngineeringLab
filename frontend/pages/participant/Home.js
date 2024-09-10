@@ -16,7 +16,7 @@ export default function Home({ navigation }) {
   async function doRefresh() {
     setRefreshing(true);
 
-    let orgs = backend.getOrganizations();
+    let orgs = await backend.getOrganizations();
     setOrganizations(orgs);
 
     setRefreshing(false);

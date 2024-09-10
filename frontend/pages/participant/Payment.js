@@ -39,21 +39,20 @@ export default function Payment({ navigation, route }) {
   let scrollViewRef = useRef(null);
 
   let [{ errors, submit, formProps, hasError }, fh] = useFormState({
-    ccNumber: '',
-    cvv: '',
-    expirationDate: '',
-    cardholderName: '',
+    ccNumber: '1234-5678-1234-5678',
+    cvv: '123',
+    expirationDate: '10/28',
+    cardholderName: 'Auronzo Sbronzi',
   }, {
     scrollViewRef: scrollViewRef,
     onSubmit: values => {
       setLoading(true);
 
-      backend.addReservation(params.event_id, params.booking_data, values);
+      let bookingId = await backend.addReservation(params.event_id, params.booking_data);
+      await backend.addPayment(bookingId, values);
 
-      setTimeout(() => {
-        setLoading(false);
-        setDialogMessage('success');
-      }, 1000);
+      setLoading(false);
+      setDialogMessage('success');
     }
   });
 

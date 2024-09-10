@@ -28,8 +28,8 @@ export default function EventList({ navigation, route }) {
   async function doRefresh() {
     setRefreshing(true);
 
-		let tmp1 = backend.getOrganizationById(orgId);
-		let tmp2 = backend.getEventsOfOrganization(orgId);
+		let tmp1 = await backend.getOrganizationById(orgId);
+		let tmp2 = await backend.getEventsOfOrganization(orgId);
 
 		setOrgInfo(tmp1);
 		setEvents(tmp2);
@@ -102,7 +102,7 @@ export default function EventList({ navigation, route }) {
               callback: () => {
 								let eventId = dialogVisible;
 								setDialogVisible(false);
-								backend.removeEvent(eventId);
+								await backend.removeEvent(eventId);
 								doRefresh();
 							}
           }, {

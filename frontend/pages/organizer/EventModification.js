@@ -9,6 +9,8 @@ import { DatePickerInput, TimePickerModal, it, registerTranslation } from 'react
 import FullDialog from '../../components/FullDialog.js';
 import LoadingOverlay from '../../components/LoadingOverlay.js';
 
+import backend from '../../lib/backend.js';
+
 import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
 import style from '../../style/custom.js';
 
@@ -190,13 +192,26 @@ export default function EventCreation({ navigation, route }) {
 				onPress={() => {
 					setLoading(true);
 
-					setTimeout(() => {
-						setLoading(false);
+					let values = {
+						name,
+						category,
+						date,
+						startTime,
+						endTime,
+						location,
+						price,
+						description,
+						participantsNum,
+					}
 
-						console.log(date);
+					if (event_info.id > 0) {
+						await backend.modifyEvent(id, values);
+					} else {
+						await backend.addEvent(values);
+					}
 
-						setDialogVisible(true);
-					}, 1000);
+					setLoading(false);
+					setDialogVisible(true);
 				}}
 				loading={loading}
 				disabled={loading}

@@ -96,7 +96,7 @@ export default function Reservation({ navigation, route }) {
 					name: 'Yes',
 					callback: () => {
 						setDialogVisible(false);
-						backend.removeReservation(reservationId);
+						await backend.removeReservation(reservationId);
 						navigation.navigate('participant/Reservations');
 					}
 				}, {

@@ -18,8 +18,7 @@ export default function Reservations({ navigation }) {
 	async function doRefresh() {
     setRefreshing(true);
 
-    let resvs = backend.getReservationsOfUser(userId);
-		console.log(resvs);
+    let resvs = await backend.getReservationsOfUser(userId);
     setReservations(resvs);
 
     setRefreshing(false);
