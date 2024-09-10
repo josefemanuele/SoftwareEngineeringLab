@@ -1,14 +1,86 @@
-export function getOrganizations() {
+export async function getUser(user_id) {
+	return {};
+}
+
+export async function addUser(user_data) {
+	return;
+}
+
+
+export async function getSession(session_id) {
+	let response;
+
+	try {
+		response = await doRequest('user', 'GET', `/session/${session_id}`);
+	} catch (err) {
+		throw new Exception('Network error');
+	}
+
+	switch (response.status) {
+		case 204:
+			return;
+		case 404:
+			throw new Exception('Session not found');
+		default:
+			throw new Exception('Response error');
+	}
+}
+
+export async function addSession(email, password) {
+	let response;
+
+	try {
+		response = await doRequest('user', 'POST', '/sessions', {
+			email,
+			password,
+		}, true);
+	} catch (err) {
+		throw new Exception('Network error');
+	}
+
+	switch (response.status) {
+		case 200:
+			let data = await response.json();
+			let session_id = data.session_id;
+
+			return session_id;
+		case 401:
+			throw new Exception('Unauthorized');
+		default:
+			throw new Exception('Response error');
+	}
+}
+
+export async function removeSession(session_id) {
+	let response;
+
+	try {
+		response = await doRequest('user', 'DELETE', `/session/${session_id}`);
+	} catch (err) {
+		throw new Exception('Network error');
+	}
+
+	switch (response.status) {
+		case 200:
+			return;
+		default:
+			throw new Exception('Response error');
+	}
+}
+
+
+export async function getOrganizations() {
 	return organizations;
 }
 
-export function getOrganizationById(org_id) {
+export async function getOrganizationById(org_id) {
 	let tmp = organizations.filter(org => org.id === org_id);
 
 	return tmp.length === 1 ? tmp[0] : null;
-};
+}
 
-export function getEventById(event_id) {
+
+export async function getEventById(event_id) {
 	let tmp = events.filter(event => event.id === event_id);
 
 	if (tmp.length !== 1) {
@@ -21,15 +93,24 @@ export function getEventById(event_id) {
 	return event;
 }
 
-export function getEventsOfOrganization(org_id) {
+export async function getEventsOfOrganization(org_id) {
 	return events.filter(event => event.organization_id === org_id);
-};
+}
 
-export function removeEvent(event_id) {
+export async function addEvent(event_data) {
+	return 123;
+}
+
+export async function modifyEvent(id, event_data) {
+	return;
+}
+
+export async function removeEvent(event_id) {
 	events = events.filter(event => event.id !== event_id);
 }
 
-export function getReservationById(resv_id) {
+
+export async function getReservationById(resv_id) {
 	let tmp = reservations.filter(resv => resv.id === resv_id);
 
 	if (tmp.length !== 1) {
@@ -42,7 +123,7 @@ export function getReservationById(resv_id) {
 	return resv;
 }
 
-export function getReservationsOfUser(user_id) {
+export async function getReservationsOfUser(user_id) {
 	let tmp = reservations.filter(resv => resv.user_id === user_id);
 	tmp = reservations.map(resv => {
 		resv = JSON.parse(JSON.stringify(resv));
@@ -54,7 +135,7 @@ export function getReservationsOfUser(user_id) {
 	return tmp;
 }
 
-export function addReservation(event_id, booking_data, payment_data) {
+export async function addReservation(event_id, booking_data, payment_data) {
 	let maxId = reservations.reduce((acc, { id }) => Math.max(acc, id), 0) + 1;
 
 	let reservation = {
@@ -68,22 +149,45 @@ export function addReservation(event_id, booking_data, payment_data) {
 	reservations.push(reservation);
 }
 
-export function removeReservation(resv_id) {
+export async function removeReservation(resv_id) {
 	reservations = reservations.filter(resv => resv.id !== resv_id);
 }
 
+
+export async function getPayment() {
+	return {};
+}
+
+export async function addPayment() {
+	return 123;
+}
+
+
 export default {
+	getUser,
+	addUser,
+
+	getSession,
+	addSession,
+	removeSession,
+
 	getOrganizations,
 	getOrganizationById,
+	addOrganization,
 
 	getEventById,
 	getEventsOfOrganization,
+	addEvent,
+	modifyEvent,
 	removeEvent,
 
 	getReservationById,
 	getReservationsOfUser,
 	addReservation,
 	removeReservation,
+
+	getPayment,
+	addPayment,
 };
 
 let users = [{

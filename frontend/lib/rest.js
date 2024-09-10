@@ -27,17 +27,5 @@ export async function doRequest(service, method, endpoint, payload, unauthentica
 
   let response = await fetch(url, params);
 
-	switch (response.status) {
-		case 200:
-			result = await response.json();
-			break;
-		case 204:
-			result = true;
-			break;
-		default:
-			result = null;
-			break;
-	}
-
-	return result;
+	return response;
 }
