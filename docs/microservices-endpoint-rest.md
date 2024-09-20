@@ -21,7 +21,7 @@ possibile, cioè che diano informazioni rispetto allo stato della richiesta.
 Enpoint per la **gestione della sessione**:
 
 - `/sessions`
-  - POST  
+  - POST create a new session (token)
     Receives: username, password in HTTP request body  
     Returns: session_id (something like `authorization: bearer <token>`)
 
@@ -82,9 +82,8 @@ Endpoint per gestire gli **utenti**
 
 - `/event/<id>`
     - GET: get the specified event
-
-- `/event/<id>/reservations`
-    - GET: restituisce la lista delle prenotazioni effettuate per lo specifico evento
+    - PUT: update event data
+    - DELETE
 
 **Fields**
 - id
