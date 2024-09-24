@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_restful import Api, Resource, reqparse
+import json
 
 # import db
 
@@ -24,41 +25,38 @@ required_event_fields = ["organization_id",
                          "price",
                          "capacity"]
 
-# Dummy data
-events = {
-    0 : {
-        "organization_id": 1,
-        "title": "Event",
-        "description": "A nice event",
-    },
-    1 : {
-        "organization_id": 1,
-        "title": "Another event",
-        "description": "The best event ever",
-    },
-    2 : {
-        "organization_id": 2,
-        "title": "Happy Hour",
-        "description": "The best live music is here!",
-    },
-}
+def save_data(data: dict):
+    with open("data.json", "w", encoding="utf-8") as f:
+        json.dump(data, f) 
 
-def update_event_fields(event_id: int):
+def read_data() -> dict:
+    data = {}
+
+    try:
+        with open("data.json", "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except:
+        with open("data.json", "w", encoding="utf-8") as f:
+            json.dump(data, f)
+
+    return data
+            
+def update_event_fields(event_id: int, events: dict):
     """This function parses the HTTP request and checks if the necessary fields
     are defined, then updates the fields of the specified event.  Returns 400
     BAD REQUEST if some fields are missing """
 
     args = event_data_parser.parse_args()
-    event_data = args.get("event_data")
+    new_event_data = args.get("event_data")
 
     updated_event_fields = {}
 
     #If all necessary fields are present, populate `updated_event_fields`
     for required_field in required_event_fields:
-        if required_field not in event_data:
+        if required_field not in new_event_data:
             # Probably it's better if this raises an exception
             return {"message": "missing fields"} , 400
-        updated_event_fields[required_field] = event_data[required_field]
+        updated_event_fields[required_field] = new_event_data[required_field]
 
     events[event_id] = updated_event_fields
 
@@ -66,6 +64,8 @@ def update_event_fields(event_id: int):
 class Events(Resource):
 
     def get(self):
+
+        events = read_data();
 
         args = parser.parse_args()
         organization_id = args.get("organization_id")
@@ -90,14 +90,17 @@ class Events(Resource):
     # POST is for creating a new element in the collection
     def post(self):
 
+        events = read_data();
+
         if len(events) != 0:
-            last_event_id = max(events.keys())
+            last_event_id = max([int(key) for key in events.keys()])
             new_event_id = last_event_id + 1
         else:
             new_event_id = 0
 
         events[new_event_id] = None
-        update_event_fields(new_event_id)
+        update_event_fields(new_event_id, events)
+        save_data(events)
 
         # 201 created
         return {new_event_id: events[new_event_id]}, 201
@@ -107,6 +110,8 @@ class Events(Resource):
 class Event(Resource):
 
     def get(self, event_id):
+
+        events = read_data();
 
         if event_id is None:
             # 400 Bad request
@@ -120,16 +125,21 @@ class Event(Resource):
     
     def put(self, event_id):
 
+        events = read_data()
+
         if event_id is None:
             return {'message': 'missing event_id'}, 400
         if event_id not in events:
             return {'message': 'no such event'}, 404
 
-        update_event_fields(event_id)
+        update_event_fields(event_id, events)
+        save_data(events)
  
         return {event_id: events[event_id]}, 200
 
     def delete(self, event_id):
+
+        events = read_data()
 
         if event_id is None:
             # 400 Bad request
@@ -139,6 +149,7 @@ class Event(Resource):
 
         if selected_event is not None:
             del events[event_id]
+            save_data(events)
             return "", 200
         # 404 Not found
         return {'message': 'no such event'}, 404
