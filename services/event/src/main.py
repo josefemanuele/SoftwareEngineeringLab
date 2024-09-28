@@ -44,7 +44,7 @@ def read_data() -> dict:
 def update_event_fields(event_id: int, events: dict):
     """This function parses the HTTP request and checks if the necessary fields
     are defined, then updates the fields of the specified event.  Returns 400
-    BAD REQUEST if some fields are missing """
+    BAD REQUEST if any requested field is missing """
 
     args = event_data_parser.parse_args()
     new_event_data = args.get("event_data")
@@ -60,12 +60,13 @@ def update_event_fields(event_id: int, events: dict):
 
     events[event_id] = updated_event_fields
 
+#Load data at startup
+events = read_data()
+
 # This manages event collection
 class Events(Resource):
 
     def get(self):
-
-        events = read_data();
 
         args = parser.parse_args()
         organization_id = args.get("organization_id")
@@ -90,8 +91,6 @@ class Events(Resource):
     # POST is for creating a new element in the collection
     def post(self):
 
-        events = read_data();
-
         if len(events) != 0:
             last_event_id = max([int(key) for key in events.keys()])
             new_event_id = last_event_id + 1
@@ -111,8 +110,6 @@ class Event(Resource):
 
     def get(self, event_id):
 
-        events = read_data();
-
         if event_id is None:
             # 400 Bad request
             return {'message': 'missing event_id'}, 400
@@ -125,8 +122,6 @@ class Event(Resource):
     
     def put(self, event_id):
 
-        events = read_data()
-
         if event_id is None:
             return {'message': 'missing event_id'}, 400
         if event_id not in events:
@@ -138,8 +133,6 @@ class Event(Resource):
         return {event_id: events[event_id]}, 200
 
     def delete(self, event_id):
-
-        events = read_data()
 
         if event_id is None:
             # 400 Bad request

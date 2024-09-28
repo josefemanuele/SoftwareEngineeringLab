@@ -53,6 +53,9 @@ def update_reservation_fields(reservation_id: int, reservations: dict):
 
     reservations[reservation_id] = updated_reservation_fields
 
+#Data init
+reservations = read_data()
+
 class Reservations(Resource):
 
     def get(self):
@@ -62,7 +65,6 @@ class Reservations(Resource):
         event_id = args['event_id']
         
         return_dict = {}
-        reservations = read_data()
 
         # A lot of repetitive code but for now this is enough
         if user_id is not None and event_id is not None:
@@ -89,8 +91,6 @@ class Reservations(Resource):
     # POST is for creating a new element in the collection
     def post(self):
 
-        reservations = read_data();
-
         # Get id for new reservation
         if len(reservations) != 0:
             last_reservation_id = max([int(key) for key in reservations.keys()])
@@ -113,8 +113,6 @@ class Reservation(Resource):
 
     def get(self, reservation_id):
 
-        reservations = read_data();
-
         if reservation_id is None:
             # 400 Bad request
             return {'message': 'missing reservation_id'}, 400
@@ -127,8 +125,6 @@ class Reservation(Resource):
     
     def put(self, reservation_id):
 
-        reservations = read_data()
-
         if reservation_id is None:
             return {'message': 'missing reservation_id'}, 400
         if reservation_id not in reservations:
@@ -140,8 +136,6 @@ class Reservation(Resource):
         return {reservation_id: reservations[reservation_id]}, 200
 
     def delete(self, reservation_id):
-
-        reservations = read_data()
 
         if reservation_id is None:
             # 400 Bad request
