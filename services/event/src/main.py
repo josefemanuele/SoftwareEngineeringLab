@@ -58,6 +58,9 @@ def update_event_fields(event_id: int, events: dict):
             return {"message": "missing fields"} , 400
         updated_event_fields[required_field] = new_event_data[required_field]
 
+    # Add event_id also as field for ease of use
+    updated_event_fields["event_id"] = event_id
+
     events[event_id] = updated_event_fields
 
 #Load data at startup
@@ -73,14 +76,14 @@ class Events(Resource):
 
         if organization_id is None:
             # If no organization_id is defined, show all events
-            return events, 200
+            return [event for event in events.values()], 200
         else:
             # Show only events that have the requested organization_id
-            selected_events = {}
+            selected_events = []
 
             for event_id, event_data in events.items():
                 if event_data["organization_id"] == organization_id:
-                    selected_events[event_id] = event_data
+                    selected_events.append(event_data)
 
             return_code = 200
             if len(selected_events) == 0:
