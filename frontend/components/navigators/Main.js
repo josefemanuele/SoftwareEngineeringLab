@@ -21,7 +21,7 @@ export default function MainNavigator() {
 
 	let header = (args) => (<AppHeader {...args} />);
 
-	if (store.userToken === null) {
+	if (store.authToken === null) {
 		return (
 			<UnauthenticatedStack header={header} />
 		);

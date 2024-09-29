@@ -33,7 +33,7 @@ export default function EventPage({ navigation, route }) {
 	async function doRefresh() {
 		setRefreshing(true);
 
-		let response = await backend.getEventById(event_id);
+		let response = await backend.getEvent(event_id);
 		setEventInfo(response);
 		setBookable(response.reservations < response.capacity);
 

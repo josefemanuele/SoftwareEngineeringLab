@@ -1,65 +1,25 @@
-import { doRequest } from './rest.js';
+import {
+	doRequest,
+	getCollection,
+	addResource,
+	getResource,
+	modifyResource,
+	removeResource
+} from './rest.js';
+
+
+/***** User backend *****/
 
 export async function getUser(user_id) {
-	let response;
-
-	try {
-		response = await doRequest('user', 'GET', `/user/${user_id}`);
-	} catch (err) {
-		throw new Error('Network error');
-	}
-
-	switch (response.status) {
-		case 200:
-			let data = await response.json();
-
-			return data;
-		case 404:
-			throw new Error('Not found');
-		default:
-			throw new Error('Response error');
-	}
+	return await getResource('user', '/user', user_id);
 }
 
-
-// COMBAK: return user id
 export async function addUser(user_data) {
-	let response;
-
-	try {
-		response = await doRequest('user', 'POST', '/user', user_data);
-	} catch (err) {
-		throw new Error('Network error');
-	}
-
-	switch (response.status) {
-		case 204:
-			return;
-		case 401:
-			throw new Error('Unauthorized');
-		default:
-			throw new Error('Response error');
-	}
+	return await addResource('user', '/user', user_data);
 }
-
 
 export async function getSession(session_id) {
-	let response;
-
-	try {
-		response = await doRequest('user', 'GET', `/session/${session_id}`);
-	} catch (err) {
-		throw new Error('Network error');
-	}
-
-	switch (response.status) {
-		case 204:
-			return;
-		case 404:
-			throw new Error('Not found');
-		default:
-			throw new Error('Response error');
-	}
+	return await getResource('user', '/session', session_id);
 }
 
 export async function addSession(email, password) {
@@ -71,6 +31,7 @@ export async function addSession(email, password) {
 			password,
 		}, true);
 	} catch (err) {
+		console.log(err);
 		throw new Error('Network error');
 	}
 
@@ -80,9 +41,8 @@ export async function addSession(email, password) {
 		case 200:
 			let data = await response.json();
 
-			if ('session_id' in response) {
-				let session_id = data.session_id;
-				return session_id;
+			if ('session_id' in data) {
+				return data.session_id;
 			}
 		default:
 			throw new Error('Response error');
@@ -90,189 +50,77 @@ export async function addSession(email, password) {
 }
 
 export async function removeSession(session_id) {
-	let response;
-
-	try {
-		response = await doRequest('user', 'DELETE', `/session/${session_id}`);
-	} catch (err) {
-		throw new Error('Network error');
-	}
-
-	switch (response.status) {
-		case 204:
-			return;
-		default:
-			throw new Error('Response error');
-	}
+	return await removeResource('user', '/session', session_id);
 }
 
 
-export async function getOrganizations(category) {
-	let query = category ? `?category=${category}` : '';
-	let response;
+/***** Organization backend *****/
 
-	try {
-		response = await doRequest('organization', 'GET', `/organizations` + query);
-	} catch (err) {
-		throw new Error('Network error');
-	}
-
-	switch (response.status) {
-		case 200:
-			let data = await response.json();
-
-			return data;
-		case 404:
-			throw new Error('Not found');
-		default:
-			throw new Error('Response error');
-	}
+export async function getOrganizations(query) {
+	return await getCollection('organization', '/organizations', query || {});
 }
 
-export async function getOrganizationById(org_id) {
-	let response;
-
-	try {
-		response = await doRequest('organization', 'GET', `/organization/${org_id}`);
-	} catch (err) {
-		throw new Error('Network error');
-	}
-
-	switch (response.status) {
-		case 200:
-			let data = await response.json();
-
-			return data;
-		case 404:
-			throw new Error('Not found');
-		default:
-			throw new Error('Response error');
-	}
+export async function getOrganization(org_id) {
+	return await getResource('organization', '/organization', org_id);
 }
 
 export async function addOrganization(org_data) {
-	let response;
-
-	try {
-		response = await doRequest('organization', 'POST', '/organizations', org_data);
-	} catch (err) {
-		throw new Error('Network error');
-	}
-
-	switch (response.status) {
-		case 204:
-			return;
-		case 401:
-			throw new Error('Unauthorized');
-		default:
-			throw new Error('Response error');
-	}
+	return await addResource('organization', '/organizations', org_data);
 }
 
 
-export async function getEvents(org_id) {
-	let query = org_id ? `?organization_id=${org_id}` : '';
-	let response;
+/***** Event backend *****/
 
-	try {
-		response = await doRequest('event', 'GET', `/events` + query);
-	} catch (err) {
-		throw new Error('Network error');
-	}
-
-	switch (response.status) {
-		case 200:
-			let data = await response.json();
-
-			return data;
-		case 404:
-			throw new Error('Not found');
-		default:
-			throw new Error('Response error');
-	}
+export async function getEvents(query) {
+	return await getCollection('event', '/events', query || {});
 }
 
-export async function getEventById(event_id) {
-	let response;
-
-	try {
-		response = await doRequest('event', 'GET', `/event/${event_id}`);
-	} catch (err) {
-		throw new Error('Network error');
-	}
-
-	switch (response.status) {
-		case 200:
-			let data = await response.json();
-
-			return data;
-		case 404:
-			throw new Error('Not found');
-		default:
-			throw new Error('Response error');
-	}
+export async function getEvent(event_id) {
+	return await getResource('event', '/event', event_id);
 }
 
-// COMBAK: return event id
 export async function addEvent(event_data) {
-	let response;
-
-	try {
-		response = await doRequest('event', 'POST', '/events', event_data);
-	} catch (err) {
-		throw new Error('Network error');
-	}
-
-	switch (response.status) {
-		case 204:
-			return;
-		case 401:
-			throw new Error('Unauthorized');
-		default:
-			throw new Error('Response error');
-	}
+	return await addResource('event', '/events', event_data);
 }
 
-// TODO: write function
 export async function modifyEvent(id, event_data) {
-	return;
+	return await modifyResource('event', '/event', id, event_data);
 }
 
 export async function removeEvent(event_id) {
-	let response;
-
-	try {
-		response = await doRequest('event', 'DELETE', `/event/${event_id}`);
-	} catch (err) {
-		throw new Error('Network error');
-	}
-
-	switch (response.status) {
-		case 204:
-			return;
-		default:
-			throw new Error('Response error');
-	}
+	return await removeResource('event', '/event', event_id);
 }
 
 
-export async function getReservationById(resv_id) {
+/***** Reservation backend *****/
+
+export async function getReservation(resv_id) {
+	return await getResource('reservations', '/reservation', resv_id);
 }
 
-export async function getReservationsOfUser(user_id) {
+export async function getReservations(query) {
+	return await getCollection('reservations', '/reservations', query || {});
 }
 
 export async function addReservation(event_id, booking_data, payment_data) {
+	let resv_data = {};
+
+	return await addResource('reservations', '/reservations', resv_data);
 }
 
 export async function removeReservation(resv_id) {
+	return await removeResource('reservations', '/reservation', resv_id);
 }
 
 
-export async function getPayment() {
+/***** Payment backend *****/
+
+export async function getPayment(payment_id) {
+	return await getResource('pay', '/payment', payment_id);
 }
 
-export async function addPayment() {
+export async function addPayment(pay_data) {
+	return await addResource('pay', '/payment', pay_data);
 }
 
 
@@ -285,17 +133,17 @@ export default {
 	removeSession,
 
 	getOrganizations,
-	getOrganizationById,
+	getOrganization,
 	addOrganization,
 
-	getEventById,
-	getEventsOfOrganization,
+	getEvents,
+	getEvent,
 	addEvent,
 	modifyEvent,
 	removeEvent,
 
-	getReservationById,
-	getReservationsOfUser,
+	getReservations,
+	getReservation,
 	addReservation,
 	removeReservation,
 

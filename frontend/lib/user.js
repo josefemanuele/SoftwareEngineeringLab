@@ -1,5 +1,4 @@
 import backend from './backend.js';
-import { doRequest } from './rest.js';
 import state from './state.js';
 
 export async function doLogin(email, password) {
@@ -7,7 +6,8 @@ export async function doLogin(email, password) {
 
   state.setStore(s => ({
     ...s,
-    userToken: session_id,
+    authToken: session_id,
+    userId: 1,
     userRole: 'participant',
   }));
 }
@@ -17,7 +17,8 @@ export async function doLogout() {
 
   state.setStore(s => ({
     ...s,
-    userToken: null,
+    authToken: null,
+    userId: 0,
     userRole: null,
   }));
 }

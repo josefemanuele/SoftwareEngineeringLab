@@ -5,6 +5,7 @@ import { Button, Card, Icon, Text } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 
 import backend from '../../lib/backend.js';
+import state from '../../lib/state.js';
 
 import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
 import style, { GLOBAL_SPACING } from '../../style/custom.js';
@@ -13,12 +14,12 @@ export default function Reservations({ navigation }) {
 	let [ refreshing, setRefreshing ] = useState(false);
 	let [ reservations, setReservations ] = useState([]);
 
-	let userId = 1;
+	let userId = state.store.userId;
 
 	async function doRefresh() {
     setRefreshing(true);
 
-    let resvs = await backend.getReservationsOfUser(userId);
+    let resvs = await backend.getReservations({ user_id: userId });
     setReservations(resvs);
 
     setRefreshing(false);

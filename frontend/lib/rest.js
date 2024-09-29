@@ -1,3 +1,4 @@
+import { doLogout } from './rest.js';
 import state from './state.js';
 
 import { API_BASE_URLS } from './constants.js';
@@ -17,7 +18,7 @@ export async function doRequest(service, method, endpoint, payload, unauthentica
   };
 
   if (!unauthenticated) {
-    let token = state.store.userToken;
+    let token = state.store.authToken;
 
     params.headers['Authorization'] = `Bearer ${token}`
   }
@@ -29,12 +30,103 @@ export async function doRequest(service, method, endpoint, payload, unauthentica
   let response = await fetch(url, params);
 
 	if (response.status === 401) {
-		state.setStore(({
-			...store,
-			userToken: null,
-			userRole: null,
-		}));
+		doLogout();
 	}
 
 	return response;
+}
+
+export async function getCollection(service, prefix, query) {
+	let response;
+
+	let queryParts = [];
+	for (let [ key, value ] of Object.entries(query)) {
+		if (value == undefined || value == null) {
+			continue;
+		}
+
+		queryParts.push(`${key}=${encodeURIComponent(value)}`);
+	}
+	let queryString = queryParts.join('&');
+
+	try {
+		response = await doRequest(service, 'GET', `${prefix}?${queryString}`);
+	} catch (err) {
+		console.log(err);
+		throw new Error('Network error');
+	}
+
+	switch (response.status) {
+		case 200:
+			let data = await response.json();
+
+			return data;
+		case 404:
+			throw new Error('Not found');
+		default:
+			throw new Error('Response error');
+	}
+}
+
+export async function addResource(service, prefix, data) {
+	let response;
+
+	try {
+		response = await doRequest(service, 'POST', prefix, data);
+	} catch (err) {
+		console.log(err);
+		throw new Error('Network error');
+	}
+
+	switch (response.status) {
+		case 200:
+			let data = await response.json();
+
+			if ('id' in data) {
+				return data.id;
+			}
+		default:
+			throw new Error('Response error');
+	}
+}
+
+
+export async function getResource(service, prefix, id) {
+	let response;
+
+	try {
+		response = await doRequest(service, 'GET', `${prefix}/${id}`);
+	} catch (err) {
+		console.log(err);
+		throw new Error('Network error');
+	}
+
+	switch (response.status) {
+		case 200:
+			let data = await response.json();
+
+			return data;
+		case 404:
+			throw new Error('Not found');
+		default:
+			throw new Error('Response error');
+	}
+}
+
+export async function removeResource(service, prefix, id) {
+	let response;
+
+	try {
+		response = await doRequest(service, 'DELETE', `${prefix}/${id}`);
+	} catch (err) {
+		console.log(err);
+		throw new Error('Network error');
+	}
+
+	switch (response.status) {
+		case 204:
+			return;
+		default:
+			throw new Error('Response error');
+	}
 }

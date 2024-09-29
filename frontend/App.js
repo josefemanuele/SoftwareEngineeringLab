@@ -19,7 +19,10 @@ export default function App() {
   let [ store, setStore ] = useState(DEFAULT_STATE);
 
   state.store = store;
-  state.setStore = setStore;
+  state.setStore = (...args) => {
+    setStore(...args);
+    console.log(state.store);
+  };
 
   useEffect(() => {
     loadState();

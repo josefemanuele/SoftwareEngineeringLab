@@ -28,8 +28,8 @@ export default function EventList({ navigation, route }) {
   async function doRefresh() {
     setRefreshing(true);
 
-		let tmp1 = await backend.getOrganizationById(orgId);
-		let tmp2 = await backend.getEventsOfOrganization(orgId);
+		let tmp1 = await backend.getOrganization(orgId);
+		let tmp2 = await backend.getEvents({ organization_id: orgId });
 
 		setOrgInfo(tmp1);
 		setEvents(tmp2);

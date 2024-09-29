@@ -22,8 +22,8 @@ export default function Organization({ navigation, route }) {
   async function doRefresh() {
     setRefreshing(true);
 
-		let orgInfo = await backend.getOrganizationById(params.id);
-		let orgEvents = await backend.getEventsOfOrganization(params.id);
+		let orgInfo = await backend.getOrganization(params.id);
+		let orgEvents = await backend.getEvents({ organization_id: params.id });
 
 		setInfo(orgInfo);
 		setEvents(orgEvents);

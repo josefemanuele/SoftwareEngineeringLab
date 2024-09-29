@@ -4,6 +4,7 @@ import { ScrollView, View } from 'react-native';
 import { Text, Divider, Icon } from 'react-native-paper';
 
 import backend from '../../lib/backend.js';
+import state from '../../lib/state.js';
 
 import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
 import style, { GLOBAL_SPACING } from '../../style/custom.js';
@@ -11,7 +12,7 @@ import style, { GLOBAL_SPACING } from '../../style/custom.js';
 export default function Profile({ navigation, route }) {
 	let { params } = route;
 
-	let userId = 123;
+	let userId = state.store.userId;
 
   let [ userInfo, setUserInfo ] = useState({
 		name: '',
@@ -27,7 +28,7 @@ export default function Profile({ navigation, route }) {
 		let response;
 
 		try {
-			response = await backend.getUserById(userId);
+			response = await backend.getUser(userId);
 
 			setUserInfo(response);
 		} catch (err) {

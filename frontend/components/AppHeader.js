@@ -12,7 +12,7 @@ import { doLogout } from '../lib/user.js';
 
 export default function AppHeader({ navigation, route, options, back }) {
 	let store = useContext(StateContext);
-	let isLoggedIn = store.userToken !== null;
+	let isLoggedIn = store.authToken !== null;
 
 	let notifNum = 1;
 
