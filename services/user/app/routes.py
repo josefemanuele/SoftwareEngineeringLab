@@ -17,6 +17,7 @@ def getId(id):
     global users
     return users.get(id)
 
+@app.route('user/<int:id>', methods=['GET'])
 @app.route('/getbyid/<int:id>', methods=['GET'])
 def getById(id):
     return jsonify({ 'id' : getId(id) })
@@ -66,6 +67,14 @@ def generateSessionId():
             break
     return session_id
 
+@app.route('session/<int:session_id>', methods=['GET'])
+def checkSessionId(session_id):
+    global sessions
+    if session_id in sessions:
+        return ('', 204)
+    return ('', 404)
+
+@app.route('/sessions', methods=['POST'])
 @app.route('/login', methods=['POST'])
 def login():
     global users
@@ -80,8 +89,9 @@ def login():
         return jsonify({'session' : session_id})
     return jsonify({})
 
+@app.route('/sessions/<int:session_id>', methods=['DELETE'])
 @app.route('/logout/<int:session_id>', methods=['GET'])
 def logout(session_id):
     global sessions
-    match = sessions.get(session_id)
+    match = sessions.pop(session_id)
     return jsonify({'id': match})
