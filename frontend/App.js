@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { AppRegistry, View, useColorScheme } from 'react-native';
 import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
@@ -21,11 +21,12 @@ export default function App() {
   state.store = store;
   state.setStore = setStore;
 
-  console.log(state);
+  useEffect(() => {
+    loadState();
+  }, []);
 
-  loadState();
-
-  let theme = store.theme === 'system' ? useColorScheme() : store.theme;
+  let systemTheme = useColorScheme();
+  let theme = store.theme === 'system' ? systemTheme : store.theme;
 
   let paperTheme = theme === 'dark' ? MD3DarkTheme : MD3LightTheme;
   let navTheme = theme === 'dark' ? DarkTheme : DefaultTheme;

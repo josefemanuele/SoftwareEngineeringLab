@@ -10,11 +10,11 @@ export const DEFAULT_STATE = {
 };
 
 export function loadState() {
-  return {
-    userToken: null,
-    userRole: null,
-    theme: 'system',
-  };
+  let storedState = {"userToken":"N2WxAvqeJ3Eap7qvhxVLSL5VFxc97UEpQnWSjGWDnwk=","userRole":"participant","theme":"system"};
+  misc.setStore(s => ({
+    ...s,
+    ...storedState,
+  }));
 }
 
 export default misc;
