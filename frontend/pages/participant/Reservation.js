@@ -94,11 +94,11 @@ export default function Reservation({ navigation, route }) {
 				content={`Do you want to cancel the event?`}
 				actions={[{
 					name: 'Yes',
-					callback: () => {
+					callback: async function () {
 						setDialogVisible(false);
 						await backend.removeReservation(reservationId);
 						navigation.navigate('participant/Reservations');
-					}
+					},
 				}, {
 					name: 'No',
 					callback: () => setDialogVisible(false),

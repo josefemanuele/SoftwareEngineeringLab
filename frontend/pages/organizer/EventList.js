@@ -99,12 +99,12 @@ export default function EventList({ navigation, route }) {
           content={`Do you want to cancel the event?`}
           actions={[{
               name: 'Yes',
-              callback: () => {
+              callback: async function () {
 								let eventId = dialogVisible;
 								setDialogVisible(false);
 								await backend.removeEvent(eventId);
 								doRefresh();
-							}
+							},
           }, {
           	name: 'No',
               callback: () => setDialogVisible(false)

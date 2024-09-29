@@ -53,6 +53,7 @@ export default function Login({ navigation }) {
         setLoginError('invalid');
       }
     } catch (err) {
+      console.log(err);
       setLoginError('network');
     }
 

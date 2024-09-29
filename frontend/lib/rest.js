@@ -1,4 +1,4 @@
-import { load as storageLoad } from './storage.js';
+import state from './state.js';
 
 import { API_BASE_URLS } from './constants.js';
 
@@ -17,7 +17,8 @@ export async function doRequest(service, method, endpoint, payload, unauthentica
   };
 
   if (!unauthenticated) {
-    let token = await storageLoad('authToken');
+    let token = state.store.userToken;
+
     params.headers['Authorization'] = `Bearer ${token}`
   }
 
@@ -26,6 +27,14 @@ export async function doRequest(service, method, endpoint, payload, unauthentica
 	}
 
   let response = await fetch(url, params);
+
+	if (response.status === 401) {
+		state.setStore(({
+			...store,
+			userToken: null,
+			userRole: null,
+		}));
+	}
 
 	return response;
 }

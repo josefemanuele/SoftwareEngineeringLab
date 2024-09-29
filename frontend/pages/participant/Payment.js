@@ -45,7 +45,7 @@ export default function Payment({ navigation, route }) {
     cardholderName: 'Auronzo Sbronzi',
   }, {
     scrollViewRef: scrollViewRef,
-    onSubmit: values => {
+    onSubmit: async function (values) {
       setLoading(true);
 
       let bookingId = await backend.addReservation(params.event_id, params.booking_data);
@@ -53,7 +53,7 @@ export default function Payment({ navigation, route }) {
 
       setLoading(false);
       setDialogMessage('success');
-    }
+    },
   });
 
   function onDialogDismiss() {

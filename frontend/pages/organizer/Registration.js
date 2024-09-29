@@ -47,7 +47,7 @@ export default function Registration({ navigation }) {
     description: '',
   }, {
     scrollViewRef: scrollViewRef,
-    onSubmit: values => {
+    onSubmit: async function (values) {
       setLoading(true);
 
       let userId = await backend.addUser({
@@ -66,10 +66,10 @@ export default function Registration({ navigation }) {
         description,
         owner_id: userId,
       });
-      
+
       setLoading(false);
       setDialogMessage('success');
-    }
+    },
   });
 
   function onDialogDismiss() {

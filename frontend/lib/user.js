@@ -1,10 +1,6 @@
 import { doRequest } from './rest.js';
 
-import { save as storageSave, remove as storageRemove } from './storage.js';
-
-// import { state, dispatch } from './state.js';
-
-let misc = {};
+import state from './state.js';
 
 export async function doLogin(email, password) {
   let loginData = {
@@ -14,17 +10,21 @@ export async function doLogin(email, password) {
 
   let response = await doRequest('user', 'POST', '/token', loginData, true);
 
-  if (response == null || !('token' in response)) {
+  if (response == null) {
     return false;
   }
 
-  console.log('[DEBUG] Logged in');
+  response = await response.json()
 
-  userToken = response.token;
+  if (!('token' in response)) {
+    return false;
+  }
 
-  await storageSave('userToken', userToken);
-  misc.setLoggedIn(true);
-  // dispatch({ type: 'SIGN_IN', token: userToken });
+  state.setStore(s => ({
+    ...s,
+    userToken: response.token,
+    userRole: 'participant',
+  }));
 
   return true;
 }
@@ -42,18 +42,9 @@ export async function doRegistration(userData) {
 export async function doLogout() {
   console.log('[DEBUG] Logging out');
 
-  // dispatch({ type: 'SIGN_OUT' });
-  await storageRemove('userToken');
-  misc.setLoggedIn(false);
+  state.setStore(s => ({
+    ...s,
+    userToken: null,
+    userRole: null,
+  }));
 }
-
-export async function restoreToken() {
-  let userToken = await storageLoad('userToken');
-
-  if (userToken != null) {
-    // dispatch({ type: 'SIGN_IN', token: userToken });
-    misc.setLoggedIn(true);
-  }
-}
-
-export default misc;

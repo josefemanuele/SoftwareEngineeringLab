@@ -9,36 +9,35 @@ import { NavigationContainer, DarkTheme, DefaultTheme } from '@react-navigation/
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 
+import StateContext from './components/StateContext.js';
 import MainNavigator from './components/navigators/Main.js';
 
-import store from './lib/state.js';
+import state, { loadState, DEFAULT_STATE } from './lib/state.js';
 import user from './lib/user.js';
 
 export default function App() {
-  let colorScheme = useColorScheme();
-  // let colorScheme = 'light';
+  let [ store, setStore ] = useState(DEFAULT_STATE);
 
-  let paperTheme = colorScheme === 'dark' ? MD3DarkTheme : MD3LightTheme;
-  let navTheme = colorScheme === 'dark' ? DarkTheme : DefaultTheme;
+  state.store = store;
+  state.setStore = setStore;
 
-  let [ isLoggedIn, setLoggedIn ] = useState(true);
-  let [ roleBool, setRoleBool ] = useState(false);
+  console.log(state);
 
-  user.setLoggedIn = setLoggedIn;
-  user.switchRole = () => {
-    setRoleBool(!roleBool);
-  };
+  loadState();
 
-  let userRole = roleBool ? 'organizer' : 'participant';
+  let theme = store.theme === 'system' ? useColorScheme() : store.theme;
+
+  let paperTheme = theme === 'dark' ? MD3DarkTheme : MD3LightTheme;
+  let navTheme = theme === 'dark' ? DarkTheme : DefaultTheme;
 
   return (
-    // <ReduxProvider store={store}>
+    <StateContext.Provider value={store}>
       <PaperProvider theme={paperTheme}>
         <NavigationContainer theme={navTheme}>
-          <MainNavigator isLoggedIn={isLoggedIn} userRole={userRole} />
+          <MainNavigator />
         </NavigationContainer>
       </PaperProvider>
-    // </ReduxProvider>
+    </StateContext.Provider>
   );
 }
 

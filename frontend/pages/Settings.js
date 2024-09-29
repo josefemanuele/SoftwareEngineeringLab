@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { ScrollView, View } from 'react-native';
 import { Icon, Text } from 'react-native-paper';
 import { Dropdown } from 'react-native-paper-dropdown';
+
+import StateContext from '../components/StateContext.js';
+
+import state from '../lib/state.js';
 
 import { ids as bsIds, styles as bsStyles } from '../style/bootstrap.js';
 import style from '../style/custom.js';
@@ -14,7 +18,7 @@ let themes = [
 ];
 
 export default function Settings() {
-	let [ theme, setTheme ] = useState('system');
+	let store = useContext(StateContext);
 
 	return (
 		<ScrollView contentContainerStyle={style.box} style={bsStyles.container} dataSet={{ media: bsIds.container }}>
@@ -26,8 +30,13 @@ export default function Settings() {
 				{/* <Text style={{ fontWeight: 'bold' }}>Theme:</Text> */}
 				<Dropdown
 					label="Theme"
-					value={theme}
-					onSelect={setTheme}
+					value={store.theme}
+					onSelect={(value) => {
+						state.setStore(s => ({
+							...s,
+							theme: value
+						}))
+					}}
 					style={{ marginBottom: 20 }}
 					options={themes}
 				/>

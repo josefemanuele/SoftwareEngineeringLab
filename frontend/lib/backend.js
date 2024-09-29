@@ -79,6 +79,10 @@ export async function getOrganizationById(org_id) {
 	return tmp.length === 1 ? tmp[0] : null;
 }
 
+export async function addOrganization() {
+	return;
+}
+
 
 export async function getEventById(event_id) {
 	let tmp = events.filter(event => event.id === event_id);

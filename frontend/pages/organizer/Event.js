@@ -106,12 +106,12 @@ export default function EventPage({ navigation, route }) {
                         content={`Do you want to cancel the event?`}
                         actions={[{
                             name: 'Yes',
-                            callback: () => {
+                            callback: async function () {
 															let eventId = event_info.id;
 															setDialogVisible(false);
 															await backend.removeEvent(eventId);
 															navigation.push('organizer/EventList');
-														}
+														},
                         }, {
                             name: 'No',
                             callback: () => {setDialogVisible(false)}

@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import { Appbar, Divider, Menu, Text } from 'react-native-paper';
 import { getHeaderTitle } from '@react-navigation/elements'
 
+import StateContext from './StateContext.js';
+
 import style from '../style/custom.js';
 
-import user, { doLogout } from '../lib/user.js';
+import state from '../lib/state.js';
+import { doLogout } from '../lib/user.js';
 
-export default function AppHeader({ navigation, route, options, back, isLoggedIn }) {
+export default function AppHeader({ navigation, route, options, back }) {
+	let store = useContext(StateContext);
+	let isLoggedIn = store.userToken !== null;
+
 	let notifNum = 1;
 
 	let notifIcon = notifNum > 0 ? 'message-badge-outline' : 'message-outline';
@@ -34,7 +40,13 @@ export default function AppHeader({ navigation, route, options, back, isLoggedIn
 				<Text style={style.box} variant="titleMedium">Welcome, USER!</Text>
 				<Divider />
 				<Menu.Item title="Profile" leadingIcon="account" onPress={() => navigation.push('general/Profile')}/>
-				<Menu.Item title="Switch role" leadingIcon="swap-horizontal" onPress={user.switchRole} />
+				<Menu.Item title="Switch role" leadingIcon="swap-horizontal" onPress={() => {
+					let newRole = store.userRole === 'participant' ? 'organizer' : 'participant';
+					state.setStore(s => ({
+				    ...s,
+				    userRole: newRole,
+				  }));
+				}} />
 				<Menu.Item title="Logout" leadingIcon="logout" onPress={doLogout} />
 			</Menu>
 		</>

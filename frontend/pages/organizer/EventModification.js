@@ -189,7 +189,7 @@ export default function EventCreation({ navigation, route }) {
 				mode="contained"
 				icon={event_info.id > 0 ? 'pencil' : 'plus'}
 				style={[ style.spaceTop ]}
-				onPress={() => {
+				onPress={async function () {
 					setLoading(true);
 
 					let values = {
@@ -202,7 +202,7 @@ export default function EventCreation({ navigation, route }) {
 						price,
 						description,
 						participantsNum,
-					}
+					};
 
 					if (event_info.id > 0) {
 						await backend.modifyEvent(id, values);

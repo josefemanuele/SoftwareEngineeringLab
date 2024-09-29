@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Icon } from 'react-native-paper';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -10,13 +10,18 @@ import UnauthenticatedStack from './Unauthenticated.js';
 
 import AppError from '../AppError.js';
 import AppHeader from '../AppHeader.js';
+import StateContext from '../StateContext.js';
+
+import { setStore } from '../../lib/state.js';
 
 const Drawer = createDrawerNavigator();
 
-export default function MainNavigator({ isLoggedIn, userRole }) {
-	let header = (args) => (<AppHeader isLoggedIn={isLoggedIn} {...args} />);
+export default function MainNavigator() {
+	let store = useContext(StateContext);
 
-	if (!isLoggedIn) {
+	let header = (args) => (<AppHeader {...args} />);
+
+	if (store.userToken === null) {
 		return (
 			<UnauthenticatedStack header={header} />
 		);
@@ -24,7 +29,7 @@ export default function MainNavigator({ isLoggedIn, userRole }) {
 
 	let specificScreens = null;
 
-	if (userRole === 'participant') {
+	if (store.userRole === 'participant') {
 		specificScreens = (
 			<Drawer.Group>
 
@@ -51,7 +56,7 @@ export default function MainNavigator({ isLoggedIn, userRole }) {
 
 			</Drawer.Group>
 		);
-	} else if (userRole === 'organizer') {
+	} else if (store.userRole === 'organizer') {
 		specificScreens = (
 			<Drawer.Group>
 
