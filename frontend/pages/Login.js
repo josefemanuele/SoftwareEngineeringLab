@@ -45,16 +45,20 @@ export default function Login({ navigation }) {
 
     setLoadingLogin(true);
 
-    let loginOk;
     try {
-      loginOk = await doLogin(email, password);
-
-      if (!loginOk) {
-        setLoginError('invalid');
-      }
+      await doLogin(email, password);
     } catch (err) {
       console.log(err);
-      setLoginError('network');
+
+      switch (err.message) {
+        case 'Network error':
+        case 'Response error':
+          setLoginError('network');
+          break;
+        case 'Unauthorized':
+          setLoginError('invalid');
+          break;
+      }
     }
 
     setLoadingLogin(false);

@@ -4,7 +4,7 @@ import { API_BASE_URLS } from './constants.js';
 
 export async function doRequest(service, method, endpoint, payload, unauthenticated) {
 	if (!(service in API_BASE_URLS)) {
-		throw new Exception('Invalid service');
+		throw new Error('Invalid service');
 	}
 
   let url = API_BASE_URLS[service] + endpoint;

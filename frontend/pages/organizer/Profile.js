@@ -11,7 +11,7 @@ import style, { GLOBAL_SPACING } from '../../style/custom.js';
 export default function Profile({ navigation, route }) {
 	let { params } = route;
 
-	let orgId = 123;
+	let orgId = state.store.organizationId;
 
   let [ organizationInfo, setOrganizationInfo ] = useState({
 		name: '',
@@ -25,24 +25,30 @@ export default function Profile({ navigation, route }) {
 
 		let response;
 
-    try {
-      response = await backend.getOrganizationById(orgId);
-    } catch (e) {
-      // nothing
-    }
+		try {
+			response = await backend.getOrganizationById(orgId);
 
-    if (response != null) {
-      setOrganizationInfo(response);
-    } else {
-      console.log('Error fetching organization')
-    }
+			setOrganizationInfo(response);
+		} catch (err) {
+			console.log(err);
+
+			// switch (err.message) {
+			// 	case 'Network error':
+			// 	case 'Response error':
+			// 		setLoginError('network');
+			// 		break;
+			// 	case 'Unauthorized':
+			// 		setLoginError('invalid');
+			// 		break;
+			// }
+		}
 
     setRefreshing(false);
   }
 
-  // useEffect(() => {
-  //   doRefresh();
-  // }, []);
+  useEffect(() => {
+    doRefresh();
+  }, []);
 
 	return (
 		<ScrollView contentContainerStyle={style.box} style={bsStyles.container} dataSet={{ media: bsIds.container }}>

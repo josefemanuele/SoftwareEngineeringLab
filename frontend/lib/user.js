@@ -1,42 +1,15 @@
+import backend from './backend.js';
 import { doRequest } from './rest.js';
-
 import state from './state.js';
 
 export async function doLogin(email, password) {
-  let loginData = {
-    email: email,
-    password: password
-  };
-
-  let response = await doRequest('user', 'POST', '/token', loginData, true);
-
-  if (response == null) {
-    return false;
-  }
-
-  response = await response.json()
-
-  if (!('token' in response)) {
-    return false;
-  }
+  let session_id = await backend.addSession(email, password);
 
   state.setStore(s => ({
     ...s,
-    userToken: response.token,
+    userToken: session_id,
     userRole: 'participant',
   }));
-
-  return true;
-}
-
-export async function doRegistration(userData) {
-  let response = await doRequest('user', 'POST', '/user', userData, true);
-
-  if (!response) {
-    return false;
-  }
-
-  return true;
 }
 
 export async function doLogout() {

@@ -29,6 +29,10 @@ const DIALOG_MESSAGES = {
     title: 'Account exists',
     description: 'An account with the same email address already exists. Use another email address or recover the password in the login page.'
   },
+  'net_err': {
+    title: 'Network error',
+    description: 'An error occurred while making the request.'
+  },
 }
 
 export default function Registration({ navigation }) {
@@ -50,22 +54,38 @@ export default function Registration({ navigation }) {
     onSubmit: async function (values) {
       setLoading(true);
 
-      let userId = await backend.addUser({
-        email,
-        password: passwordA,
-        name: null,
-        surname: null,
-        organizer: true,
-      });
+      try {
+        let userId = await backend.addUser({
+          email,
+          password: passwordA,
+          name: null,
+          surname: null,
+          organizer: true,
+        });
 
-      await backend.addOrganization({
-        name: orgName,
-        category,
-        phoneNumber,
-        address,
-        description,
-        owner_id: userId,
-      });
+        await backend.addOrganization({
+          name: orgName,
+          category,
+          phoneNumber,
+          address,
+          description,
+          owner_id: userId,
+        });
+
+        setDialogMessage('success');
+      } catch (err) {
+        console.log(err);
+
+        switch (err.message) {
+          case 'Network error':
+          case 'Response error':
+            setDialogMessage('net_err');
+            break;
+          case 'Account exists':
+            setDialogMessage('exists');
+            break;
+        }
+      }
 
       setLoading(false);
       setDialogMessage('success');

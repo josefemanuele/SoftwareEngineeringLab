@@ -26,8 +26,23 @@ export default function Profile({ navigation, route }) {
 
 		let response;
 
-    response = await backend.getUserById(userId);
-    setUserInfo(response);
+		try {
+			response = await backend.getUserById(userId);
+
+			setUserInfo(response);
+		} catch (err) {
+			console.log(err);
+
+			// switch (err.message) {
+			// 	case 'Network error':
+			// 	case 'Response error':
+			// 		setLoginError('network');
+			// 		break;
+			// 	case 'Unauthorized':
+			// 		setLoginError('invalid');
+			// 		break;
+			// }
+		}
 
     setRefreshing(false);
   }
