@@ -1,5 +1,4 @@
-from app import app
-from flask import jsonify, request
+from flask import Flask, jsonify, request
 
 organizations = {
   1 : {'id' : 1, 'owner_id' : 2, 'name' : 'Sapienza', 'phone' : '06 123456', 'address' : 'Piazzale Aldo Moro, 5', 'description' : 'The best university in Rome.', 'category' : 'Education'},
@@ -7,26 +6,14 @@ organizations = {
 }
 id_counter = 2
 
+app = Flask(__name__)
+
 @app.route('/organizations', methods=['GET'])
-@app.route('/getall', methods=['GET'])
 def getAll():
     global organizations
     return jsonify(organizations)
 
-@app.route('/getbyuser/<int:user_id>', methods=['GET'])
-def getByUser(user_id):
-    global organizations
-    match = {k : v for k, v in organizations.items() if v.get('owner_id') == user_id }
-    return jsonify(match)
-
-@app.route('/organization/<int:id>', methods=['GET'])
-def getById(id):
-    global organizations
-    match = organizations.get(id)
-    return jsonify(match)
-
 @app.route('/organizations', methods=['POST'])
-@app.route('/create', methods=['POST'])
 def create():
     global organizations
     data = request.json
@@ -51,5 +38,14 @@ def create():
         organizations[id_counter] = {id_counter : organization }
         print(organizations)
         return jsonify(organization)
-    
+
     return jsonify(None)
+
+@app.route('/organization/<int:id>', methods=['GET'])
+def getById(id):
+    global organizations
+    match = organizations.get(id)
+    return jsonify(match)
+
+if __name__ == '__main__':
+    app.run(debug=False, host='0.0.0.0')
