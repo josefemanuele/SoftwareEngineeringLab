@@ -7,9 +7,9 @@ services:
     build:
       context: ./frontend
     # network_mode: host
-    # networks:
-    #   prenotalo:
-    #     ipv4_address: 10.234.0.1
+    networks:
+      prenotalo:
+        ipv4_address: 10.234.0.1
     ports:
       - 80:80
 
@@ -17,41 +17,61 @@ services:
     build:
       context: ./services/event
     # network_mode: host
+    networks:
+      prenotalo:
+        ipv4_address: 10.234.0.3
     ports:
-      - 8001:8080
-    user: 1000:1000
+      - 8001:5000
+    volumes:
+      - srv-data:/data
 
-  notify:
+  organization:
     build:
-      context: ./services/notify
+      context: ./services/organization
     # network_mode: host
+    networks:
+      prenotalo:
+        ipv4_address: 10.234.0.4
     ports:
-      - 8002:8080
-    user: 1000:1000
+      - 8002:5000
+    volumes:
+      - srv-data:/data
 
   pay:
     build:
       context: ./services/pay
     # network_mode: host
+    networks:
+      prenotalo:
+        ipv4_address: 10.234.0.5
     ports:
-      - 8003:8080
-    user: 1000:1000
+      - 8003:5000
+    volumes:
+      - srv-data:/data
 
-  survey:
+  reservations:
     build:
-      context: ./services/survey
+      context: ./services/reservations
     # network_mode: host
+    networks:
+      prenotalo:
+        ipv4_address: 10.234.0.6
     ports:
-      - 8004:8080
-    user: 1000:1000
+      - 8004:5000
+    volumes:
+      - srv-data:/data
 
   user:
     build:
       context: ./services/user
     # network_mode: host
+    networks:
+      prenotalo:
+        ipv4_address: 10.234.0.6
     ports:
-      - 8005:8080
-    user: 1000:1000
+      - 8005:5000
+    volumes:
+      - srv-data:/data
 
   database:
     image: mariadb
@@ -62,10 +82,22 @@ services:
       MARIADB_USER: prenotalo
       MARIADB_PASSWORD: password
     # network_mode: host
+    networks:
+      prenotalo:
+        ipv4_address: 10.234.0.2
     ports:
       - 3306:3306
     volumes:
       - db-data:/var/lib/mysql
 
+networks:
+  prenotalo:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.234.0.0/28
+          gateway: 10.234.0.14
+
 volumes:
   db-data:
+  srv-data:
