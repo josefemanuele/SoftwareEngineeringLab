@@ -2,6 +2,8 @@ from flask import Flask
 from flask_restful import Api, Resource, reqparse
 import json
 
+DATA_PATH = '/data/reservation.json'
+
 app = Flask(__name__)
 api = Api(app)
 
@@ -13,27 +15,27 @@ parser_get.add_argument('event_id', type=int, location='args')
 reservation_data_parser = reqparse.RequestParser()
 reservation_data_parser.add_argument('reservation_data', type=dict, location='json', required=True)
 
-required_fields = ["transaction_id", 
+required_fields = ["transaction_id",
                     "user_id",
                     "event_id",
                     ]
 
 def save_data(data: dict):
-    with open("data.json", "w", encoding="utf-8") as f:
-        json.dump(data, f) 
+    with open(DATA_PATH, "w", encoding="utf-8") as f:
+        json.dump(data, f)
 
 def read_data() -> dict:
     data = {}
 
     try:
-        with open("data.json", "r", encoding="utf-8") as f:
+        with open(DATA_PATH, "r", encoding="utf-8") as f:
             data = json.load(f)
     except:
-        with open("data.json", "w", encoding="utf-8") as f:
+        with open(DATA_PATH, "w", encoding="utf-8") as f:
             json.dump(data, f)
 
     return data
-            
+
 def update_reservation_fields(reservation_id: int, reservations: dict):
     """This function parses the HTTP request and checks if the necessary fields
     are defined, then updates the fields of the specified reservation.  Returns 400
@@ -63,7 +65,7 @@ class Reservations(Resource):
         args = parser_get.parse_args()
         user_id = args['user_id']
         event_id = args['event_id']
-        
+
         return_dict = {}
 
         # A lot of repetitive code but for now this is enough
@@ -87,7 +89,7 @@ class Reservations(Resource):
 
         else:
             return reservations, 200
-                
+
     # POST is for creating a new element in the collection
     def post(self):
 
@@ -122,7 +124,7 @@ class Reservation(Resource):
             return {'message': 'no such reservation'}, 404
 
         return {reservation_id: selected_reservation}, 200
-    
+
     def put(self, reservation_id):
 
         if reservation_id is None:
@@ -132,7 +134,7 @@ class Reservation(Resource):
 
         update_reservation_fields(reservation_id, reservations)
         save_data(reservations)
- 
+
         return {reservation_id: reservations[reservation_id]}, 200
 
     def delete(self, reservation_id):
@@ -155,4 +157,4 @@ api.add_resource(Reservations, '/reservations')
 api.add_resource(Reservation, '/reservation/<int:reservation_id>')
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=False, host='0.0.0.0')
