@@ -1,28 +1,47 @@
-import React from 'react';
-import { AppRegistry, View } from 'react-native';
-import { PaperProvider, Appbar, TextInput, Button } from 'react-native-paper';
+import React, { useEffect, useState } from 'react';
+
+import { AppRegistry, View, useColorScheme } from 'react-native';
+import { MD3DarkTheme, MD3LightTheme, PaperProvider } from 'react-native-paper';
+import { Provider as ReduxProvider } from 'react-redux';
+
+import { NavigationContainer, DarkTheme, DefaultTheme } from '@react-navigation/native';
+
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+
+import StateContext from './components/StateContext.js';
+import MainNavigator from './components/navigators/Main.js';
+
+import state, { loadState, DEFAULT_STATE } from './lib/state.js';
+import user from './lib/user.js';
 
 export default function App() {
-  let [ text, setText ] = React.useState('iniziale');
+  let [ store, setStore ] = useState(DEFAULT_STATE);
+
+  state.store = store;
+  state.setStore = (...args) => {
+    setStore(...args);
+    console.log(state.store);
+  };
+
+  useEffect(() => {
+    loadState();
+  }, []);
+
+  let systemTheme = useColorScheme();
+  let theme = store.theme === 'system' ? systemTheme : store.theme;
+
+  let paperTheme = theme === 'dark' ? MD3DarkTheme : MD3LightTheme;
+  let navTheme = theme === 'dark' ? DarkTheme : DefaultTheme;
 
   return (
-    <PaperProvider>
-      <Appbar.Header>
-        <Appbar.Content title="Prenotalo" />
-        <Appbar.Action icon="abacus" />
-        <Appbar.Action icon="account-box" />
-      </Appbar.Header>
-      <View>
-        <TextInput label="Campo" value={text} onChangeText={text => setText(text)} />
-        <TextInput label="Campo" value={text} onChangeText={text => setText(text)} />
-        <TextInput label="Campo" value={text} onChangeText={text => setText(text)} />
-        <TextInput label="Campo" value={text} onChangeText={text => setText(text)} />
-        <TextInput label="Campo" value={text} onChangeText={text => setText(text)} />
-        <Button>
-          Invia
-        </Button>
-      </View>
-    </PaperProvider>
+    <StateContext.Provider value={store}>
+      <PaperProvider theme={paperTheme}>
+        <NavigationContainer theme={navTheme}>
+          <MainNavigator />
+        </NavigationContainer>
+      </PaperProvider>
+    </StateContext.Provider>
   );
 }
 
