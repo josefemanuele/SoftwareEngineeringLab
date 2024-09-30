@@ -4,6 +4,8 @@ import json
 
 # import db
 
+DATA_PATH = '/data/event.json'
+
 app = Flask(__name__)
 api = Api(app)
 
@@ -16,7 +18,7 @@ event_data_parser.add_argument('event_data', type=dict, location='json', require
 
 # required_event_fields = ["organization_id", "title", "description"]
 
-required_event_fields = ["organization_id", 
+required_event_fields = ["organization_id",
                          "title",
                          "description",
                          "date",
@@ -26,21 +28,21 @@ required_event_fields = ["organization_id",
                          "capacity"]
 
 def save_data(data: dict):
-    with open("data.json", "w", encoding="utf-8") as f:
-        json.dump(data, f) 
+    with open(DATA_PATH, "w", encoding="utf-8") as f:
+        json.dump(data, f)
 
 def read_data() -> dict:
     data = {}
 
     try:
-        with open("data.json", "r", encoding="utf-8") as f:
+        with open(DATA_PATH, "r", encoding="utf-8") as f:
             data = json.load(f)
     except:
-        with open("data.json", "w", encoding="utf-8") as f:
+        with open(DATA_PATH, "w", encoding="utf-8") as f:
             json.dump(data, f)
 
     return data
-            
+
 def update_event_fields(event_id: int, events: dict):
     """This function parses the HTTP request and checks if the necessary fields
     are defined, then updates the fields of the specified event.  Returns 400
@@ -122,7 +124,7 @@ class Event(Resource):
             return {'message': 'no such event'}, 404
 
         return {event_id: selected_event}, 200
-    
+
     def put(self, event_id):
 
         if event_id is None:
@@ -132,7 +134,7 @@ class Event(Resource):
 
         update_event_fields(event_id, events)
         save_data(events)
- 
+
         return {event_id: events[event_id]}, 200
 
     def delete(self, event_id):
@@ -155,4 +157,4 @@ api.add_resource(Events, '/events')
 api.add_resource(Event, '/event/<int:event_id>')
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=False, host='0.0.0.0')
