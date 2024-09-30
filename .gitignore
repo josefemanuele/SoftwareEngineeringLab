@@ -1,9 +1,11 @@
 **/.DS_Store
-local
+/local/
 
-#Python
+# Python
 .venv
 __pycache__
 
-#Temporary DBs
+# Temporary DBs
 test.db
+
+/data/
