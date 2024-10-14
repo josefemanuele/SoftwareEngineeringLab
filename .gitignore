@@ -1,1 +1,11 @@
-local
+**/.DS_Store
+/local/
+
+# Python
+.venv
+__pycache__
+
+# Temporary DBs
+test.db
+
+/data/
