@@ -67,7 +67,7 @@ services:
     # network_mode: host
     networks:
       prenotalo:
-        ipv4_address: 10.234.0.6
+        ipv4_address: 10.234.0.7
     ports:
       - 8005:5000
     volumes:
