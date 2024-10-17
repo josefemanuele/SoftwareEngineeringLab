@@ -69,22 +69,22 @@ services:
       prenotalo:
         ipv4_address: 10.234.0.10
 
-  database:
-    image: mariadb
-    environment:
-      MARIADB_ROOT_PASSWORD: password
+  # database:
+  #   image: mariadb
+  #   environment:
+  #     MARIADB_ROOT_PASSWORD: password
 
-      MARIADB_DATABASE: prenotalo
-      MARIADB_USER: prenotalo
-      MARIADB_PASSWORD: password
-    # network_mode: host
-    networks:
-      prenotalo:
-        ipv4_address: 10.234.0.2
-    ports:
-      - 3306:3306
-    volumes:
-      - db-data:/var/lib/mysql
+  #     MARIADB_DATABASE: prenotalo
+  #     MARIADB_USER: prenotalo
+  #     MARIADB_PASSWORD: password
+  #   # network_mode: host
+  #   networks:
+  #     prenotalo:
+  #       ipv4_address: 10.234.0.2
+  #   ports:
+  #     - 3306:3306
+  #   volumes:
+  #     - db-data:/var/lib/mysql
 
 networks:
   prenotalo:
@@ -94,6 +94,6 @@ networks:
         - subnet: 10.234.0.0/28
           gateway: 10.234.0.14
 
-volumes:
-  db-data:
-  srv-data:
+# volumes:
+#   db-data:
+#   srv-data:
