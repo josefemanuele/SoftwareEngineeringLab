@@ -3,92 +3,91 @@ name: prenotalo
 ## docker compose up --service-ports
 
 services:
-  frontend:
-    build:
-      context: ./frontend
-    # network_mode: host
-    networks:
-      prenotalo:
-        ipv4_address: 10.234.0.1
-    ports:
-      - 80:80
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #   # network_mode: host
+  #   networks:
+  #     prenotalo:
+  #       ipv4_address: 10.234.0.1
+  #   ports:
+  #     - 80:80
 
-  event:
-    build:
-      context: ./services/event
-    # network_mode: host
-    networks:
-      prenotalo:
-        ipv4_address: 10.234.0.3
-    ports:
-      - 8001:5000
-    volumes:
-      - srv-data:/data
+  # event:
+  #   build:
+  #     context: ./services/event
+  #   # network_mode: host
+  #   networks:
+  #     prenotalo:
+  #       ipv4_address: 10.234.0.3
+  #   ports:
+  #     - 8001:5000
+  #   volumes:
+  #     - srv-data:/data
 
   organization:
     build:
       context: ./services/organization
-    # network_mode: host
     networks:
       prenotalo:
         ipv4_address: 10.234.0.4
-    ports:
-      - 8002:5000
-    volumes:
-      - srv-data:/data
 
-  pay:
-    build:
-      context: ./services/pay
-    # network_mode: host
-    networks:
-      prenotalo:
-        ipv4_address: 10.234.0.5
-    ports:
-      - 8003:5000
-    volumes:
-      - srv-data:/data
+  # pay:
+  #   build:
+  #     context: ./services/pay
+  #   # network_mode: host
+  #   networks:
+  #     prenotalo:
+  #       ipv4_address: 10.234.0.5
+  #   ports:
+  #     - 8003:5000
+  #   volumes:
+  #     - srv-data:/data
 
-  reservations:
-    build:
-      context: ./services/reservations
-    # network_mode: host
-    networks:
-      prenotalo:
-        ipv4_address: 10.234.0.6
-    ports:
-      - 8004:5000
-    volumes:
-      - srv-data:/data
+  # reservations:
+  #   build:
+  #     context: ./services/reservations
+  #   # network_mode: host
+  #   networks:
+  #     prenotalo:
+  #       ipv4_address: 10.234.0.6
+  #   ports:
+  #     - 8004:5000
+  #   volumes:
+  #     - srv-data:/data
 
   user:
     build:
       context: ./services/user
-    # network_mode: host
     networks:
       prenotalo:
         ipv4_address: 10.234.0.7
-    ports:
-      - 8005:5000
-    volumes:
-      - srv-data:/data
 
-  database:
-    image: mariadb
-    environment:
-      MARIADB_ROOT_PASSWORD: password
-
-      MARIADB_DATABASE: prenotalo
-      MARIADB_USER: prenotalo
-      MARIADB_PASSWORD: password
-    # network_mode: host
+  curl:
+    image: curlimages/curl
+    tty: true # docker run -t
+    stdin_open: true # docker run -i
+    entrypoint: /bin/sh # Get a shell
     networks:
       prenotalo:
-        ipv4_address: 10.234.0.2
-    ports:
-      - 3306:3306
-    volumes:
-      - db-data:/var/lib/mysql
+        ipv4_address: 10.234.0.10
+
+  # database:
+  #   image: mariadb
+  #   environment:
+  #     MARIADB_ROOT_PASSWORD: password
+
+  #     MARIADB_DATABASE: prenotalo
+  #     MARIADB_USER: prenotalo
+  #     MARIADB_PASSWORD: password
+  #   # network_mode: host
+  #   networks:
+  #     prenotalo:
+  #       ipv4_address: 10.234.0.2
+  #   ports:
+  #     - 3306:3306
+  #   volumes:
+  #     - db-data:/var/lib/mysql
 
 networks:
   prenotalo:
@@ -98,6 +97,6 @@ networks:
         - subnet: 10.234.0.0/28
           gateway: 10.234.0.14
 
-volumes:
-  db-data:
-  srv-data:
+# volumes:
+#   db-data:
+#   srv-data:
