@@ -3,7 +3,8 @@
 
 # Python
 .venv
-__pycache__
+**__pycache__
+**.pytest_cache
 
 # Temporary DBs
 test.db
