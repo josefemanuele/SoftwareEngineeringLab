@@ -1,0 +1,8 @@
+# Deploy project
+docker compose up -d
+
+# Get a shell from "curl" service.
+docker exec -it <container_name> sh
+
+# Run tests with pytest, from the root of service.
+pytest
