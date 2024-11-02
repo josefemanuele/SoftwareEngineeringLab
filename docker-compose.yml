@@ -3,27 +3,23 @@ name: prenotalo
 ## docker compose up --service-ports
 
 services:
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #   # network_mode: host
-  #   networks:
-  #     prenotalo:
-  #       ipv4_address: 10.234.0.1
-  #   ports:
-  #     - 80:80
+  frontend:
+    build:
+      context: ./frontend
+    networks:
+      prenotalo:
+        ipv4_address: 10.234.0.1
+    ports:
+      - 80:80
 
-  # event:
-  #   build:
-  #     context: ./services/event
-  #   # network_mode: host
-  #   networks:
-  #     prenotalo:
-  #       ipv4_address: 10.234.0.3
-  #   ports:
-  #     - 8001:5000
-  #   volumes:
-  #     - srv-data:/data
+  event:
+    build:
+      context: ./services/event
+    networks:
+      prenotalo:
+        ipv4_address: 10.234.0.3
+    volumes:
+      - srv-data:/data
 
   organization:
     build:
@@ -32,29 +28,23 @@ services:
       prenotalo:
         ipv4_address: 10.234.0.4
 
-  # pay:
-  #   build:
-  #     context: ./services/pay
-  #   # network_mode: host
-  #   networks:
-  #     prenotalo:
-  #       ipv4_address: 10.234.0.5
-  #   ports:
-  #     - 8003:5000
-  #   volumes:
-  #     - srv-data:/data
+  pay:
+    build:
+      context: ./services/pay
+    networks:
+      prenotalo:
+        ipv4_address: 10.234.0.5
+    volumes:
+      - srv-data:/data
 
-  # reservations:
-  #   build:
-  #     context: ./services/reservations
-  #   # network_mode: host
-  #   networks:
-  #     prenotalo:
-  #       ipv4_address: 10.234.0.6
-  #   ports:
-  #     - 8004:5000
-  #   volumes:
-  #     - srv-data:/data
+  reservations:
+    build:
+      context: ./services/reservations
+    networks:
+      prenotalo:
+        ipv4_address: 10.234.0.6
+    volumes:
+      - srv-data:/data
 
   user:
     build:
@@ -63,20 +53,19 @@ services:
       prenotalo:
         ipv4_address: 10.234.0.7
 
-  curl:
-    image: curlimages/curl
-    tty: true # docker run -t
-    stdin_open: true # docker run -i
-    entrypoint: /bin/sh # Get a shell
-    networks:
-      prenotalo:
-        ipv4_address: 10.234.0.10
+  # curl:
+  #   image: curlimages/curl
+  #   tty: true # docker run -t
+  #   stdin_open: true # docker run -i
+  #   entrypoint: /bin/sh # Get a shell
+  #   networks:
+  #     prenotalo:
+  #       ipv4_address: 10.234.0.10
 
   # database:
   #   image: mariadb
   #   environment:
   #     MARIADB_ROOT_PASSWORD: password
-
   #     MARIADB_DATABASE: prenotalo
   #     MARIADB_USER: prenotalo
   #     MARIADB_PASSWORD: password
@@ -97,6 +86,6 @@ networks:
         - subnet: 10.234.0.0/28
           gateway: 10.234.0.14
 
-# volumes:
-#   db-data:
-#   srv-data:
+volumes:
+  # db-data:
+  srv-data:
