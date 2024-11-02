@@ -1,5 +1,6 @@
 from app import app
 from flask import jsonify, request
+from flask_cors import cross_origin
 import random
 
 id_counter = 2
@@ -9,6 +10,7 @@ users = {
 }
 sessions = dict()
 
+@cross_origin()
 @app.route("/")
 def helloWorld():
     return "Prenotalo!"
@@ -17,8 +19,8 @@ def getId(id):
     global users
     return users.get(id)
 
+@cross_origin()
 @app.route('/user/<int:id>', methods=['GET'])
-@app.route('/getbyid/<int:id>', methods=['GET'])
 def getById(id):
     match = getId(id)
     if (len(match) != 0):
@@ -32,13 +34,8 @@ def getUsername(username):
         return match.pop()
     return None
 
-
-@app.route('/getbyusername/<string:username>', methods=['GET'])
-def getByUsername(username):
-    return jsonify(getUsername(username))
-
+@cross_origin()
 @app.route('/users', methods=['POST'])
-@app.route('/register', methods=['POST'])
 def register():
     global users
     global id_counter
@@ -71,6 +68,7 @@ def generateSessionId():
             break
     return session_id
 
+@cross_origin()
 @app.route('/session/<int:session_id>', methods=['GET'])
 def checkSessionId(session_id):
     global sessions
@@ -78,8 +76,8 @@ def checkSessionId(session_id):
         return ('', 204)
     return ('', 404)
 
+@cross_origin()
 @app.route('/sessions', methods=['POST'])
-@app.route('/login', methods=['POST'])
 def login():
     global users
     global sessions
@@ -93,8 +91,8 @@ def login():
         return jsonify({'session' : session_id})
     return ('', 404)
 
+@cross_origin()
 @app.route('/sessions/<int:session_id>', methods=['DELETE'])
-@app.route('/logout/<int:session_id>', methods=['GET'])
 def logout(session_id):
     global sessions
     match = sessions.pop(session_id, -1)
