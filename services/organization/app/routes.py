@@ -1,14 +1,15 @@
 from app import app
 from flask import jsonify, request
+from flask_cors import cross_origin
 
 organizations = {
   1 : {'id' : 1, 'owner_id' : 2, 'name' : 'Sapienza', 'phone' : '06 123456', 'address' : 'Piazzale Aldo Moro, 5', 'description' : 'The best university in Rome.', 'category' : 'Education'},
   2 : {'id' : 2, 'owner_id' : 1, 'name' : 'Barber Shop', 'phone' : '06 123457', 'address' : 'Via Roma, 6', 'description' : 'The best barber in Rome.', 'category' : 'Beauty'}
 }
-id_counter = 2
+id_counter = len(organizations)
 
+@cross_origin()
 @app.route('/organizations', methods=['GET'])
-@app.route('/getall', methods=['GET'])
 def getAll():
     global organizations
     return jsonify(organizations)
@@ -19,14 +20,15 @@ def getByUser(user_id):
     match = {k : v for k, v in organizations.items() if v.get('owner_id') == user_id }
     return jsonify(match)
 
+@cross_origin()
 @app.route('/organization/<int:id>', methods=['GET'])
 def getById(id):
     global organizations
     match = organizations.get(id)
     return jsonify(match)
 
+@cross_origin()
 @app.route('/organizations', methods=['POST'])
-@app.route('/create', methods=['POST'])
 def create():
     global organizations
     data = request.json
@@ -51,5 +53,5 @@ def create():
         organizations[id_counter] = {id_counter : organization }
         print(organizations)
         return jsonify(organization)
-    
+
     return ('', 404)
