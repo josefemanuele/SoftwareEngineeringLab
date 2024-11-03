@@ -12,7 +12,8 @@ export const DEFAULT_STATE = {
 };
 
 export function loadState() {
-  let storedState = {"authToken":"N2WxAvqeJ3Eap7qvhxVLSL5VFxc97UEpQnWSjGWDnwk=","organizationId":0,"theme":"dark","userId":1,"userRole":"organizer"};
+  let storedState = {"authToken":611,"organizationId":0,"theme":"light","userId":1,"userRole":"participant"};
+  // let storedState = {};
 
   misc.setStore(s => ({
     ...s,

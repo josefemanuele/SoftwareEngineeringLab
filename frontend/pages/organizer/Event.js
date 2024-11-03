@@ -39,11 +39,11 @@ export default function EventPage({ navigation, route }) {
 						<Icon source='calendar-text' size={75}></Icon>
 					</View>
 
-            <Text style={[ style.spaceBottom ]}>
+            {/* <Text style={[ style.spaceBottom ]}>
                 <Icon source="tag" size={20} />
                 <Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Category: </Text>
                 <Text variant="bodyLarge">{eventInfo.category}</Text>
-            </Text>
+            </Text> */}
 
             <Text style={[ style.spaceBottom ]}>
                 <Icon source="calendar-text" size={20} />
@@ -69,11 +69,11 @@ export default function EventPage({ navigation, route }) {
                 <Text variant="bodyLarge">{eventInfo.capacity}</Text>
             </Text>
 
-            <Text style={[ style.spaceBottom ]}>
+            {/* <Text style={[ style.spaceBottom ]}>
                 <Icon source="account-group-outline" size={20} />
                 <Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Actual reservations: </Text>
                 <Text variant="bodyLarge">{eventInfo.reservations}</Text>
-            </Text>
+            </Text> */}
 
             <Text style={[ style.spaceBottom ]}>
                 <Icon source="text-box" size={20} />
@@ -110,7 +110,7 @@ export default function EventPage({ navigation, route }) {
 															let eventId = event_info.id;
 															setDialogVisible(false);
 															await backend.removeEvent(eventId);
-															navigation.push('organizer/EventList');
+															navigation.pop();
 														},
                         }, {
                             name: 'No',

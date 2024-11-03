@@ -17,7 +17,7 @@ export default function BookingPersonalization({ navigation, route }) {
 
 	let scrollViewRef = useRef(null);
 
-	let maxParticipants = params.event_info.capacity - params.event_info.reservations;
+	let maxParticipants = params.event_info.capacity;
 
 	let [{ errors, submit, formProps, hasError }, fh] = useFormState({
 		participants: 1,

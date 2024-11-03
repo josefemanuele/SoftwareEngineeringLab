@@ -7,13 +7,12 @@ import ThreeDotsMenu from '../../components/ThreeDotsMenu.js';
 import FullDialog from '../../components/FullDialog.js';
 
 import backend from '../../lib/backend.js';
+import state from '../../lib/state.js';
 
 import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
 import style, { GLOBAL_SPACING } from '../../style/custom.js';
 
 export default function EventList({ navigation, route }) {
-	let orgId = 1;
-
 	let { params } = route;
 
 	let [ orgInfo, setOrgInfo ] = useState({
@@ -26,6 +25,8 @@ export default function EventList({ navigation, route }) {
   let [ dialogVisible, setDialogVisible ] = useState(false);
 
   async function doRefresh() {
+		let orgId = state.store.organizationId;
+
     setRefreshing(true);
 
 		let tmp1 = await backend.getOrganization(orgId);
@@ -56,7 +57,7 @@ export default function EventList({ navigation, route }) {
 					}} onPress={() => navigation.push('organizer/Event', {
 						event_info: event,
           })}>
-						<Card.Title title={event.name}
+						<Card.Title title={event.title}
 							titleStyle={{ fontWeight: 'bold', fontSize: 22 }}
 							right={() => (
 								<ThreeDotsMenu>
@@ -70,10 +71,10 @@ export default function EventList({ navigation, route }) {
 							)}
 						/>
 						<Card.Content>
-							<Text style={{ flexDirection: 'row', marginBottom: 5}}>
+							{/* <Text style={{ flexDirection: 'row', marginBottom: 5}}>
 								<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Category: </Text>
 								<Text>{event.category}</Text>
-							</Text>
+							</Text> */}
 							<Text style={{ flexDirection: 'row', marginBottom: 5 }}>
 								<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Description: </Text>
 								<Text>{event.description}</Text>

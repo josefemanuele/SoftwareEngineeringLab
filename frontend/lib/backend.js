@@ -102,9 +102,7 @@ export async function getReservations(query) {
 	return await getCollection('reservations', '/reservations', query || {});
 }
 
-export async function addReservation(event_id, booking_data, payment_data) {
-	let resv_data = {};
-
+export async function addReservation(event_id, resv_data) {
 	return await addResource('reservations', '/reservations', resv_data);
 }
 

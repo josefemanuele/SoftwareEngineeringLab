@@ -24,7 +24,7 @@ export default function BookingReview({ navigation, route }) {
 				<Text style={[ style.spaceBottom ]}>
 					<Icon source="text-short" size={20} />
 					<Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Name: </Text>
-					<Text variant="bodyLarge">{event_info.name}</Text>
+					<Text variant="bodyLarge">{event_info.title}</Text>
 				</Text>
 
 				<Text style={[ style.spaceBottom ]}>
@@ -39,11 +39,11 @@ export default function BookingReview({ navigation, route }) {
 					<Text variant="bodyLarge">{event_info.start_time} - {event_info.end_time}</Text>
 				</Text>
 
-				<Text style={[ style.spaceBottom ]}>
+				{/* <Text style={[ style.spaceBottom ]}>
 					<Icon source="map-marker" size={20} />
 					<Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Location: </Text>
 					<Text variant="bodyLarge">{event_info.location}</Text>
-				</Text>
+				</Text> */}
 
 			</>
 
@@ -91,6 +91,7 @@ export default function BookingReview({ navigation, route }) {
 				onPress={() => navigation.push('participant/Payment', {
 					event_id: params.event_info.id,
 					booking_data: booking_data,
+					price: priceTotal,
 				})}
 			>Continue to payment</Button>
 		</ScrollView>

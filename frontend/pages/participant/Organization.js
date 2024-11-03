@@ -64,12 +64,12 @@ export default function Organization({ navigation, route }) {
           <Card key={event.id} style={{
 						marginBottom: GLOBAL_SPACING,
 					}}>
-            <Card.Title title={event.name} titleStyle={{ fontWeight: 'bold', fontSize: 22 }} />
+						<Card.Title title={event.title} titleStyle={{ fontWeight: 'bold', fontSize: 22 }} />
             <Card.Content>
-							<Text style={{ marginBottom: 5 }}>
+							{/* <Text style={{ marginBottom: 5 }}>
                 <Text style={{ marginRight: 4, fontWeight: 'bold' }}>Category: </Text>
                 <Text>{event.category}</Text>
-              </Text>
+              </Text> */}
 							<Text style={{ marginBottom: 5 }}>
                 <Text style={{ marginRight: 4, fontWeight: 'bold' }}>Date: </Text>
                 <Text>{event.date}</Text>
@@ -78,10 +78,10 @@ export default function Organization({ navigation, route }) {
                 <Text style={{ marginRight: 4, fontWeight: 'bold' }}>Time: </Text>
                 <Text>{event.start_time} - {event.end_time}</Text>
               </Text>
-							<Text style={{ marginBottom: 5 }}>
+							{/* <Text style={{ marginBottom: 5 }}>
                 <Text style={{ marginRight: 4, fontWeight: 'bold' }}>Location: </Text>
                 <Text>{event.location}</Text>
-              </Text>
+              </Text> */}
 							<Text style={{ marginBottom: 5 }}>
                 <Text style={{ marginRight: 4, fontWeight: 'bold' }}>Price: </Text>
                 <Text>{event.price}€</Text>

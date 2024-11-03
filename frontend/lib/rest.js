@@ -1,4 +1,4 @@
-import { doLogout } from './rest.js';
+import { doLogout } from './user.js';
 import state from './state.js';
 
 import { API_BASE_URLS } from './constants.js';
@@ -79,7 +79,7 @@ export async function addResource(service, prefix, data) {
 	}
 
 	switch (response.status) {
-		case 200:
+		case 201:
 			let data = await response.json();
 
 			if ('id' in data) {
@@ -90,6 +90,23 @@ export async function addResource(service, prefix, data) {
 	}
 }
 
+export async function modifyResource(service, prefix, id, data) {
+	let response;
+
+	try {
+		response = await doRequest(service, 'PUT', `${prefix}/${id}`, data);
+	} catch (err) {
+		console.log(err);
+		throw new Error('Network error');
+	}
+
+	switch (response.status) {
+		case 200:
+			return;
+		default:
+			throw new Error('Response error');
+	}
+}
 
 export async function getResource(service, prefix, id) {
 	let response;
@@ -124,7 +141,7 @@ export async function removeResource(service, prefix, id) {
 	}
 
 	switch (response.status) {
-		case 204:
+		case 200:
 			return;
 		default:
 			throw new Error('Response error');

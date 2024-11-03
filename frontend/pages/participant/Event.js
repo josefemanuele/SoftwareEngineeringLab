@@ -35,7 +35,8 @@ export default function EventPage({ navigation, route }) {
 
 		let response = await backend.getEvent(event_id);
 		setEventInfo(response);
-		setBookable(response.reservations < response.capacity);
+		// setBookable(response.reservations < response.capacity);
+		setBookable(true);
 
 		setRefreshing(false);
 	}
@@ -58,13 +59,13 @@ export default function EventPage({ navigation, route }) {
 				<Icon source='calendar-text' size={75}></Icon>
 			</View>
 
-			<Text variant="headlineMedium" style={[ style.spaceBottom, style.mt20 ]}>{eventInfo.name}</Text>
+			<Text variant="headlineMedium" style={[ style.spaceBottom, style.mt20 ]}>{eventInfo.title}</Text>
 
-			<Text style={[ style.spaceBottom ]}>
+			{/* <Text style={[ style.spaceBottom ]}>
         <Icon source="tag" size={20} />
         <Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Category: </Text>
         <Text variant="bodyLarge">{eventInfo.category}</Text>
-      </Text>
+      </Text> */}
 
       <Text style={[ style.spaceBottom ]}>
         <Icon source="calendar-text" size={20} />
@@ -78,11 +79,11 @@ export default function EventPage({ navigation, route }) {
         <Text variant="bodyLarge">{eventInfo.start_time} - {eventInfo.end_time}</Text>
       </Text>
 
-      <Text style={[ style.spaceBottom ]}>
+      {/* <Text style={[ style.spaceBottom ]}>
         <Icon source="map-marker" size={20} />
         <Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Location: </Text>
         <Text variant="bodyLarge">{eventInfo.location}</Text>
-      </Text>
+      </Text> */}
 
       <Text style={[ style.spaceBottom ]}>
         <Icon source="currency-usd" size={20} />
@@ -93,7 +94,7 @@ export default function EventPage({ navigation, route }) {
       <Text style={[]}>
         <Icon source="account-group-outline" size={20} />
         <Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Capacity: </Text>
-        <Text variant="bodyLarge">{eventInfo.capacity - eventInfo.reservations} slots left</Text>
+        <Text variant="bodyLarge">{eventInfo.capacity}</Text>
       </Text>
 
 			<Divider style={[ style.spaceBottom, style.spaceTop ]} />

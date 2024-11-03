@@ -10,6 +10,7 @@ import FullDialog from '../../components/FullDialog.js';
 import LoadingOverlay from '../../components/LoadingOverlay.js';
 
 import backend from '../../lib/backend.js';
+import state from '../../lib/state.js';
 
 import { ids as bsIds, styles as bsStyles } from '../../style/bootstrap.js';
 import style from '../../style/custom.js';
@@ -31,12 +32,12 @@ export default function EventCreation({ navigation, route }) {
 	if (!event_info) {
 		event_info = {
 			"id": 0,
-			"name": '',
+			"title": '',
 			"date": undefined,
 			"start_time": null,
 			"end_time": null,
-			"category": 'default',
-			"location": '',
+			// "category": 'default',
+			// "location": '',
 			"price": 0,
 			"description": '',
 			"capacity": 1,
@@ -50,12 +51,12 @@ export default function EventCreation({ navigation, route }) {
 	let initStartTime = event_info.start_time ? parseTime(event_info.start_time) : {};
 	let initEndTime = event_info.end_time ? parseTime(event_info.end_time) : {};
 
-	let [ name, setName ] = useState(event_info.name);
-	let [ category, setCategory ] = useState(event_info.category);
+	let [ name, setName ] = useState(event_info.title);
+	// let [ category, setCategory ] = useState(event_info.category);
 	let [ date, setDate ] = useState(initDate);
 	let [ startTime, setStartTime ] = useState(initStartTime);
 	let [ endTime, setEndTime ] = useState(initEndTime);
-	let [ location, setLocation ] = useState(event_info.location);
+	// let [ location, setLocation ] = useState(event_info.location);
 	let [ price, setPrice ] = useState(event_info.price);
 	let [ description, setDescription ] = useState(event_info.description);
 	let [ participantsNum, setParticipantNum ] = useState(event_info.capacity);
@@ -65,6 +66,9 @@ export default function EventCreation({ navigation, route }) {
 
 	let [ dialogVisible, setDialogVisible ] = useState(false);
 	let [ loading, setLoading ] = useState(false);
+
+	let stOpenIcon = <TextInput.Icon icon='clock-edit-outline' onPress={() => setStVisible(true)} />;
+	let etOpenIcon = <TextInput.Icon icon='clock-edit-outline' onPress={() => setEtVisible(true)} />;
 
 	return (
 		<ScrollView contentContainerStyle={style.box} style={[ bsStyles.container ]} dataSet={{ media: bsIds.container }}>
@@ -80,14 +84,14 @@ export default function EventCreation({ navigation, route }) {
 				disabled={loading}
       />
 
-			<Dropdown
+			{/* <Dropdown
 				label="Category"
 				value={category}
 				onSelect={setCategory}
 				style={{ marginBottom: 20 }}
 				disabled={loading}
 				options={eventCategories}
-			/>
+			/> */}
 
 			<DatePickerInput
 				label="Date"
@@ -103,11 +107,7 @@ export default function EventCreation({ navigation, route }) {
 				<TextInput
 					label="Start time"
 					value={formatTime(startTime)}
-					onFocus={(event) => {
-						console.log(event);
-						event.preventDefault();
-						setStVisible(true);
-					}}
+					right={stOpenIcon}
 					style={{ marginBottom: 20, marginRight: 20, flex: 1}}
 					disabled={loading}
 				/>
@@ -115,7 +115,7 @@ export default function EventCreation({ navigation, route }) {
 				<TextInput
 					label="End time"
 					value={formatTime(endTime)}
-					onFocus={() => setEtVisible(true)}
+					right={etOpenIcon}
 					style={{ marginBottom: 20, flex: 1 }}
 					disabled={loading}
 				/>
@@ -145,13 +145,13 @@ export default function EventCreation({ navigation, route }) {
 				disabled={loading}
 			/>
 
-			<TextInput
+			{/* <TextInput
 				label="Location"
 				value={location}
 				onChangeText={text => setLocation(text)}
 				style={{ marginBottom: 20 }}
 				disabled={loading}
-			/>
+			/> */}
 
 			<CurrencyInput
 				renderTextInput={tiProps => <TextInput label="Price" {...tiProps} />}
@@ -193,28 +193,27 @@ export default function EventCreation({ navigation, route }) {
 					setLoading(true);
 
 					let values = {
-						name,
-						category,
-						date,
-						startTime,
-						endTime,
-						location,
-						price,
+						organization_id: state.store.organizationId,
+						title: name,
 						description,
-						participantsNum,
+						date: `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`,
+						start_time: formatTime(startTime),
+						end_time: formatTime(endTime),
+						price,
+						capacity: participantsNum,
 					};
 
 					if (event_info.id > 0) {
-						await backend.modifyEvent(id, values);
+						await backend.modifyEvent(event_info.id, { event_data: values });
 					} else {
-						await backend.addEvent(values);
+						await backend.addEvent({ event_data: values });
 					}
 
 					setLoading(false);
 					setDialogVisible(true);
 				}}
 				loading={loading}
-				disabled={loading}
+				disabled={false}
 			>
 				{event_info.id > 0 ? 'Modify' : 'Create'}
 			</Button>
