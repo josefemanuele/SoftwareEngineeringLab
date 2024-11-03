@@ -3,8 +3,8 @@ from flask import jsonify, request
 from flask_cors import cross_origin
 
 organizations = {
-  1 : {'id' : 1, 'owner_id' : 2, 'name' : 'Sapienza', 'phone' : '06 123456', 'address' : 'Piazzale Aldo Moro, 5', 'description' : 'The best university in Rome.', 'category' : 'Education'},
-  2 : {'id' : 2, 'owner_id' : 1, 'name' : 'Barber Shop', 'phone' : '06 123457', 'address' : 'Via Roma, 6', 'description' : 'The best barber in Rome.', 'category' : 'Beauty'}
+  1 : {'id' : 1, 'owner_id' : 486, 'name' : 'Sapienza', 'phone' : '06 123456', 'address' : 'Piazzale Aldo Moro, 5', 'description' : 'The best university in Rome.', 'category' : 'Education'},
+  2 : {'id' : 2, 'owner_id' : 2, 'name' : 'Barber Shop', 'phone' : '06 123457', 'address' : 'Via Roma, 6', 'description' : 'The best barber in Rome.', 'category' : 'Beauty'}
 }
 id_counter = len(organizations)
 
@@ -12,13 +12,16 @@ id_counter = len(organizations)
 @app.route('/organizations', methods=['GET'])
 def getAll():
     global organizations
-    return jsonify(organizations)
 
-@app.route('/getbyuser/<int:user_id>', methods=['GET'])
-def getByUser(user_id):
-    global organizations
-    match = {k : v for k, v in organizations.items() if v.get('owner_id') == user_id }
-    return jsonify(match)
+    owner_id = request.args.get('owner_id')
+    if owner_id == None:
+        match = [ v for k, v in organizations.items() ]
+        return jsonify(match)
+
+    owner_id = int(owner_id)
+    match = [ v for k, v in organizations.items() if v.get('owner_id') == owner_id ]
+
+    return jsonify(match), 200
 
 @cross_origin()
 @app.route('/organization/<int:id>', methods=['GET'])

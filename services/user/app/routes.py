@@ -3,11 +3,11 @@ from flask import jsonify, request
 from flask_cors import cross_origin
 import random
 
-id_counter = 2
 users = {
-  1 : {'id' : 1, 'username' : 'admin', 'password' : 'admin', 'name' : 'Admin', 'surname' : 'Admin', 'email' : 'admin@prenotalo.com', 'organizer' : True},
-  2 : {'id' : 2, 'username' : 'josef' , 'password' : 'zerpa', 'name' : 'Josef Emanuele', 'surname' : 'Zerpa Ruiz', 'email' : 'zerparuiz@prenotalo.com', 'organizer' : True}
+  1 : {'id' : 1, 'username' : 'participant' , 'password' : 'password', 'name' : 'Participant', 'surname' : 'User', 'email' : 'participant@prenotalo.com', 'organizer' : False},
+  2 : {'id' : 2, 'username' : 'organizer' , 'password' : 'password', 'name' : 'Organizer', 'surname' : 'User', 'email' : 'organizer@prenotalo.com', 'organizer' : True},
 }
+id_counter = len(users)
 sessions = dict()
 
 @cross_origin()
@@ -24,12 +24,12 @@ def getId(id):
 def getById(id):
     match = getId(id)
     if (len(match) != 0):
-        return jsonify({'id' : match})
+        return jsonify(match), 200
     return ('', 404)
 
-def getUsername(username):
+def getEmail(email):
     global users
-    match = [user for id, user in users.items() if user['username'] == username]
+    match = [ user for id, user in users.items() if user['email'] == email ]
     if (len(match) > 0):
         return match.pop()
     return None
@@ -45,16 +45,9 @@ def register():
     name = data.get('name')
     surname = data.get('surname')
     email = data.get('email')
-    match = getUsername(username)
+    match = getEmail(email)
     if (match is None):
         id_counter += 1
-        '''
-        new_user = User(id = id_counter, username = user, password = pwd)
-        db.create_all()
-        db.session.add(new_user)
-        db.session.commit()
-        print(UserSchema(many=True).dump(User.query.all()))
-        '''
         users[id_counter] = {'id' : id_counter, 'username':username, 'password':password, 'name':name, 'surname':surname, 'email':email}
         print(users)
         return jsonify({'id' : id_counter})
@@ -73,7 +66,7 @@ def generateSessionId():
 def checkSessionId(session_id):
     global sessions
     if session_id in sessions:
-        return ('', 204)
+        return ({'user_id': sessions[session_id]}, 200)
     return ('', 404)
 
 @cross_origin()
@@ -82,14 +75,14 @@ def login():
     global users
     global sessions
     data = request.json
-    username = data.get('username')
+    email = data.get('email')
     password = data.get('password')
-    match = getUsername(username)
+    match = getEmail(email)
     if (match is not None and match['password'] == password):
         session_id = generateSessionId()
         sessions[session_id] = match['id']
-        return jsonify({'session' : session_id})
-    return ('', 404)
+        return jsonify({'session_id' : session_id, 'user_id': match['id']}), 200
+    return ('', 401)
 
 @cross_origin()
 @app.route('/sessions/<int:session_id>', methods=['DELETE'])

@@ -1,9 +1,13 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_restful import Api, Resource, reqparse
 import json
 
+DATA_PATH = '/data/pay.json'
+
 app = Flask(__name__)
 api = Api(app)
+cors = CORS(app)
 
 # Parsers
 parser_get = reqparse.RequestParser()
@@ -17,21 +21,21 @@ required_fields = [ "user_id",
                     ]
 
 def save_data(data: dict):
-    with open("data.json", "w", encoding="utf-8") as f:
-        json.dump(data, f) 
+    with open(DATA_PATH, "w", encoding="utf-8") as f:
+        json.dump(data, f)
 
 def read_data() -> dict:
     data = {}
 
     try:
-        with open("data.json", "r", encoding="utf-8") as f:
+        with open(DATA_PATH, "r", encoding="utf-8") as f:
             data = json.load(f)
     except:
-        with open("data.json", "w", encoding="utf-8") as f:
+        with open(DATA_PATH, "w", encoding="utf-8") as f:
             json.dump(data, f)
 
     return data
-            
+
 def update_transaction_fields(transaction_id: int, transactions: dict):
     """This function parses the HTTP request and checks if the necessary fields
     are defined, then updates the fields of the specified transaction.
@@ -61,7 +65,7 @@ class Payments(Resource):
 
         args = parser_get.parse_args()
         user_id = args['user_id']
-        
+
         return_dict = {}
 
         if user_id is not None:
@@ -72,7 +76,7 @@ class Payments(Resource):
 
         else:
             return transactions, 200
-                
+
     # POST is for creating a new element in the collection
     def post(self):
 
@@ -90,7 +94,7 @@ class Payments(Resource):
         try:
             update_transaction_fields(new_transaction_id, transactions)
             save_data(transactions)
-        except: 
+        except:
             # 400 bad request
             return {"message": "missing fields"} , 400
 
@@ -110,7 +114,7 @@ class Payment(Resource):
             return {'message': 'no such transaction'}, 404
 
         return {transaction_id: selected_transaction}, 200
-    
+
     def put(self, transaction_id):
 
         if transaction_id is None:
@@ -120,7 +124,7 @@ class Payment(Resource):
 
         update_transaction_fields(transaction_id, transactions)
         save_data(transactions)
- 
+
         return {transaction_id: transactions[transaction_id]}, 200
 
 

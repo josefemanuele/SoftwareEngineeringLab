@@ -3,8 +3,6 @@ from flask_cors import CORS
 from flask_restful import Api, Resource, reqparse
 import json
 
-# import db
-
 DATA_PATH = '/data/event.json'
 
 app = Flask(__name__)
@@ -63,9 +61,9 @@ def update_event_fields(event_id: int, events: dict):
         updated_event_fields[required_field] = new_event_data[required_field]
 
     # Add event_id also as field for ease of use
-    updated_event_fields["event_id"] = event_id
+    updated_event_fields["id"] = event_id
 
-    events[event_id] = updated_event_fields
+    events[str(event_id)] = updated_event_fields
 
 #Load data at startup
 events = read_data()
@@ -90,8 +88,6 @@ class Events(Resource):
                     selected_events.append(event_data)
 
             return_code = 200
-            if len(selected_events) == 0:
-               return_code = 404
 
             return selected_events, return_code
 
@@ -102,14 +98,14 @@ class Events(Resource):
             last_event_id = max([int(key) for key in events.keys()])
             new_event_id = last_event_id + 1
         else:
-            new_event_id = 0
+            new_event_id = 1
 
-        events[new_event_id] = None
+        events[str(new_event_id)] = None
         update_event_fields(new_event_id, events)
         save_data(events)
 
         # 201 created
-        return {new_event_id: events[new_event_id]}, 201
+        return { 'id': new_event_id }, 201
 
 
 # This manages a single event
@@ -121,23 +117,23 @@ class Event(Resource):
             # 400 Bad request
             return {'message': 'missing event_id'}, 400
 
-        selected_event = events.get(event_id)
+        selected_event = events.get(str(event_id))
         if selected_event is None:
             return {'message': 'no such event'}, 404
 
-        return {event_id: selected_event}, 200
+        return selected_event, 200
 
     def put(self, event_id):
 
         if event_id is None:
             return {'message': 'missing event_id'}, 400
-        if event_id not in events:
+        if str(event_id) not in events:
             return {'message': 'no such event'}, 404
 
         update_event_fields(event_id, events)
         save_data(events)
 
-        return {event_id: events[event_id]}, 200
+        return {event_id: events[str(event_id)]}, 200
 
     def delete(self, event_id):
 
@@ -145,12 +141,12 @@ class Event(Resource):
             # 400 Bad request
             return {'message': 'missing event_id'}, 400
 
-        selected_event = events.get(event_id)
+        selected_event = events.get(str(event_id))
 
         if selected_event is not None:
-            del events[event_id]
+            del events[str(event_id)]
             save_data(events)
-            return "", 200
+            return None, 200
         # 404 Not found
         return {'message': 'no such event'}, 404
 
