@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from flask_restful import Api, Resource, reqparse
 import json
 
@@ -6,6 +7,7 @@ DATA_PATH = '/data/reservation.json'
 
 app = Flask(__name__)
 api = Api(app)
+cors = CORS(app)
 
 # Parsers
 parser_get = reqparse.RequestParser()
