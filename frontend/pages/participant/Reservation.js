@@ -33,7 +33,7 @@ export default function Reservation({ navigation, route }) {
 				<Text style={[ style.spaceBottom ]}>
 					<Icon source="text-short" size={20} />
 					<Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Name: </Text>
-					<Text variant="bodyLarge">{event_data.name}</Text>
+					<Text variant="bodyLarge">{event_data.title}</Text>
 				</Text>
 
 				<Text style={[ style.spaceBottom ]}>
@@ -48,11 +48,11 @@ export default function Reservation({ navigation, route }) {
 					<Text variant="bodyLarge">{event_data.start_time} - {event_data.end_time}</Text>
 				</Text>
 
-				<Text style={[ style.spaceBottom ]}>
+				{/* <Text style={[ style.spaceBottom ]}>
 					<Icon source="map-marker" size={20} />
 					<Text style={{ fontWeight: 'bold', marginLeft: 20 }} variant='bodyLarge'>Location: </Text>
 					<Text variant="bodyLarge">{event_data.location}</Text>
-				</Text>
+				</Text> */}
 
 			</>
 

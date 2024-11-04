@@ -54,11 +54,10 @@ export default function Registration({ navigation }) {
 
       try {
         await backend.addUser({
-          email,
-          password: passwordA,
-          name,
-          surname,
-          organization_id: 0,
+          email: values.email,
+          password: values.passwordA,
+          name: values.name,
+          surname: values.surname,
         });
 
         setDialogMessage('success');

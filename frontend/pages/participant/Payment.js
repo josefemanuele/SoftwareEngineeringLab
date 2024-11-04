@@ -56,12 +56,16 @@ export default function Payment({ navigation, route }) {
           ...values,
         }
       });
-      let bookingId = await backend.addReservation({
-        transaction_id: paymentId,
-        user_id: state.store.userId,
-        event_id: params.event_id,
-        ...params.booking_data,
-      });
+      let resvData = {
+        reservation_data: {
+          transaction_id: paymentId,
+          user_id: state.store.userId,
+          event_id: params.event_id,
+          booking_data: params.booking_data,
+        }
+      };
+      console.log(resvData);
+      let bookingId = await backend.addReservation(resvData);
 
       setLoading(false);
       setDialogMessage('success');

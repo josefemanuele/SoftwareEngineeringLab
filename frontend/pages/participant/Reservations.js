@@ -41,12 +41,12 @@ export default function Reservations({ navigation }) {
 				<Card key={reservation.id} style={{
 					marginBottom: GLOBAL_SPACING,
 				}}>
-					<Card.Title title={reservation.event_data.name} titleStyle={{ fontWeight: 'bold', fontSize: 22 }} />
+					<Card.Title title={reservation.event_data.title} titleStyle={{ fontWeight: 'bold', fontSize: 22 }} />
 					<Card.Content>
-						<Text style={{ marginBottom: 5 }}>
+						{/* <Text style={{ marginBottom: 5 }}>
 							<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Category: </Text>
 							<Text>{reservation.event_data.category}</Text>
-						</Text>
+						</Text> */}
 						<Text style={{ marginBottom: 5 }}>
 							<Text style={{ marginRight: 4, fontWeight: 'bold' }}>Date: </Text>
 							<Text>{reservation.event_data.date}</Text>

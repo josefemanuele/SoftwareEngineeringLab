@@ -15,7 +15,7 @@ export async function getUser(user_id) {
 }
 
 export async function addUser(user_data) {
-	return await addResource('user', '/user', user_data);
+	return await addResource('user', '/users', user_data);
 }
 
 export async function getSession(session_id) {
@@ -99,10 +99,17 @@ export async function getReservation(resv_id) {
 }
 
 export async function getReservations(query) {
-	return await getCollection('reservations', '/reservations', query || {});
+	let reservations = await getCollection('reservations', '/reservations', query || {});
+
+	for (let reservation of reservations) {
+		let eventData = await getEvent(reservation.event_id);
+		reservation.event_data = eventData;
+	}
+
+	return reservations;
 }
 
-export async function addReservation(event_id, resv_data) {
+export async function addReservation(resv_data) {
 	return await addResource('reservations', '/reservations', resv_data);
 }
 
@@ -118,7 +125,7 @@ export async function getPayment(payment_id) {
 }
 
 export async function addPayment(pay_data) {
-	return await addResource('pay', '/payment', pay_data);
+	return await addResource('pay', '/payments', pay_data);
 }
 
 
