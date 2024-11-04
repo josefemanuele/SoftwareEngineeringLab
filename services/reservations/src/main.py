@@ -20,6 +20,7 @@ reservation_data_parser.add_argument('reservation_data', type=dict, location='js
 required_fields = ["transaction_id",
                     "user_id",
                     "event_id",
+                    "booking_data"
                     ]
 
 def save_data(data: dict):
@@ -55,6 +56,8 @@ def update_reservation_fields(reservation_id: int, reservations: dict):
             return {"message": "missing fields"} , 400
         updated_reservation_fields[required_field] = new_reservation_data[required_field]
 
+    updated_reservation_fields['id'] = reservation_id
+
     reservations[reservation_id] = updated_reservation_fields
 
 #Data init
@@ -75,22 +78,23 @@ class Reservations(Resource):
             for reservation_key, reservation in reservations.items():
                 if reservation["user_id"] == user_id and reservation["event_id"] == event_id:
                     return_dict[reservation_key] = reservation
-            return return_dict, 200
 
         elif user_id is not None:
             for reservation_key, reservation in reservations.items():
                 if reservation["user_id"] == user_id:
                     return_dict[reservation_key] = reservation
-            return return_dict, 200
 
         elif event_id is not None:
             for reservation_key, reservation in reservations.items():
                 if reservation["event_id"] == event_id:
                     return_dict[reservation_key] = reservation
-            return return_dict, 200
 
         else:
-            return reservations, 200
+            return_dict = reservations
+
+        return_dict = [ v for k,v in return_dict.items() ]
+
+        return return_dict, 200
 
     # POST is for creating a new element in the collection
     def post(self):
@@ -100,7 +104,7 @@ class Reservations(Resource):
             last_reservation_id = max([int(key) for key in reservations.keys()])
             new_reservation_id = last_reservation_id + 1
         else:
-            new_reservation_id = 0
+            new_reservation_id = 1
 
         # Create a new empty reservation
         reservations[new_reservation_id] = None
@@ -110,7 +114,7 @@ class Reservations(Resource):
         save_data(reservations)
 
         # 201 created
-        return {new_reservation_id: reservations[new_reservation_id]}, 201
+        return { 'id': new_reservation_id }, 201
 
 # This manages a single reservation
 class Reservation(Resource):

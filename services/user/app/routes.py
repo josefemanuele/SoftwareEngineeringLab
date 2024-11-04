@@ -4,8 +4,8 @@ from flask_cors import cross_origin
 import random
 
 users = {
-  1 : {'id' : 1, 'username' : 'participant' , 'password' : 'password', 'name' : 'Participant', 'surname' : 'User', 'email' : 'participant@prenotalo.com', 'organizer' : False},
-  2 : {'id' : 2, 'username' : 'organizer' , 'password' : 'password', 'name' : 'Organizer', 'surname' : 'User', 'email' : 'organizer@prenotalo.com', 'organizer' : True},
+  1 : {'id' : 1, 'password' : 'password', 'name' : 'Participant', 'surname' : 'User', 'email' : 'participant@prenotalo.com', 'organizer' : False},
+  2 : {'id' : 2, 'password' : 'password', 'name' : 'Organizer', 'surname' : 'User', 'email' : 'organizer@prenotalo.com', 'organizer' : True},
 }
 id_counter = len(users)
 sessions = dict()
@@ -40,7 +40,6 @@ def register():
     global users
     global id_counter
     data = request.json
-    username = data.get('username')
     password = data.get('password')
     name = data.get('name')
     surname = data.get('surname')
@@ -48,9 +47,8 @@ def register():
     match = getEmail(email)
     if (match is None):
         id_counter += 1
-        users[id_counter] = {'id' : id_counter, 'username':username, 'password':password, 'name':name, 'surname':surname, 'email':email}
-        print(users)
-        return jsonify({'id' : id_counter})
+        users[id_counter] = {'id' : id_counter, 'password':password, 'name':name, 'surname':surname, 'email':email}
+        return jsonify({'id' : id_counter}), 201
     return ('', 404)
 
 def generateSessionId():

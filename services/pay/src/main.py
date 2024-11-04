@@ -99,7 +99,7 @@ class Payments(Resource):
             return {"message": "missing fields"} , 400
 
         # 201 created
-        return {new_transaction_id: transactions[new_transaction_id]}, 201
+        return { 'id': new_transaction_id }, 201
 
 class Payment(Resource):
 
