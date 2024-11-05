@@ -12,8 +12,6 @@ import AppError from '../AppError.js';
 import AppHeader from '../AppHeader.js';
 import StateContext from '../StateContext.js';
 
-import { setStore } from '../../lib/state.js';
-
 const Drawer = createDrawerNavigator();
 
 export default function MainNavigator() {

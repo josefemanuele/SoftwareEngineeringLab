@@ -56,19 +56,19 @@ export default function Registration({ navigation }) {
 
       try {
         let userId = await backend.addUser({
-          email,
-          password: passwordA,
+          email: values.email,
+          password: values.passwordA,
           name: null,
           surname: null,
           organizer: true,
         });
 
         await backend.addOrganization({
-          name: orgName,
-          category,
-          phoneNumber,
-          address,
-          description,
+          name: values.orgName,
+          phoneNumber: values.phoneNumber,
+          address: values.address,
+          description: values.description,
+          category: null,
           owner_id: userId,
         });
 
@@ -81,14 +81,13 @@ export default function Registration({ navigation }) {
           case 'Response error':
             setDialogMessage('net_err');
             break;
-          case 'Account exists':
+          case 'Resource exists':
             setDialogMessage('exists');
             break;
         }
       }
 
       setLoading(false);
-      setDialogMessage('success');
     },
   });
 

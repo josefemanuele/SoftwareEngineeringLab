@@ -30,7 +30,6 @@ export default function Home({ navigation }) {
 
   organizations = organizations.filter(organization => (
     organization.name.toLowerCase().includes(tempSQ) ||
-    organization.category.toLowerCase().includes(tempSQ) ||
     organization.description.toLowerCase().includes(tempSQ)
   ));
 

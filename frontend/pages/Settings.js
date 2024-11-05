@@ -35,7 +35,7 @@ export default function Settings() {
 						state.setStore(s => ({
 							...s,
 							theme: value
-						}))
+						}));
 					}}
 					style={{ marginBottom: 20 }}
 					options={themes}

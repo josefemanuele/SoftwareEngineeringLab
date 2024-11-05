@@ -13,15 +13,19 @@ import StateContext from './components/StateContext.js';
 import MainNavigator from './components/navigators/Main.js';
 
 import state, { loadState, DEFAULT_STATE } from './lib/state.js';
+import { save as storageSave } from './lib/storage.js';
 import user from './lib/user.js';
 
 export default function App() {
   let [ store, setStore ] = useState(DEFAULT_STATE);
 
   state.store = store;
-  state.setStore = (...args) => {
-    setStore(...args);
-    console.log(state.store);
+  state.setStore = (fn) => {
+    (async () => {
+      setStore(fn);
+      let nextState = fn(state.store);
+      await storageSave('state', JSON.stringify(nextState));
+    })();
   };
 
   useEffect(() => {

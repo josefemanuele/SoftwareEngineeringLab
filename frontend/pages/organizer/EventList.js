@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { RefreshControl, ScrollView, View } from 'react-native';
 import { Card, FAB, IconButton, Menu, Text } from 'react-native-paper';

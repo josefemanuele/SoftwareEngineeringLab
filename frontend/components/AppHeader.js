@@ -40,13 +40,6 @@ export default function AppHeader({ navigation, route, options, back }) {
 				<Text style={style.box} variant="titleMedium">Welcome, USER!</Text>
 				<Divider />
 				<Menu.Item title="Profile" leadingIcon="account" onPress={() => navigation.push('general/Profile')}/>
-				<Menu.Item title="Switch role" leadingIcon="swap-horizontal" onPress={() => {
-					let newRole = store.userRole === 'participant' ? 'organizer' : 'participant';
-					state.setStore(s => ({
-				    ...s,
-				    userRole: newRole,
-				  }));
-				}} />
 				<Menu.Item title="Logout" leadingIcon="logout" onPress={doLogout} />
 			</Menu>
 		</>

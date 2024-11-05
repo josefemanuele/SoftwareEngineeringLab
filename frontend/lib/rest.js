@@ -79,6 +79,8 @@ export async function addResource(service, prefix, data) {
 	}
 
 	switch (response.status) {
+		case 409:
+			throw new Error('Resource exists');
 		case 201:
 			let data = await response.json();
 
