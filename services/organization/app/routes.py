@@ -45,16 +45,8 @@ def create():
     if (len(match) == 0):
         global id_counter
         id_counter += 1
-        '''
-        new_user = User(id = id_counter, username = user, password = pwd)
-        db.create_all()
-        db.session.add(new_user)
-        db.session.commit()
-        print(UserSchema(many=True).dump(User.query.all()))
-        '''
         organization = { "id" : id_counter, "owner_id" : owner_id, 'name' : name, 'phone' : phone, 'address' : address, 'description' : description, 'category' : category}
-        organizations[id_counter] = {id_counter : organization }
-        print(organizations)
-        return jsonify(organization)
+        organizations[id_counter] = organization
+        return jsonify(organization), 201
 
     return ('', 404)

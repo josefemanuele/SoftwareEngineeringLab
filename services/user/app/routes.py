@@ -44,12 +44,13 @@ def register():
     name = data.get('name')
     surname = data.get('surname')
     email = data.get('email')
+    organizer = data.get('organizer') == True
     match = getEmail(email)
     if (match is None):
         id_counter += 1
-        users[id_counter] = {'id' : id_counter, 'password':password, 'name':name, 'surname':surname, 'email':email}
+        users[id_counter] = {'id' : id_counter, 'password':password, 'name':name, 'surname':surname, 'email':email, 'organizer': organizer}
         return jsonify({'id' : id_counter}), 201
-    return ('', 404)
+    return ('', 409)
 
 def generateSessionId():
     global sessions
@@ -88,5 +89,5 @@ def logout(session_id):
     global sessions
     match = sessions.pop(session_id, -1)
     if (match != -1):
-        return jsonify({'id': match})
+        return jsonify({'id': match}), 204
     return ('', 404)
