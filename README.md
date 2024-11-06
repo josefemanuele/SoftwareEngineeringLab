@@ -1,4 +1,4 @@
-## SoftwareEngineeringLab
+# SoftwareEngineeringLab
 Project to practice the methodologies studied in the Software Engineering course.
 
 ## TODO:
@@ -18,15 +18,15 @@ Project to practice the methodologies studied in the Software Engineering course
 - Understand how to build backend.
 - Understand how to build web and mobile frontend.
 
-## HOWTO
+# HOWTO
 
-# Deploy project
+## Deploy project
 docker compose up -d
 
-# Get a shell from "curl" service.
+## Get a shell from "curl" service.
 docker exec -it <container_name> sh
 
-# List of services and endpoints.
+## List of services and endpoints.
 | Service | Endpoint |
 | --- | --- |
 | event | http://10.234.0.3:5000 |
@@ -35,12 +35,13 @@ docker exec -it <container_name> sh
 | reservations | http://10.234.0.6:5000 |
 | user | http://10.234.0.7:5000 |
 
-# Create and activate Python virtual environment.
+## Create and activate Python virtual environment.
 python3 -m venv .venv
+
 source .venv/bin/activate
 
-# Install Python modules.
+## Install Python modules.
 pip install -r requirements.txt
 
-# Run tests with pytest, from the root of service.
+## Run tests with pytest, from the root of service.
 pytest
