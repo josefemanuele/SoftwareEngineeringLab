@@ -10,6 +10,7 @@ id_counter = len(organizations)
 
 @cross_origin()
 @app.route('/organizations', methods=['GET'])
+@app.route('/getall', methods=['GET'])
 def getAll():
     global organizations
 
@@ -23,6 +24,12 @@ def getAll():
 
     return jsonify(match), 200
 
+@app.route('/getbyuser/<int:user_id>', methods=['GET'])
+def getByUser(user_id):
+    global organizations
+    match = {k : v for k, v in organizations.items() if v.get('owner_id') == user_id }
+    return jsonify(match)
+
 @cross_origin()
 @app.route('/organization/<int:id>', methods=['GET'])
 def getById(id):
@@ -32,6 +39,7 @@ def getById(id):
 
 @cross_origin()
 @app.route('/organizations', methods=['POST'])
+@app.route('/create', methods=['POST'])
 def create():
     global organizations
     data = request.json

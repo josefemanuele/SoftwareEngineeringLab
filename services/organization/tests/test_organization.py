@@ -11,10 +11,10 @@ def test_create():
                                       data=json.dumps(data))
     print(response.data.decode('utf-8'))
     assert response.data != b"{}"
-    assert response.status_code == 200
+    assert response.status_code == 201
 
 def test_getByUser():
-    response = app.test_client().get("/getbyuser/2")
+    response = app.test_client().get("/getbyuser/486")
     assert 'Sapienza' in response.data.decode('utf-8')
     assert response.status_code == 200
 
