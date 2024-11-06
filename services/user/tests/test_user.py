@@ -15,35 +15,32 @@ def test_register():
                                       data=json.dumps(data))
     print(response.data.decode('utf-8'))
     assert response.data != b"{}"
-    assert response.status_code == 200
+    assert response.status_code == 201
 
 # Test /login.
 def test_login():
-    data = {"username": "admin", "password": "admin"}
+    data = {"email": "participant@prenotalo.com", "password": "password"}
     response = app.test_client().post("/login", content_type='application/json',
                                       data=json.dumps(data))
     print(response.data.decode('utf-8'))
     global session
-    session = json.loads(response.data.decode('utf-8')).get('session')
+    session = json.loads(response.data.decode('utf-8')).get('session_id')
     assert response.status_code == 200
 
 # Test /logout.
 def test_logout():
     global session
     response = app.test_client().get("/logout/" + str(session))
-    print(response.data.decode('utf-8'))
-    id = json.loads(response.data.decode('utf-8')).get('id')
-    assert id is not None
-    assert response.status_code == 200
+    assert response.status_code == 204
 
 # Test /sessions POST.
 def test_session_create():
-    data = {"username": "admin", "password": "admin"}
+    data = {"email": "participant@prenotalo.com", "password": "password"}
     response = app.test_client().post("/sessions", content_type='application/json',
                                       data=json.dumps(data))
     print(response.data.decode('utf-8'))
     global session
-    session = json.loads(response.data.decode('utf-8')).get('session')
+    session = json.loads(response.data.decode('utf-8')).get('session_id')
     assert response.data != b"{}"
     assert response.status_code == 200
 
@@ -51,7 +48,7 @@ def test_session_create():
 def test_session_check():
     global session
     response = app.test_client().get("/session/" + str(session))
-    assert response.status_code == 204
+    assert response.status_code == 200
 
 # Test /sessions/<session_id> GET fail path.
 def test_session_check_not():
@@ -64,10 +61,7 @@ def test_session_check_not():
 def test_session_delete():
     global session
     response = app.test_client().delete("/sessions/" + str(session))
-    print(response.data.decode('utf-8'))
-    id = json.loads(response.data.decode('utf-8')).get('id')
-    assert id is not None
-    assert response.status_code == 200
+    assert response.status_code == 204
 
 # Test /session/<session_id> DELETE fail path.
 def test_session_delete_not():
@@ -77,18 +71,18 @@ def test_session_delete_not():
 
 # Test /users POST.
 def test_users_post():
-    data = {"username": "franchino", "password": "franco"}
+    data = {"email": "franchino@prenotalo.com", "password": "franco"}
     response = app.test_client().post("/users", content_type='application/json',
                                       data=json.dumps(data))
     print(response.data.decode('utf-8'))
     assert response.data != b"{}"
-    assert response.status_code == 200
+    assert response.status_code == 201
 
 # Test /users GET.
 def test_user_get():
     user_id = 1
     response = app.test_client().get("/user/" + str(user_id))
     print(response.data.decode('utf-8'))
-    user = json.loads(response.data.decode('utf-8')).get('id')
-    assert user['username'] == 'admin'
+    user = json.loads(response.data.decode('utf-8'))
+    assert user['email'] == 'participant@prenotalo.com'
     assert response.status_code == 200

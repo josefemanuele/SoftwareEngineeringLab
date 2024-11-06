@@ -21,6 +21,7 @@ def getId(id):
 
 @cross_origin()
 @app.route('/user/<int:id>', methods=['GET'])
+@app.route('/getbyid/<int:id>', methods=['GET'])
 def getById(id):
     match = getId(id)
     if (len(match) != 0):
@@ -36,6 +37,7 @@ def getEmail(email):
 
 @cross_origin()
 @app.route('/users', methods=['POST'])
+@app.route('/register', methods=['POST'])
 def register():
     global users
     global id_counter
@@ -70,6 +72,7 @@ def checkSessionId(session_id):
 
 @cross_origin()
 @app.route('/sessions', methods=['POST'])
+@app.route('/login', methods=['POST'])
 def login():
     global users
     global sessions
@@ -85,9 +88,11 @@ def login():
 
 @cross_origin()
 @app.route('/sessions/<int:session_id>', methods=['DELETE'])
+@app.route('/logout/<int:session_id>', methods=['GET'])
 def logout(session_id):
     global sessions
     match = sessions.pop(session_id, -1)
     if (match != -1):
+        # HTTP method 204 returns no content.
         return jsonify({'id': match}), 204
     return ('', 404)
