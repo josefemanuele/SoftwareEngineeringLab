@@ -4,7 +4,7 @@ from flask_cors import cross_origin
 
 organizations = {
   1 : {'id' : 1, 'owner_id' : 486, 'name' : 'Sapienza', 'phone' : '06 123456', 'address' : 'Piazzale Aldo Moro, 5', 'description' : 'The best university in Rome.', 'category' : 'Education'},
-  2 : {'id' : 2, 'owner_id' : 2, 'name' : 'Barber Shop', 'phone' : '06 123457', 'address' : 'Via Roma, 6', 'description' : 'The best barber in Rome.', 'category' : 'Beauty'}
+  2 : {'id' : 2, 'owner_id' : 2, 'name' : 'Josef Emanuele Shop', 'phone' : '06 313373', 'address' : 'Via Roma, 6', 'description' : 'The best business in Rome.', 'category' : 'Fun'}
 }
 id_counter = len(organizations)
 
