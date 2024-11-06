@@ -17,7 +17,7 @@ Christian Perrella, <perrella.2081754@studenti.uniroma1.it>
 - Add testing to all services.
 - 
 
-## DONE:
+## Done:
 - Write High-level Specification document.
 - Submit High-level Specification document by 07/01.
 - Define User Stories.
