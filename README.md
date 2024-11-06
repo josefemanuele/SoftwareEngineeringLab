@@ -35,6 +35,15 @@ docker exec -it <container_name> sh
 | reservations | http://10.234.0.6:5000 |
 | user | http://10.234.0.7:5000 |
 
+# Curl call to login.
+curl -v <http://127.0.0.1:5000>/login -H "Content-Type: application/json" -d '{"email":"participant@prenotalo.com","password":"password"}'
+
+# Curl call to check session.
+curl -v http://127.0.0.1:5000/session/<session_id>
+
+# Curl call to logout.
+curl -v http://127.0.0.1:5000/logout/<session_id>
+
 # Create and activate Python virtual environment.
 python3 -m venv .venv
 source .venv/bin/activate
