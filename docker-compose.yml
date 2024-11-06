@@ -53,14 +53,14 @@ services:
       prenotalo:
         ipv4_address: 10.234.0.7
 
-  # curl:
-  #   image: curlimages/curl
-  #   tty: true # docker run -t
-  #   stdin_open: true # docker run -i
-  #   entrypoint: /bin/sh # Get a shell
-  #   networks:
-  #     prenotalo:
-  #       ipv4_address: 10.234.0.10
+  curl:
+    image: curlimages/curl
+    tty: true # docker run -t
+    stdin_open: true # docker run -i
+    entrypoint: /bin/sh # Get a shell
+    networks:
+      prenotalo:
+        ipv4_address: 10.234.0.10
 
   # database:
   #   image: mariadb
