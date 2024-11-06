@@ -1,6 +1,17 @@
 # SoftwareEngineeringLab
 Project to practice the methodologies studied in the Software Engineering course.
 
+## Authors:
+Josef Emanuele Zerpa Ruiz, <zerparuiz.1837394@studenti.uniroma1.it>
+
+Emanuele Roccia, <roccia.1967318@studenti.uniroma1.it>
+
+Silvio D'Antonio, <dantonio.2145048@studenti.uniroma1.it>
+
+Alessandro Cecchetto, <cecchetto.1941039@studenti.uniroma1.it>
+
+Christian Perrella, <perrella.2081754@studenti.uniroma1.it>
+
 ## TODO:
 - Add DB to all services.
 - Add testing to all services.
