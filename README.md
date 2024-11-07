@@ -1,5 +1,6 @@
-# SoftwareEngineeringLab
-Project to practice the methodologies studied in the Software Engineering course.
+# Prenotalo: manage your appointments.
+Project implemented with Infrastucture-As-A-Code paradigm, organizing team workflow with Scrum, 
+building a mobile and web application intereacting with a distributed microservices Restful application.
 
 ## Authors:
 Josef Emanuele Zerpa Ruiz, <zerparuiz.1837394@studenti.uniroma1.it>
